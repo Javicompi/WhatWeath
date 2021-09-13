@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion compileSDKVersion
+
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+
+    defaultConfig {
+        minSdkVersion minSDKVersion
+        targetSdkVersion targetSDKVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Please ensure you have a valid API Key from OpenWeatherMap
+        buildConfigField("String", "API_KEY", API_KEY)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        useIR = true
+    }
+}
+
+dependencies {
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
+
+    api commonDependencies.kotlin
+    api frameworkDependencies.kotlinReflect
+    api commonDependencies.coroutinesCore
+
+    // Retrofit
+    api frameworkDependencies.retrofit
+    api frameworkDependencies.retrofitMoshiConverter
+
+    // Moshi
+    api frameworkDependencies.moshi
+    api frameworkDependencies.moshiConverterCodegen
+
+    // NetworkResponseAdapter
+    api frameworkDependencies.networkResponseAdapter
+
+    // Room
+    api frameworkDependencies.roomRuntime
+    kapt frameworkDependencies.roomCompiler
+    api frameworkDependencies.roomKtx
+
+    // DataStore
+    api frameworkDependencies.dataStorePreferences
+
+    // Test
+    testImplementation frameworkDependencies.roomTesting
+    androidTestImplementation frameworkDependencies.androidxTestCore
+    androidTestImplementation frameworkDependencies.androidxTestRunner
+    androidTestImplementation frameworkDependencies.androidxTestExt
+    androidTestImplementation frameworkDependencies.androidxTestRules
+
+    implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+}

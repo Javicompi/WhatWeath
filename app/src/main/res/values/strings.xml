@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">WhatWeath</string>
+    
+    // Navigation
+    <string name="screen_current">Current</string>
+    <string name="screen_hours">48 hours</string>
+    <string name="screen_days">7 days</string>
+    <string name="screen_search">Search</string>
+
+    // Drawer
+    <string name="drawer_empty_list">There are no locations saved yet</string>
+
+    // Menu Action
+    <string name="menu_standard">Standard</string>
+    <string name="menu_metric">Metric</string>
+    <string name="menu_imperial">Imperial</string>
+    
+    // Search Screen
+    <string name="search_text_field_label">Search</string>
+    <string name="search_message_empty_title">Nothing to show</string>
+    <string name="search_message_empty_message">Please search for a location</string>
+    <string name="search_min_characters">Please input at least 3 characters</string>
+</resources>

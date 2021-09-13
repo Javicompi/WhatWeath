@@ -1,0 +1,104 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdkVersion compileSDKVersion
+
+    defaultConfig {
+        applicationId "es.jnsoft.whatweath"
+        minSdkVersion minSDKVersion
+        targetSdkVersion targetSDKVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+        kotlinCompilerVersion kotlinVersion
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+
+    implementation project(path: ':data')
+    implementation project(path: ':domain')
+    implementation project(path: ':framework')
+
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation "androidx.compose.ui:ui:$composeVersion"
+    implementation "androidx.compose.material:material:$composeVersion"
+    implementation "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.activity:activity-compose:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$composeVersion"
+    debugImplementation "androidx.compose.ui:ui-tooling:$composeVersion"
+
+    // Hilt
+    implementation appDependencies.hiltCore
+    kapt appDependencies.hiltCompiler
+    implementation appDependencies.androidxHiltLifecycle
+    kapt appDependencies.androidxHiltCompiler
+    implementation appDependencies.androidxHiltNavigation
+
+    // Navigation
+    implementation appDependencies.navigation
+
+    // Lifecycle
+    implementation appDependencies.lifecycleCompose
+
+    // Test
+    testImplementation appDependencies.androidxArchCore
+    testImplementation appDependencies.kotlinxCoroutinesTest
+    testImplementation commonDependencies.junit
+
+    // Turbine
+    testImplementation appDependencies.turbine
+
+    // Accompanist
+    implementation appDependencies.accompanistInsets
+    implementation appDependencies.accompanistInsetsUi
+
+    // Mockito
+    testImplementation appDependencies.mockito
+    testImplementation appDependencies.mockitoInline
+}
