@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 class GetCurrentsUseCase @Inject constructor(
     private val repository: CurrentRepository
-) : BaseFlowUseCase<Unit, Flow<List<Current>>> {
+) : BaseUseCase<Unit, List<Current>> {
 
-    override fun invoke(params: Unit): Flow<List<Current>> {
+    override suspend fun invoke(params: Unit): List<Current> {
         return repository.getCurrents()
     }
 }

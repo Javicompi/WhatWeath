@@ -2,13 +2,12 @@ package es.jnsoft.domain.repository
 
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
-import kotlinx.coroutines.flow.Flow
 
 interface CurrentRepository {
 
-    fun getCurrents(): Flow<List<Current>>
+    suspend fun getCurrents(): List<Current>
 
-    fun getCurrentById(id: Long): Flow<Current?>
+    suspend fun getCurrentById(id: Long): Current?
 
     suspend fun saveCurrent(current: Current)
 

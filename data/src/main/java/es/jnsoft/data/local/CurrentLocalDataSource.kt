@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface CurrentLocalDataSource {
 
-    fun getCurrents(): Flow<List<CurrentData>>
+    suspend fun getCurrents(): List<CurrentData>
 
-     fun getCurrentById(id: Long): Flow<CurrentData?>
+    suspend fun getCurrentById(id: Long): CurrentData?
 
     suspend fun saveCurrent(current: CurrentData)
 

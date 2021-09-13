@@ -15,16 +15,22 @@ class CurrentRepositoryImp @Inject constructor(
     private val remoteDataSource: CurrentRemoteDataSource,
 ) : CurrentRepository {
 
-    override fun getCurrents(): Flow<List<Current>> {
-        return localDataSource.getCurrents().map { list ->
+    override suspend fun getCurrents(): List<Current> {
+        /*return localDataSource.getCurrents().map { list ->
             list.map { CurrentDataMapper.mapToDomain(it) }
+        }*/
+        return localDataSource.getCurrents().map { domainCurrent ->
+            CurrentDataMapper.mapToDomain(domainCurrent)
         }
     }
 
-    override fun getCurrentById(id: Long): Flow<Current?> {
+    override suspend fun getCurrentById(id: Long): Current? {
         val data = localDataSource.getCurrentById(id)
-        return data.map {
+        /*return data.map {
             if (it != null) CurrentDataMapper.mapToDomain(it) else null
+        }*/
+        return data?.let { domainCurrent ->
+            CurrentDataMapper.mapToDomain(domainCurrent)
         }
     }
 

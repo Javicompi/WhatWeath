@@ -9,9 +9,9 @@ import javax.inject.Inject
 
 class GetCurrentByIdUseCase @Inject constructor(
     private val repository: CurrentRepository
-) : BaseFlowUseCase<Long, Flow<Current?>> {
+) : BaseUseCase<Long, Current?> {
 
-    override fun invoke(params: Long): Flow<Current?> {
+    override suspend fun invoke(params: Long): Current? {
         return repository.getCurrentById(params)
     }
 }

@@ -12,17 +12,24 @@ class CurrentLocalDataSourceImp @Inject constructor(
     private val currentDao: CurrentDao
 ) : CurrentLocalDataSource {
 
-    override fun getCurrents(): Flow<List<CurrentData>> {
-        return currentDao.getCurrents().map { currents ->
+    override suspend fun getCurrents(): List<CurrentData> {
+        /*return currentDao.getCurrents().map { currents ->
             currents.map { CurrentDataMapper.mapFromEntity(it) }
+        }*/
+        return currentDao.getCurrents().map { currentEntity ->
+            CurrentDataMapper.mapFromEntity(currentEntity)
         }
     }
 
-    override fun getCurrentById(id: Long): Flow<CurrentData?> {
-        return currentDao.getCurrentById(id).map { current ->
+    override suspend fun getCurrentById(id: Long): CurrentData? {
+        /*return currentDao.getCurrentById(id).map { current ->
             current?.let {
                 CurrentDataMapper.mapFromEntity(it)
             }
+        }*/
+        val data = currentDao.getCurrentById(id)
+        return data?.let { currentEntity ->
+            CurrentDataMapper.mapFromEntity(currentEntity)
         }
     }
 

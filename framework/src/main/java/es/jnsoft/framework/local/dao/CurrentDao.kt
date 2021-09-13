@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface CurrentDao {
 
     @Query("SELECT * FROM currents")
-    fun getCurrents(): Flow<List<CurrentEntity>>
+    suspend fun getCurrents(): List<CurrentEntity>
 
     @Query("SELECT * FROM currents WHERE id = :id")
-    fun getCurrentById(id: Long): Flow<CurrentEntity?>
+    suspend fun getCurrentById(id: Long): CurrentEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveCurrent(currentEntity: CurrentEntity)
