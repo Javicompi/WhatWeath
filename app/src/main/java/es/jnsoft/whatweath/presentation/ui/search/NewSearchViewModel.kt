@@ -28,17 +28,20 @@ class NewSearchViewModel @Inject constructor(
 
     private val units = settingsRepository.getUnits()
 
-    val presentationData: Flow<Result<CurrentPresentation>?> = combine(domainData, units) { resultSearch, selectedUnits ->
-        when (resultSearch) {
-            is Result.Success -> Result.Success(resultSearch.value.toPresentation(selectedUnits))
-            is Result.Loading -> Result.Loading
-            is Result.Failure -> {
-                sendEvent(Event.ShowSnackbarString(resultSearch.message))
-                Result.Failure(resultSearch.message)
+    val presentationData: Flow<Result<CurrentPresentation>?> =
+        combine(domainData, units) { resultSearch, selectedUnits ->
+            when (resultSearch) {
+                is Result.Success -> {
+                    Result.Success(resultSearch.value.toPresentation(selectedUnits))
+                }
+                is Result.Loading -> Result.Loading
+                is Result.Failure -> {
+                    sendEvent(Event.ShowSnackbarString(resultSearch.message))
+                    Result.Failure(resultSearch.message)
+                }
+                else -> null
             }
-            else -> null
         }
-    }
 
     private val eventChannel = Channel<Event>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
@@ -61,8 +64,8 @@ class NewSearchViewModel @Inject constructor(
     }
 
     sealed class Event {
-        data class ShowSnackbarResource(val resource: Int): Event()
-        data class ShowSnackbarString(val message: String): Event()
-        object Clean: Event()
+        data class ShowSnackbarResource(val resource: Int) : Event()
+        data class ShowSnackbarString(val message: String) : Event()
+        object Clean : Event()
     }
 }
