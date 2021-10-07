@@ -18,7 +18,7 @@ class CurrentRemoteDataSourceImp @Inject constructor(
     ): Result<CurrentData> {
         return when (val result = apiApiService.findCurrentResponseByLatLon(lat, lon)) {
             is NetworkResponse.Error -> {
-                Result.Failure(result.error.localizedMessage ?: "Unknown error occurred")
+                Result.Failure(result.error.message ?: "Unknown error occurred")
             }
             is NetworkResponse.Success -> {
                 val data = result.body
@@ -33,7 +33,7 @@ class CurrentRemoteDataSourceImp @Inject constructor(
     override suspend fun findCurrentByName(name: String): Result<CurrentData> {
         return when (val result = apiApiService.findCurrentResponseByName(name)) {
             is NetworkResponse.Error -> {
-                Result.Failure(result.error.localizedMessage ?: "Unknown error occurred")
+                Result.Failure(result.error.message ?: "Unknown error occurred")
             }
             is NetworkResponse.Success -> {
                 val data = result.body

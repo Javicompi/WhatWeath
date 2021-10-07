@@ -14,14 +14,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.jnsoft.whatweath.R
-import es.jnsoft.whatweath.presentation.ui.common.ViewState
 
 @Composable
 fun SearchButton(
     modifier: Modifier = Modifier,
     onSearchClick: () -> Unit,
-    buttonState: SearchButtonState = SearchButtonState.ENABLED,
-    onStateChanged: (SearchButtonState) -> Unit
+    buttonState: SearchButtonState = SearchButtonState.ENABLED
 ) {
     Button(
         onClick = onSearchClick,

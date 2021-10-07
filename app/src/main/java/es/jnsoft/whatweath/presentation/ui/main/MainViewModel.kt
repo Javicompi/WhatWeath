@@ -40,25 +40,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    /*val presentation = combine(domainData, units) { domainData, units ->
-        domainData?.let { currents ->
-            mapToPresentation(domainData = currents, units = units)
-        }
-    }*/
-
-    init {
+    /*init {
         _domainData.value = listOf(
             createFirstCurrent(),
             createSecondCurrent()
         )
-    }
-
-    /*val presentation = flowOf(
-        listOf(
-            createFirstCurrent().toPresentation(Units.STANDARD),
-            createSecondCurrent().toPresentation(Units.STANDARD)
-        )
-    )*/
+    }*/
 
     fun setUnits(units: Units) {
         viewModelScope.launch {

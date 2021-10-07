@@ -17,14 +17,17 @@ import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.ui.CurrentScreen
 import es.jnsoft.whatweath.presentation.ui.days.DaysScreen
 import es.jnsoft.whatweath.presentation.ui.hours.HoursScreen
+import es.jnsoft.whatweath.presentation.ui.search.NewSearchViewModel
+import es.jnsoft.whatweath.presentation.ui.search.SearchResultScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel
 
-sealed class Screen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
-    object Current : Screen("current", R.string.screen_current, Icons.Filled.Home)
-    object Hours : Screen("hours", R.string.screen_hours, Icons.Filled.Info)
-    object Days : Screen("days", R.string.screen_days, Icons.Filled.Clear)
-    object Search : Screen("search", R.string.screen_search, Icons.Filled.Search)
+sealed class BottomNavScreen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
+    object Current : BottomNavScreen("current", R.string.screen_current, Icons.Filled.Home)
+    object Hours : BottomNavScreen("hours", R.string.screen_hours, Icons.Filled.Info)
+    object Days : BottomNavScreen("days", R.string.screen_days, Icons.Filled.Clear)
+    object Search : BottomNavScreen("search", R.string.screen_search, Icons.Filled.Search)
+    object Result: BottomNavScreen("search", R.string.screen_search, Icons.Filled.Search)
 }
 
 @Composable
@@ -34,26 +37,24 @@ fun WhatWeathNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Current.route,
+        startDestination = BottomNavScreen.Current.route,
         modifier = modifier
     ) {
-        composable(Screen.Current.route) {
+        composable(BottomNavScreen.Current.route) {
             CurrentScreen()
         }
-        composable(Screen.Hours.route) {
+        composable(BottomNavScreen.Hours.route) {
             HoursScreen()
         }
-        composable(Screen.Days.route) {
+        composable(BottomNavScreen.Days.route) {
             DaysScreen()
         }
-        composable(Screen.Search.route) {
-            val searchViewModel: SearchViewModel = hiltViewModel()
+        composable(BottomNavScreen.Search.route) {
+            //val searchViewModel: SearchViewModel = hiltViewModel()
+            val newSearchViewModel: NewSearchViewModel = hiltViewModel()
             SearchScreen(
-                dataFlow = searchViewModel.presentation,
-                result = searchViewModel.domainData,
-                onSearchClick = { searchViewModel.findByName(name = it) },
-                errorResourceFlow = searchViewModel.errorResourceFlow,
-                errorStringFlow = searchViewModel.errorStringFlow
+                newSearchViewModel,
+                navController
             )
         }
     }

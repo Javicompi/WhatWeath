@@ -7,16 +7,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -45,10 +48,10 @@ fun MainScreen() {
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
     val screens = listOf(
-        Screen.Current,
-        Screen.Hours,
-        Screen.Days,
-        Screen.Search
+        BottomNavScreen.Current,
+        BottomNavScreen.Hours,
+        BottomNavScreen.Days,
+        BottomNavScreen.Search
     )
     val menuActions = listOf(
         MenuAction.Standard,
@@ -63,13 +66,14 @@ fun MainScreen() {
                 scaffoldState = scaffoldState,
                 menuActions = menuActions,
                 onMenuItemClick = { mainViewModel.setUnits(units = it) },
-                modifier = Modifier.statusBarsPadding()
+                modifier = Modifier.statusBarsPadding(),
+                navController = navController
             )
         },
         bottomBar = {
             WhatWeathAppBottomNavigation(
                 navController = navController,
-                screens = screens,
+                bottomNavScreens = screens,
                 modifier = Modifier.navigationBarsPadding()
             )
         },
@@ -78,7 +82,7 @@ fun MainScreen() {
                 scope = scope,
                 scaffoldState = scaffoldState,
                 navController = navController,
-                currentFlow = mainViewModel.presentation,
+                currentsFlow = mainViewModel.presentation,
                 modifier = Modifier.statusBarsPadding()
             )
         }
@@ -93,23 +97,25 @@ fun MainScreen() {
 @Composable
 private fun WhatWeathAppBottomNavigation(
     navController: NavHostController,
-    screens: List<Screen>,
+    bottomNavScreens: List<BottomNavScreen>,
     modifier: Modifier
 ) {
     BottomNavigation(modifier = modifier) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
-        screens.forEach { screen ->
+        bottomNavScreens.forEach { screen ->
             BottomNavigationItem(
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 icon = { Icon(imageVector = screen.icon, contentDescription = null) },
                 label = { Text(stringResource(id = screen.resourceId)) },
                 alwaysShowLabel = false,
                 onClick = {
-                    navController.navigate(screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
+                    if (currentDestination?.route != screen.route) {
+                        navController.navigate(screen.route) {
+                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            launchSingleTop = true
+                            restoreState = true
+                        }
                     }
                 }
             )
@@ -123,17 +129,24 @@ private fun WhatWeathAppBar(
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     menuActions: List<MenuAction>,
-    onMenuItemClick: (Units) -> Unit
+    onMenuItemClick: (Units) -> Unit,
+    navController: NavController
 ) {
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
         navigationIcon = {
-            IconButton(onClick = {
-                scope.launch {
-                    scaffoldState.drawerState.open()
+            if (navController.previousBackStackEntry?.destination?.route == BottomNavScreen.Result.route) {
+                IconButton(onClick = {
+                    scope.launch { navController.popBackStack() }
+                }) {
+                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
                 }
-            }) {
-                Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
+            } else {
+                IconButton(onClick = {
+                    scope.launch { scaffoldState.drawerState.open() }
+                }) {
+                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
+                }
             }
         },
         modifier = modifier,
@@ -162,10 +175,10 @@ private fun WhatWeathDrawer(
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
     navController: NavHostController,
-    modifier: Modifier,
-    currentFlow: Flow<List<CurrentPresentation>?>
+    modifier: Modifier = Modifier,
+    currentsFlow: Flow<List<CurrentPresentation>?>
 ) {
-    val currents = currentFlow.collectAsState(initial = emptyList()).value
+    val currents = currentsFlow.collectAsState(initial = emptyList()).value
     Log.d("MainScreen", "Currents: ${currents?.size}")
     if (currents != null && currents.isNotEmpty()) {
         CurrentsList(

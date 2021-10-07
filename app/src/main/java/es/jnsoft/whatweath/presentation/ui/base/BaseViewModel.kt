@@ -1,13 +1,11 @@
 package es.jnsoft.whatweath.presentation.ui.base
 
-import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.repository.SettingsRepository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<DomainData, PresentationData>(
@@ -17,29 +15,27 @@ abstract class BaseViewModel<DomainData, PresentationData>(
     protected val _domainData = MutableStateFlow<DomainData?>(null)
     val domainData: StateFlow<DomainData?> = _domainData
 
-    protected val errorResourceChannel = Channel<Int>(Channel.BUFFERED)
-    val errorResourceFlow = errorResourceChannel.receiveAsFlow().conflate()
+    private val eventChannel = Channel<Event>(Channel.BUFFERED)
+    val eventsFlow = eventChannel.receiveAsFlow()
 
-    protected fun sendResourceError(@StringRes error: Int) {
-        viewModelScope.launch { errorResourceChannel.send(error) }
+    fun sendEvent(event: Event) {
+        viewModelScope.launch {
+            eventChannel.send(event)
+        }
     }
 
-    protected val errorStringChannel = Channel<String>(Channel.BUFFERED)
-    val errorStringFlow = errorStringChannel.receiveAsFlow().conflate()
-
-    protected fun sendStringError(error: String) {
-        viewModelScope.launch { errorStringChannel.send(error) }
-    }
-
-    protected val units = settingsRepository.getUnits().stateIn(
-        scope = viewModelScope,
-        started = WhileSubscribed(5000),
-        initialValue = Units.STANDARD
-    )
+    protected val units = settingsRepository.getUnits()
 
     val presentation = combine(_domainData, units) { domainData, units ->
         mapToPresentation(domainData = domainData, units = units)
     }
 
     abstract fun mapToPresentation(domainData: DomainData?, units: Units): PresentationData?
+
+    sealed class Event {
+        data class NavigateTo(val destination: String): Event()
+        data class ShowSnackbarResource(val resource: Int): Event()
+        data class ShowSnackbarString(val message: String): Event()
+        object Clean: Event()
+    }
 }

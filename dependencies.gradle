@@ -42,6 +42,9 @@ ext {
     // Accompanist
     accompanistVersion = '0.17.0'
 
+    // Lifecycle
+    lifecycleVersion = '2.4.0-alpha02'
+
     // Lifecycle Compose
     lifecycleComposeVersion = '1.0.0-alpha07'
 
@@ -57,9 +60,11 @@ ext {
             mockito                 : "org.mockito:mockito-core:$mockitoVersion",
             mockitoInline           : "org.mockito:mockito-inline:$mockitoVersion",
             navigation              : "androidx.navigation:navigation-compose:$navigationVersion",
+            lifecycle               : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
             lifecycleCompose        : "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleComposeVersion",
             accompanistInsets       : "com.google.accompanist:accompanist-insets:$accompanistVersion",
-            accompanistInsetsUi     : "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
+            accompanistInsetsUi     : "com.google.accompanist:accompanist-insets-ui:$accompanistVersion",
+            moshi                   : "com.squareup.moshi:moshi-kotlin:$moshiVersion",
     ]
 
     commonDependencies = [

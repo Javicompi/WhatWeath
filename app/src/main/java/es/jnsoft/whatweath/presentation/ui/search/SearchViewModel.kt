@@ -5,10 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Current
-import es.jnsoft.domain.model.Location
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.SettingsRepository
-import es.jnsoft.domain.usecase.FindCurrentByLatLonUseCase
 import es.jnsoft.domain.usecase.FindCurrentByNameUseCase
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
@@ -19,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val findCurrentByLatLonUseCase: FindCurrentByLatLonUseCase,
+    //private val findCurrentByLatLonUseCase: FindCurrentByLatLonUseCase,
     private val findCurrentByNameUseCase: FindCurrentByNameUseCase,
     settingsRepository: SettingsRepository
 ) : BaseViewModel<Result<Current>, CurrentPresentation>(settingsRepository) {
@@ -30,7 +28,7 @@ class SearchViewModel @Inject constructor(
     ): CurrentPresentation? {
         when(domainData) {
             is Result.Failure -> {
-                sendStringError(domainData.message)
+                sendEvent(Event.ShowSnackbarString(domainData.message))
                 return null
             }
             is Result.Success -> {
@@ -43,27 +41,23 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun findByLocation(lat: Double, lon: Double) {
+    /*fun findByLocation(lat: Double, lon: Double) {
         _domainData.value = Result.Loading
         viewModelScope.launch {
             val result = findCurrentByLatLonUseCase.invoke(Location(lat, lon))
             handleResult(result)
         }
-    }
+    }*/
 
     fun findByName(name: String) {
         Log.d("SearchViewModel", "String: $name")
         viewModelScope.launch {
             if (name.length < 3) {
-                errorResourceChannel.send(R.string.search_min_characters)
+                sendEvent(Event.ShowSnackbarResource(R.string.search_min_characters))
             } else {
                 _domainData.value = Result.Loading
                 _domainData.value = findCurrentByNameUseCase.invoke(name)
             }
         }
-    }
-
-    private fun handleResult(newResult: Result<Current>) {
-       _domainData.value = newResult
     }
 }

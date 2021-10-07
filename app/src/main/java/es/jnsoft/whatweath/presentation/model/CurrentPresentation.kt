@@ -1,48 +1,28 @@
 package es.jnsoft.whatweath.presentation.model
 
-import es.jnsoft.domain.model.Current
-
 class CurrentPresentation(
-    val clouds: Int,
+    val clouds: String,
     val country: String,
     val deltaTime: Long,
     val description: String,
-    val humidity: Int,
+    val humidity: String,
     val icon: String,
     val id: Long,
     val lat: Double,
     val lon: Double,
     val name: String,
-    val pressure: Int,
+    val pressure: String,
     val rain: Double,
+    val rainText: String,
     val snow: Double,
+    val snowText: String,
     val sunrise: Long,
     val sunset: Long,
-    val temp: Int,
-    val tempFeelsLike: Int,
+    val temp: String,
+    val tempFeelsLike: String,
     val timeZone: Int,
     val visibility: Int,
     val windDegrees: Int,
-    val windSpeed: Int
-) : BasePresentation /*{
-
-    override fun getFormattedTemp(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getFormattedTempFL(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getFormattedWindSpeed(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun getFormattedRain(): Double {
-        TODO("Not yet implemented")
-    }
-
-    override fun getFormattedSnow(): Double {
-        TODO("Not yet implemented")
-    }
-}*/
+    val windDegreesText: String,
+    val windSpeed: String
+) : BasePresentation
