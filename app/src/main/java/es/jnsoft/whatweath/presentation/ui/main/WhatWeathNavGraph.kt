@@ -18,9 +18,7 @@ import es.jnsoft.whatweath.presentation.ui.CurrentScreen
 import es.jnsoft.whatweath.presentation.ui.days.DaysScreen
 import es.jnsoft.whatweath.presentation.ui.hours.HoursScreen
 import es.jnsoft.whatweath.presentation.ui.search.NewSearchViewModel
-import es.jnsoft.whatweath.presentation.ui.search.SearchResultScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchScreen
-import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel
 
 sealed class BottomNavScreen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
     object Current : BottomNavScreen("current", R.string.screen_current, Icons.Filled.Home)
@@ -50,7 +48,6 @@ fun WhatWeathNavGraph(
             DaysScreen()
         }
         composable(BottomNavScreen.Search.route) {
-            //val searchViewModel: SearchViewModel = hiltViewModel()
             val newSearchViewModel: NewSearchViewModel = hiltViewModel()
             SearchScreen(
                 newSearchViewModel,
