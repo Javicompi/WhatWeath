@@ -17,12 +17,12 @@ import androidx.navigation.NavHostController
 import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
-import es.jnsoft.whatweath.presentation.ui.search.NewSearchViewModel.*
+import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel.*
 import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen(
-    viewModel: NewSearchViewModel,
+    viewModel: SearchViewModel,
     navController: NavHostController
 ) {
     val events = viewModel.eventsFlow.collectAsState(initial = null)
