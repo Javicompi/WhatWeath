@@ -11,10 +11,7 @@ import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,7 +25,7 @@ class SearchViewModel @Inject constructor(
 
     private val units = settingsRepository.getUnits()
 
-    val presentationData: Flow<Result<CurrentPresentation>?> =
+    val presentationData: StateFlow<Result<CurrentPresentation>?> =
         combine(domainData, units) { resultSearch, selectedUnits ->
             when (resultSearch) {
                 is Result.Success -> {
@@ -41,7 +38,11 @@ class SearchViewModel @Inject constructor(
                 }
                 else -> null
             }
-        }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
 
     private val eventChannel = Channel<Event>(Channel.BUFFERED)
     val eventsFlow = eventChannel.receiveAsFlow()
