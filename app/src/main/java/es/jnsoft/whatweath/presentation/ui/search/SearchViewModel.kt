@@ -67,6 +67,7 @@ class SearchViewModel @Inject constructor(
     sealed class Event {
         data class ShowSnackbarResource(val resource: Int) : Event()
         data class ShowSnackbarString(val message: String) : Event()
+        object NavigateToCurrent : Event()
         object Clean : Event()
     }
 }
