@@ -35,8 +35,6 @@ fun SearchElement(
     val context = LocalContext.current
     Box(
         modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
             .clickable { onClick() }
     ) {
         Image(
@@ -187,7 +185,7 @@ private fun SearchElementIcon(
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFF4F4F4)
+@Preview(showBackground = true, backgroundColor = 0xFFF4F4F4, widthDp = 200)
 @Composable
 private fun SearchElementIconPreview() {
     SearchElementIcon(
