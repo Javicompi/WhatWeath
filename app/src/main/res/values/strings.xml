@@ -19,7 +19,7 @@
     // Search Screen
     <string name="search_text_field_label">Search</string>
     <string name="search_message_empty_title">Nothing to show</string>
-    <string name="search_message_empty_message">Please search for a location</string>
+    <string name="search_message_empty_message">Please search a location</string>
     <string name="search_min_characters">Please input at least 3 characters</string>
     <string name="search_unknown_location">Unknown</string>
     <string name="search_temp_title">Temperature</string>
@@ -30,4 +30,5 @@
     <string name="search_wind_title">Wind speed</string>
     <string name="search_pressure_title">Pressure</string>
     <string name="search_direction_title">Wind dir.</string>
+    <string name="search_fab_save">Save</string>
 </resources>

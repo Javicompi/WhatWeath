@@ -2,11 +2,10 @@ package es.jnsoft.whatweath.presentation.ui.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -51,11 +50,33 @@ fun SearchCollapsingLayout(
             }
         }
     }
-    Box(
+    val scaffoldState = rememberScaffoldState()
+    Scaffold(
+        scaffoldState = scaffoldState,
         modifier = modifier
-            .nestedScroll(nestedScrollConnection)
-            .verticalScroll(rememberScrollState())
-    ) {
+            .nestedScroll(nestedScrollConnection),
+        floatingActionButton = {
+            if (state is Result.Success) {
+                FloatingActionButton(
+                    onClick = { /*TODO*/ }
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(imageVector = Icons.Default.Favorite, contentDescription = "")
+                        if (-collapsibleOffsetHeightPx.value.roundToInt() < 180) {
+                            Text(
+                                text = stringResource(id = R.string.search_fab_save),
+                                modifier = Modifier.padding(start = 12.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    ) { innerPadding ->
         when (state) {
             is Result.Success -> {
                 SearchElement(
@@ -63,22 +84,36 @@ fun SearchCollapsingLayout(
                     onClick = {
                         // TODO
                     },
-                    modifier = Modifier.matchParentSize()
+                    modifier = Modifier.fillMaxSize()
                 )
             }
             is Result.Loading -> {
-                SearchProgressIndicator(modifier = Modifier.matchParentSize())
+                SearchProgressIndicator(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
             }
             else -> {
-                SearchEmptyMessage(modifier = Modifier.matchParentSize())
+                SearchEmptyMessage(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
             }
         }
-        SearchHeader(
-            state = state,
-            onSearchClick = { onSearchClick(it) },
-            modifier = Modifier
-                .offset { IntOffset(x = 0, y = collapsibleOffsetHeightPx.value.roundToInt()) }
-        )
+        if (state is Result.Success) {
+            SearchHeader(
+                state = state,
+                onSearchClick = { onSearchClick(it) },
+                modifier = Modifier
+                    .padding(innerPadding)
+                    .offset { IntOffset(x = 0, y = collapsibleOffsetHeightPx.value.roundToInt()) }
+            )
+        } else {
+            SearchHeader(
+                state = state,
+                onSearchClick = { onSearchClick(it) }
+            )
+        }
     }
 }
 
@@ -96,7 +131,7 @@ private fun SearchHeader(
         modifier = modifier
             .fillMaxWidth(),
         maxLines = 1,
-        shape = RoundedCornerShape(bottomStart = 6.dp, bottomEnd = 6.dp),
+        shape = RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp),
         trailingIcon = {
             if (state is Result.Loading) {
                 CircularProgressIndicator(
