@@ -17,14 +17,14 @@ fun SearchScreen(
     navController: NavHostController
 ) {
     val events = viewModel.eventsFlow.collectAsState(initial = null)
-    val searchResult = viewModel.presentationData.collectAsState(initial = null).value
+    val searchResult = viewModel.presentationData.collectAsState(initial = null)
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         SearchCollapsingLayout(
-            state = searchResult,
+            state = searchResult.value,
             onSearchClick = { viewModel.findByName(it) },
             modifier = Modifier.fillMaxSize()
         )
