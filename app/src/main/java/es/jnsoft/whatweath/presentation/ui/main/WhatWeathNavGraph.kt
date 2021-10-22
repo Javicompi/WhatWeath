@@ -1,6 +1,8 @@
 package es.jnsoft.whatweath.presentation.ui.main
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Home
@@ -28,6 +30,8 @@ sealed class BottomNavScreen(val route: String, @StringRes val resourceId: Int, 
     object Result: BottomNavScreen("search", R.string.screen_search, Icons.Filled.Search)
 }
 
+@ExperimentalAnimationApi
+@ExperimentalMaterialApi
 @Composable
 fun WhatWeathNavGraph(
     navController: NavHostController,
