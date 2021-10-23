@@ -3,13 +3,16 @@ package es.jnsoft.whatweath.presentation.ui.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import es.jnsoft.domain.enums.Units
-import es.jnsoft.domain.repository.SettingsRepository
+import es.jnsoft.domain.usecase.GetUnitsUseCase
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<DomainData, PresentationData>(
-    settingsRepository: SettingsRepository
+    getUnitsUseCase: GetUnitsUseCase
 ) : ViewModel() {
 
     protected val _domainData = MutableStateFlow<DomainData?>(null)
@@ -24,7 +27,7 @@ abstract class BaseViewModel<DomainData, PresentationData>(
         }
     }
 
-    protected val units = settingsRepository.getUnits()
+    private val units = getUnitsUseCase.invoke(Unit)
 
     val presentation = combine(_domainData, units) { domainData, units ->
         mapToPresentation(domainData = domainData, units = units)

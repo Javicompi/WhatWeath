@@ -6,8 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Location
-import es.jnsoft.domain.repository.SettingsRepository
 import es.jnsoft.domain.usecase.GetCurrentsUseCase
+import es.jnsoft.domain.usecase.GetUnitsUseCase
 import es.jnsoft.domain.usecase.SetUnitsUseCase
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
@@ -20,10 +20,10 @@ import javax.inject.Inject
 @HiltViewModel
 @ExperimentalCoroutinesApi
 class MainViewModel @Inject constructor(
-    getCurrentsUseCase: GetCurrentsUseCase,
-    settingsRepository: SettingsRepository,
+    private val getCurrentsUseCase: GetCurrentsUseCase,
+    getUnitsUnitsUseCase: GetUnitsUseCase,
     private val setUnitsUseCase: SetUnitsUseCase
-) : BaseViewModel<List<Current>, List<CurrentPresentation>>(settingsRepository) {
+) : BaseViewModel<List<Current>, List<CurrentPresentation>>(getUnitsUnitsUseCase) {
 
     init {
         viewModelScope.launch {
