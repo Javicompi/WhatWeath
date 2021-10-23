@@ -74,14 +74,19 @@ fun SearchCollapsibleAppBar(
                 label = {
                     Text(
                         text = stringResource(id = R.string.screen_search),
-                        color = contentColorFor(backgroundColor = MaterialTheme.colors.primarySurface)
+                        color = contentColorFor(
+                            backgroundColor = MaterialTheme.colors.primarySurface
+                        )
                     )
                 },
                 trailingIcon = {
                     AnimatedContent(targetState = isLoading) { showProgressIndicator ->
                         if (showProgressIndicator) {
                             CircularProgressIndicator(
-                                color = contentColorFor(backgroundColor = MaterialTheme.colors.primarySurface)
+                                modifier = Modifier.size(24.dp),
+                                color = contentColorFor(
+                                    backgroundColor = MaterialTheme.colors.primarySurface
+                                )
                             )
                         } else {
                             Icon(
@@ -93,13 +98,17 @@ fun SearchCollapsibleAppBar(
                                         onSearchClick(searchText.value)
                                     }
                                     .size(24.dp),
-                                tint = contentColorFor(backgroundColor = MaterialTheme.colors.primarySurface)
+                                tint = contentColorFor(
+                                    backgroundColor = MaterialTheme.colors.primarySurface
+                                )
                             )
                         }
                     }
                 },
                 colors = TextFieldDefaults.textFieldColors(
-                    cursorColor = contentColorFor(backgroundColor = MaterialTheme.colors.primarySurface)
+                    cursorColor = contentColorFor(
+                        backgroundColor = MaterialTheme.colors.primarySurface
+                    )
                 )
             )
         }
