@@ -21,12 +21,12 @@ class SearchViewModel @Inject constructor(
     settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-    private val domainData = MutableStateFlow<Result<Current>?>(null)
+    private val currentDomain = MutableStateFlow<Result<Current>?>(null)
 
     private val units = settingsRepository.getUnits()
 
-    val presentationData: StateFlow<Result<CurrentPresentation>?> =
-        combine(domainData, units) { resultSearch, selectedUnits ->
+    val currentPresentation: StateFlow<Result<CurrentPresentation>?> =
+        combine(currentDomain, units) { resultSearch, selectedUnits ->
             when (resultSearch) {
                 is Result.Success -> {
                     Result.Success(resultSearch.value.toPresentation(selectedUnits))
@@ -52,8 +52,8 @@ class SearchViewModel @Inject constructor(
             if (name.length < 3) {
                 sendEvent(Event.ShowSnackbarResource(R.string.search_min_characters))
             } else {
-                domainData.value = Result.Loading
-                domainData.value = findCurrentByNameUseCase.invoke(name)
+                currentDomain.value = Result.Loading
+                currentDomain.value = findCurrentByNameUseCase.invoke(name)
             }
         }
     }

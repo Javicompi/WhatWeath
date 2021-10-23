@@ -40,11 +40,11 @@ fun SearchScreen(
     navController: NavHostController
 ) {
     val events = viewModel.eventsFlow.collectAsState(initial = null)
-    val searchResult = viewModel.presentationData.collectAsState(initial = null)
+    val searchResult = viewModel.currentPresentation.collectAsState(initial = null)
     val scaffoldState = rememberBottomSheetScaffoldState()
     val isCollapsed = scaffoldState.bottomSheetState.targetValue.ordinal == 0
     val bottomSheetColor = animateColorAsState(if (isCollapsed) {
-        MaterialTheme.colors.surface.copy(alpha = 0.2f)
+        MaterialTheme.colors.surface.copy(alpha = 0.3f)
     } else {
         MaterialTheme.colors.surface
     })
