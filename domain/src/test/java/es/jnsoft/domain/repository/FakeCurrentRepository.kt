@@ -16,15 +16,11 @@ class FakeCurrentRepository : CurrentRepository {
 
     fun getData() = currents
 
-    override suspend fun getCurrents(): Flow<List<Current>> {
+    override fun getCurrents(): Flow<List<Current>> {
         return flow { emit(currents) }
     }
 
-    override fun getCurrents(): Flow<List<Current>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getCurrentById(id: Long): Flow<Current?> {
+    override fun getCurrentById(id: Long): Flow<Current?> {
         return flow {
             emit(currents.firstOrNull { it.id == id })
         }
