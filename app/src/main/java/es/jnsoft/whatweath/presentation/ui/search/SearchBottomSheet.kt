@@ -3,9 +3,7 @@ package es.jnsoft.whatweath.presentation.ui.search
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +40,7 @@ fun SearchBottomSheet(
                     .width(48.dp)
                     .height(4.dp),
                 shape = RoundedCornerShape(50),
-                color = Color.LightGray
+                color = contentColorFor(backgroundColor = MaterialTheme.colors.surface)
             ) {
                 Box(
                     modifier = Modifier.fillMaxSize()
