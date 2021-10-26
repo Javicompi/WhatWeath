@@ -56,4 +56,16 @@ object CurrentDataMapper : DataMapper<CurrentData, Current> {
             windSpeed = source.windSpeed
         )
     }
+
+    override fun mapToDomainList(source: List<CurrentData>): List<Current> {
+        return source.map { currentData ->
+            mapToDomain(currentData)
+        }
+    }
+
+    override fun mapFromDomainList(source: List<Current>): List<CurrentData> {
+        return source.map { currentDomain ->
+            mapFromDomain(currentDomain)
+        }
+    }
 }

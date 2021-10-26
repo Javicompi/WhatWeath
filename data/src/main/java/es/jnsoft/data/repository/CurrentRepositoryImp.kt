@@ -17,7 +17,7 @@ class CurrentRepositoryImp @Inject constructor(
 
     override fun getCurrents(): Flow<List<Current>> {
         return localDataSource.getCurrents().map { list ->
-            list.map { CurrentDataMapper.mapToDomain(it) }
+            CurrentDataMapper.mapToDomainList(list)
         }
     }
 
