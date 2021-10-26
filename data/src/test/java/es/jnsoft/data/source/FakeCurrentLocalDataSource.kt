@@ -11,12 +11,12 @@ class FakeCurrentLocalDataSource : CurrentLocalDataSource {
 
     private val currents: MutableList<CurrentData> = mutableListOf()
 
-    override suspend fun getCurrents(): Flow<List<CurrentData>> = withContext(Dispatchers.IO) {
-        return@withContext flow { emit(currents) }
+    override fun getCurrents(): Flow<List<CurrentData>>  {
+        return flow { emit(currents) }
     }
 
-    override suspend fun getCurrentById(id: Long): Flow<CurrentData?> = withContext(Dispatchers.IO) {
-        return@withContext flow {
+    override fun getCurrentById(id: Long): Flow<CurrentData?> {
+        return flow {
             emit(currents.firstOrNull { it.id == id })
         }
     }
