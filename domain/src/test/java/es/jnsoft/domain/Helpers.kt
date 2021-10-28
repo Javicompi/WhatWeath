@@ -63,6 +63,7 @@ fun createHourly(cityId: Long = 6697298): Hourly {
         dewPoint = 287.47,
         humidity = 65,
         icon = "02d",
+        id = 0L,
         location = Location(38.2246, -0.5193),
         pop = 0.0,
         pressure = 1019,
