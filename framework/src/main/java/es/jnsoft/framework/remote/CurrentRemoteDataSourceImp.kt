@@ -4,7 +4,7 @@ import com.haroldadmin.cnradapter.NetworkResponse
 import es.jnsoft.data.model.CurrentData
 import es.jnsoft.data.remote.CurrentRemoteDataSource
 import es.jnsoft.domain.model.Result
-import es.jnsoft.framework.mapper.CurrentDataMapper
+import es.jnsoft.framework.mapper.mapToData
 import es.jnsoft.framework.remote.service.CurrentApiService
 import javax.inject.Inject
 
@@ -21,8 +21,7 @@ class CurrentRemoteDataSourceImp @Inject constructor(
                 Result.Failure(result.error.message ?: "Unknown error occurred")
             }
             is NetworkResponse.Success -> {
-                val data = result.body
-                Result.Success(CurrentDataMapper.mapFromResponse(data))
+                Result.Success(result.body.mapToData())
             }
             else -> {
                 Result.Failure("Unknown error occurred")
@@ -36,8 +35,7 @@ class CurrentRemoteDataSourceImp @Inject constructor(
                 Result.Failure(result.error.message ?: "Unknown error occurred")
             }
             is NetworkResponse.Success -> {
-                val data = result.body
-                Result.Success(CurrentDataMapper.mapFromResponse(data))
+                Result.Success(result.body.mapToData())
             }
             else -> {
                 Result.Failure("Unknown error occurred")
