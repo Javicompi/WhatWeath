@@ -1,5 +1,6 @@
 package es.jnsoft.framework.datasource.local
 
+import es.jnsoft.data.model.HourlyData
 import es.jnsoft.framework.local.model.CurrentEntity
 
 fun createFirstCurrent(): CurrentEntity {
@@ -52,4 +53,37 @@ fun createSecondCurrent(): CurrentEntity {
         windDegrees = 205,
         windSpeed = 2.50
     )
+}
+
+fun createHourly(cityId: Long = 6697298L): HourlyData {
+    return HourlyData(
+        cityId = cityId,
+        clouds = 20,
+        deltaTime = 1635325200000,
+        description = "algo de nubes",
+        dewPoint = 0.5,
+        humidity = 60,
+        icon = "02n",
+        id = 0,
+        lat = 53.3244,
+        lon = -6.3858,
+        pop = 0.5,
+        pressure = 1017,
+        rain = 0.2,
+        snow = 0.0,
+        temp = 289.17,
+        tempFeelsLike = 289.1,
+        timeZone = 3600,
+        uvi = 0.08,
+        visibility = 5000,
+        windDegrees = 203,
+        windSpeed = 6.34
+    )
+}
+
+fun createHourlyList(cityId: Long = 6697298L): List<HourlyData> {
+    val first = createHourly(cityId)
+    val second = first.copy(deltaTime = first.deltaTime + 3600000)
+    val third = second.copy(deltaTime = second.deltaTime + 3600000)
+    return listOf(first, second, third)
 }
