@@ -6,8 +6,8 @@ import es.jnsoft.data.remote.CurrentRemoteDataSource
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.CurrentRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CurrentRepositoryImp @Inject constructor(
@@ -16,16 +16,44 @@ class CurrentRepositoryImp @Inject constructor(
 ) : CurrentRepository {
 
     override fun getCurrents(): Flow<List<Current>> {
-        return localDataSource.getCurrents().map { list ->
-            CurrentDataMapper.mapToDomainList(list)
+        return flow {
+            val currents = localDataSource.getCurrents()
+            emitAll(currents.map { CurrentDataMapper.mapToDomainList(it) })
+            currents.first().let { list ->
+                list.map { current ->
+                    if (shouldUpdate(current.deltaTime)) {
+                        val newData = remoteDataSource.findCurrentByLatLon(current.lat, current.lon)
+                        if (newData is Result.Success) {
+                            localDataSource.saveCurrent(newData.value)
+                        }
+                    }
+                }
+            }
         }
+        /*return localDataSource.getCurrents().map { list ->
+            CurrentDataMapper.mapToDomainList(list)
+        }*/
     }
 
     override fun getCurrentById(id: Long): Flow<Current?> {
-        val data = localDataSource.getCurrentById(id)
+        return flow {
+            val current = localDataSource.getCurrentById(id)
+            emitAll(current.map { value ->
+                value?.let { CurrentDataMapper.mapToDomain(it) }
+            })
+            current.first()?.let { value ->
+                if (shouldUpdate(value.deltaTime)) {
+                    val newData = remoteDataSource.findCurrentByLatLon(value.lat, value.lon)
+                    if (newData is Result.Success) {
+                        localDataSource.saveCurrent(newData.value)
+                    }
+                }
+            }
+        }
+        /*val data = localDataSource.getCurrentById(id)
         return data.map {
             if (it != null) CurrentDataMapper.mapToDomain(it) else null
-        }
+        }*/
     }
 
     override suspend fun saveCurrent(current: Current) {
@@ -50,5 +78,10 @@ class CurrentRepositoryImp @Inject constructor(
             is Result.Failure -> result
             is Result.Loading -> result
         }
+    }
+
+    override fun shouldUpdate(deltaTime: Long): Boolean {
+        val currentTime = System.currentTimeMillis()
+        return currentTime - deltaTime >= TimeUnit.HOURS.toMillis(1)
     }
 }

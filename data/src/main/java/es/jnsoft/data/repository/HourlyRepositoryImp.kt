@@ -6,8 +6,8 @@ import es.jnsoft.data.remote.HourlyRemoteDataSource
 import es.jnsoft.domain.model.Hourly
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.HourlyRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class HourlyRepositoryImp @Inject constructor(
@@ -16,9 +16,21 @@ class HourlyRepositoryImp @Inject constructor(
 ) : HourlyRepository {
 
     override fun getHourlies(cityId: Long): Flow<List<Hourly>> {
-        return localDataSource.getHourlies(cityId).map { dataList ->
-            HourlyDataMapper.mapToDomainList(dataList)
+        return flow {
+            val hourlies = localDataSource.getHourlies(cityId)
+            emitAll(hourlies.map { HourlyDataMapper.mapToDomainList(it) })
+            hourlies.first().let { list ->
+                if (list.isNotEmpty() && shouldUpdate(list[0].deltaTime)) {
+                    val newHourlies = remoteDataSource.findHourly(list[0].lat, list[0].lon)
+                    if (newHourlies is Result.Success) {
+                        localDataSource.saveHourlies(newHourlies.value)
+                    }
+                }
+            }
         }
+        /*return localDataSource.getHourlies(cityId).map { dataList ->
+            HourlyDataMapper.mapToDomainList(dataList)
+        }*/
     }
 
     override suspend fun saveHourlies(hourlies: List<Hourly>) {
@@ -37,5 +49,10 @@ class HourlyRepositoryImp @Inject constructor(
             is Result.Failure -> result
             is Result.Loading -> result
         }
+    }
+
+    override fun shouldUpdate(deltaTime: Long): Boolean {
+        val currentTime = System.currentTimeMillis()
+        return currentTime - deltaTime >= TimeUnit.HOURS.toMillis(1)
     }
 }
