@@ -17,4 +17,6 @@ interface CurrentRepository {
     suspend fun findCurrentByLatLon(lat: Double, lon: Double): Result<Current>
 
     suspend fun findCurrentByName(name: String): Result<Current>
+
+    fun shouldUpdate(deltaTime: Long): Boolean
 }

@@ -1,11 +1,11 @@
 package es.jnsoft.domain.repository
 
-import es.jnsoft.domain.createHourly
 import es.jnsoft.domain.createHourlyList
 import es.jnsoft.domain.model.Hourly
 import es.jnsoft.domain.model.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.concurrent.TimeUnit
 
 class FakeHourlyRepository : HourlyRepository {
 
@@ -21,6 +21,14 @@ class FakeHourlyRepository : HourlyRepository {
         return flow {
             val filteredHourlies = hourlies.filter { it.cityId == cityId }
             emit(filteredHourlies)
+            if (filteredHourlies.isNotEmpty() && shouldUpdate(filteredHourlies[0].deltaTime)) {
+                val newHourlies = filteredHourlies.map { hourly ->
+                    hourly.copy(deltaTime = hourly.deltaTime + 3600000)
+                }
+                hourlies.removeAll { it.cityId == cityId }
+                hourlies.addAll(newHourlies)
+                emit(hourlies.filter { it.cityId == cityId })
+            }
         }
     }
 
@@ -46,5 +54,10 @@ class FakeHourlyRepository : HourlyRepository {
         } else {
             Result.Failure("Location not found")
         }
+    }
+
+    override fun shouldUpdate(deltaTime: Long): Boolean {
+        val currentTime = System.currentTimeMillis()
+        return currentTime - deltaTime >= TimeUnit.HOURS.toMillis(1)
     }
 }

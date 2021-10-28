@@ -13,4 +13,6 @@ interface HourlyRepository {
     suspend fun deleteHourlies(cityId: Long)
 
     suspend fun findHourlies(lat: Double, lon: Double): Result<List<Hourly>>
+
+    fun shouldUpdate(deltaTime: Long): Boolean
 }
