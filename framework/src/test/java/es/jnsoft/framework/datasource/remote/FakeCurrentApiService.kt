@@ -66,8 +66,6 @@ class FakeCurrentApiService : CurrentApiService {
             ),
             dt = 10,
             sys = CurrentResponse.Sys(
-                type = 1,
-                id = 1,
                 country = "ES",
                 sunrise = 1,
                 sunset = 2
