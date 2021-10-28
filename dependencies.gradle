@@ -23,7 +23,7 @@ ext {
 
     // Testing
     junitVersion = '4.12'
-    androidxTestCoreVersion = '1.0.0'
+    androidxTestCoreVersion = '1.1.0'
     androidxTestRunnerVersion = '1.1.0'
     androidxTestRulesVersion = '1.1.0'
     androidxTestExtJunitVersion = '1.1.0'
