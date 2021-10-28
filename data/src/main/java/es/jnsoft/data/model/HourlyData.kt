@@ -8,6 +8,7 @@ data class HourlyData(
     val dewPoint: Double,
     val humidity: Int,
     val icon: String,
+    val id: Long,
     val lat: Double,
     val lon: Double,
     val pop: Double,
