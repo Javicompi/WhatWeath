@@ -8,6 +8,7 @@ data class Hourly(
     val dewPoint: Double,
     val humidity: Int,
     val icon: String,
+    val id: Long,
     val location: Location,
     val pop: Double,
     val pressure: Int,
