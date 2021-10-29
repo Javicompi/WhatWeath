@@ -11,6 +11,6 @@ class SetUnitsUseCase @Inject constructor(
 ) : BaseUseCase<Units, Unit> {
 
     override suspend fun invoke(params: Units) = withContext(Dispatchers.IO) {
-        repository.saveUnits(params)
+        repository.setUnits(params)
     }
 }
