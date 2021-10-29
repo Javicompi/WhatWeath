@@ -53,4 +53,30 @@ class SettingsDataStoreTest {
         val retrieved2 = settings.unitsPreferences.first()
         assert(unit2.value == retrieved2)
     }
+
+    @Test
+    fun getSelectedId_defaultValue() = runBlocking {
+        val selectedId = settings.selectedIdPreferences.first()
+        assert(selectedId == 0L)
+    }
+
+    @Test
+    fun saveSelectedId_getSelectedId() = runBlocking {
+        val id = 6697298L
+        settings.setSelectedId(id)
+        val savedId = settings.selectedIdPreferences.first()
+        assert(id == savedId)
+    }
+
+    @Test
+    fun saveSelectedId_updateSelectedId() = runBlocking {
+        val id = 6697298L
+        settings.setSelectedId(id)
+        val savedId = settings.selectedIdPreferences.first()
+        assert(id == savedId)
+        val newId = 7228796L
+        settings.setSelectedId(newId)
+        val newSavedId = settings.selectedIdPreferences.first()
+        assert(newId == newSavedId)
+    }
 }
