@@ -1,8 +1,5 @@
 package es.jnsoft.whatweath.presentation.mapper
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.addAdapter
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Current
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
@@ -54,7 +51,11 @@ fun Current.toPresentation(units: Units): CurrentPresentation {
                 .toString() + " ºF"
         },
         timeZone = timeZone,
-        visibility = visibility,
+        visibility = when (units) {
+            Units.STANDARD -> "$visibility ms"
+            Units.METRIC -> (visibility / 1000).toString() + " km/s"
+            Units.IMPERIAL -> (visibility / 1609).toString() + " mi/s"
+        },
         windDegrees = windDegrees,
         windDegreesText = when {
             windDegrees <= 11 -> "N"

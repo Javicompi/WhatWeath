@@ -21,7 +21,7 @@ class CurrentPresentation(
     val temp: String,
     val tempFeelsLike: String,
     val timeZone: Int,
-    val visibility: Int,
+    val visibility: String,
     val windDegrees: Int,
     val windDegreesText: String,
     val windSpeed: String
