@@ -1,0 +1,14 @@
+package es.jnsoft.domain.usecase
+
+import es.jnsoft.domain.repository.SettingsRepository
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+class GetSelectedIdUseCase @Inject constructor(
+    private val repository: SettingsRepository
+) : BaseFlowUseCase<Unit, Flow<Long>> {
+
+    override fun invoke(params: Unit): Flow<Long> {
+        return repository.getSelectedId()
+    }
+}

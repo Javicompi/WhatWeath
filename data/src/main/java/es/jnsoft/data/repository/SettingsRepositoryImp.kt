@@ -14,7 +14,15 @@ class SettingsRepositoryImp @Inject constructor(
         return dataSource.getUnits()
     }
 
-    override suspend fun saveUnits(units: Units) {
+    override suspend fun setUnits(units: Units) {
         dataSource.setUnits(units)
+    }
+
+    override fun getSelectedId(): Flow<Long> {
+        return dataSource.getSelectedId()
+    }
+
+    override suspend fun setSelectedId(id: Long) {
+        dataSource.setSelectedId(id)
     }
 }

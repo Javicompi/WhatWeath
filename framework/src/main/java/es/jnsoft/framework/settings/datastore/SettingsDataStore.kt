@@ -5,6 +5,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import es.jnsoft.domain.enums.Units
@@ -18,12 +19,14 @@ class SettingsDataStore @Inject constructor(appContext: Context) {
 
     companion object {
         const val UNITS_KEY = "Units_Key"
+        const val SELECTED_ID_KEY = "Selected_Id_Key"
     }
 
     private val settingsDataStore = appContext.dataStore
 
     private object PreferenceKeys {
         val UNITS_FORMAT = stringPreferencesKey(UNITS_KEY)
+        val SELECTED_ID_FORMAT = longPreferencesKey(SELECTED_ID_KEY)
     }
 
     val unitsPreferences: Flow<String> = settingsDataStore.data.map { settings ->
@@ -33,6 +36,16 @@ class SettingsDataStore @Inject constructor(appContext: Context) {
     suspend fun setUnits(units: Units) {
         settingsDataStore.edit { settings ->
             settings[PreferenceKeys.UNITS_FORMAT] = units.value
+        }
+    }
+
+    val selectedIdPreferences: Flow<Long> = settingsDataStore.data.map { settings ->
+        settings[PreferenceKeys.SELECTED_ID_FORMAT] ?: 0L
+    }
+
+    suspend fun setSelectedId(id: Long) {
+        settingsDataStore.edit { settings ->
+            settings[PreferenceKeys.SELECTED_ID_FORMAT] = id
         }
     }
 

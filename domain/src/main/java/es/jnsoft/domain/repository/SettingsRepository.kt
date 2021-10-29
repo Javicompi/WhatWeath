@@ -7,5 +7,9 @@ interface SettingsRepository {
 
     fun getUnits(): Flow<Units>
 
-    suspend fun saveUnits(units: Units)
+    suspend fun setUnits(units: Units)
+
+    fun getSelectedId(): Flow<Long>
+
+    suspend fun setSelectedId(id: Long)
 }
