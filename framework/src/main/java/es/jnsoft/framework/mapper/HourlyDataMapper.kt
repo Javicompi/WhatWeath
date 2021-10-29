@@ -4,7 +4,8 @@ import es.jnsoft.data.model.HourlyData
 import es.jnsoft.framework.local.model.HourlyEntity
 import es.jnsoft.framework.remote.model.HourlyResponse
 
-fun List<HourlyData>.mapFromResponse(source: HourlyResponse, cityId: Long): List<HourlyData> {
+fun List<HourlyData>.mapFromResponse(source: HourlyResponse): List<HourlyData> {
+    val cityId = this[0].cityId
     return source.hourly.map { hourly ->
         HourlyData(
             cityId = cityId,
