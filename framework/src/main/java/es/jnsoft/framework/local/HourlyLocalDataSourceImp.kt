@@ -13,7 +13,7 @@ class HourlyLocalDataSourceImp @Inject constructor(
 ) : HourlyLocalDataSource {
 
     override fun getHourlies(cityId: Long): Flow<List<HourlyData>> {
-        return hourlyDao.getHourlies(cityId).transform { hourlies ->
+        return hourlyDao.getHourlies(cityId).map { hourlies ->
             listOf<HourlyData>().mapFromEntityList(hourlies)
         }
     }
