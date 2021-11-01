@@ -8,7 +8,6 @@ import kotlin.math.roundToInt
 
 fun Hourly.toPresentation(units: Units): HourlyPresentation {
     return HourlyPresentation(
-        cityId = cityId,
         clouds = "$clouds %",
         deltaTime = deltaTime,
         description = description,

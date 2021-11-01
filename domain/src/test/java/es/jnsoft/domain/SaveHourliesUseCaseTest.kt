@@ -21,7 +21,9 @@ class SaveHourliesUseCaseTest {
     @Test
     fun emptyList_saveHourlies_listNotNull() = runBlocking {
         assert(repository.getData().isEmpty())
-        val hourlies = createHourlyList(6697298).filter { it.cityId == 6697298L }
+        val lat = 35.379
+        val lon = -0.157
+        val hourlies = createHourlyList(lat, lon).filter { it.location.lat == lat }
         useCase.invoke(hourlies)
         val savedHourlies = repository.getData()
         assert(savedHourlies.isNotEmpty())

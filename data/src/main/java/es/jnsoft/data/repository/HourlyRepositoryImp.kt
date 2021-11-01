@@ -15,9 +15,9 @@ class HourlyRepositoryImp @Inject constructor(
     private val remoteDataSource: HourlyRemoteDataSource
 ) : HourlyRepository {
 
-    override fun getHourlies(cityId: Long): Flow<List<Hourly>> {
+    override fun getHourlies(lat: Double, lon: Double): Flow<List<Hourly>> {
         return flow {
-            val hourlies = localDataSource.getHourlies(cityId)
+            val hourlies = localDataSource.getHourlies(lat, lon)
             emitAll(hourlies.map { HourlyDataMapper.mapToDomainList(it) })
             hourlies.first().let { list ->
                 if (list.isNotEmpty() && shouldUpdate(list[0].deltaTime)) {
@@ -28,17 +28,14 @@ class HourlyRepositoryImp @Inject constructor(
                 }
             }
         }
-        /*return localDataSource.getHourlies(cityId).map { dataList ->
-            HourlyDataMapper.mapToDomainList(dataList)
-        }*/
     }
 
     override suspend fun saveHourlies(hourlies: List<Hourly>) {
         localDataSource.saveHourlies(HourlyDataMapper.mapFromDomainList(hourlies))
     }
 
-    override suspend fun deleteHourlies(cityId: Long) {
-        localDataSource.deleteHourlies(cityId)
+    override suspend fun deleteHourlies(hourlies: List<Hourly>) {
+        localDataSource.deleteHourlies(HourlyDataMapper.mapFromDomainList(hourlies))
     }
 
     override suspend fun findHourlies(lat: Double, lon: Double): Result<List<Hourly>> {

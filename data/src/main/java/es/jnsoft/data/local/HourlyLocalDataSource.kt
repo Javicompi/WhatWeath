@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface HourlyLocalDataSource {
 
-    fun getHourlies(cityId: Long): Flow<List<HourlyData>>
+    fun getHourlies(lat: Double, lon: Double): Flow<List<HourlyData>>
 
     suspend fun saveHourlies(hourlies: List<HourlyData>)
 
-    suspend fun deleteHourlies(cityId: Long)
+    suspend fun deleteHourlies(hourlies: List<HourlyData>)
 }

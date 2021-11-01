@@ -22,11 +22,12 @@ class DeleteHourliesUseCaseTest {
     @Test
     fun emptyList_addHourlies_deleteHourlies_emptyList() = runBlocking {
         assert(repository.getData().isEmpty())
-        val cityId = 6697298L
-        val hourlies = createHourlyList(cityId)
+        val lat = 38.2246
+        val lon = -0.5193
+        val hourlies = createHourlyList(lat, lon)
         repository.setData(hourlies as MutableList<Hourly>)
         assert(repository.getData().size == 6)
-        useCase.invoke(cityId)
+        useCase.invoke(hourlies.subList(0, 3))
         assert(repository.getData().size == 3)
     }
 }

@@ -54,17 +54,15 @@ fun createSecondCurrent(): Current {
     )
 }
 
-fun createHourly(cityId: Long = 6697298): Hourly {
+fun createHourly(lat: Double = 38.2246, lon: Double = -0.5193): Hourly {
     return Hourly(
-        cityId = cityId,
         clouds = 20,
         deltaTime = 1635174000000,
         description = "algo de nubes",
         dewPoint = 287.47,
         humidity = 65,
         icon = "02d",
-        id = 0L,
-        location = Location(38.2246, -0.5193),
+        location = Location(lat, lon),
         pop = 0.0,
         pressure = 1019,
         rain = 0.0,
@@ -79,11 +77,11 @@ fun createHourly(cityId: Long = 6697298): Hourly {
     )
 }
 
-fun createHourlyList(cityId: Long): List<Hourly> {
-    val firstHourly = createHourly(cityId = cityId)
+fun createHourlyList(lat: Double, lon: Double): List<Hourly> {
+    val firstHourly = createHourly(lat, lon)
     val secondHourly = firstHourly.copy(deltaTime = firstHourly.deltaTime + 3600000)
     val thirdHourly = secondHourly.copy(deltaTime = secondHourly.deltaTime + 3600000)
-    val fourthHourly = firstHourly.copy(cityId = firstHourly.cityId + 1)
+    val fourthHourly = firstHourly.copy(location = Location(lat.plus(1.0), lon.plus(1.0)))
     val fifthHourly = fourthHourly.copy(deltaTime = fourthHourly.deltaTime + 3600000)
     val sixthHourly = fifthHourly.copy(deltaTime = fifthHourly.deltaTime + 3600000)
     return listOf(firstHourly, secondHourly, thirdHourly, fourthHourly, fifthHourly, sixthHourly)

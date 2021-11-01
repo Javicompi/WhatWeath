@@ -12,8 +12,8 @@ class HourlyLocalDataSourceImp @Inject constructor(
     private val hourlyDao: HourlyDao
 ) : HourlyLocalDataSource {
 
-    override fun getHourlies(cityId: Long): Flow<List<HourlyData>> {
-        return hourlyDao.getHourlies(cityId).map { hourlies ->
+    override fun getHourlies(lat: Double, lon: Double): Flow<List<HourlyData>> {
+        return hourlyDao.getHourlies(lat, lon).map { hourlies ->
             listOf<HourlyData>().mapFromEntityList(hourlies)
         }
     }
@@ -22,7 +22,7 @@ class HourlyLocalDataSourceImp @Inject constructor(
         hourlyDao.updateHourlies(hourlies.mapToEntityList())
     }
 
-    override suspend fun deleteHourlies(cityId: Long) {
-        hourlyDao.deleteHourlies(cityId)
+    override suspend fun deleteHourlies(hourlies: List<HourlyData>) {
+        hourlyDao.deleteHourlies(hourlies.mapToEntityList())
     }
 }

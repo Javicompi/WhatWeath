@@ -7,18 +7,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface HourlyDao {
 
-    @Query("SELECT * FROM hourlies WHERE city_id = :cityId")
-    fun getHourlies(cityId: Long): Flow<List<HourlyEntity>>
+    @Query("SELECT * FROM hourlies WHERE latitude = :lat AND longitude = :lon")
+    fun getHourlies(lat: Double, lon: Double): Flow<List<HourlyEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveHourlies(hourlies: List<HourlyEntity>)
 
-    @Query("DELETE FROM hourlies WHERE city_id = :cityId")
-    suspend fun deleteHourlies(cityId: Long)
+    /*@Query("DELETE FROM hourlies WHERE latitude = :lat AND longitude = :lon")
+    suspend fun deleteHourlies(lat: Double, lon: Double)*/
+    @Delete
+    suspend fun deleteHourlies(hourlies: List<HourlyEntity>)
 
     @Transaction
     suspend fun updateHourlies(hourlies: List<HourlyEntity>) {
-        deleteHourlies(cityId = hourlies[0].cityId)
+        deleteHourlies(hourlies = hourlies)
         saveHourlies(hourlies = hourlies)
     }
 }

@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface HourlyRepository {
 
-    fun getHourlies(cityId: Long): Flow<List<Hourly>>
+    fun getHourlies(lat: Double, lon: Double): Flow<List<Hourly>>
 
     suspend fun saveHourlies(hourlies: List<Hourly>)
 
-    suspend fun deleteHourlies(cityId: Long)
+    suspend fun deleteHourlies(hourlies: List<Hourly>)
 
     suspend fun findHourlies(lat: Double, lon: Double): Result<List<Hourly>>
 

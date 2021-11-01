@@ -1,14 +1,12 @@
 package es.jnsoft.domain.model
 
 data class Hourly(
-    val cityId: Long,
     val clouds: Int,
     val deltaTime: Long,
     val description: String,
     val dewPoint: Double,
     val humidity: Int,
     val icon: String,
-    val id: Long,
     val location: Location,
     val pop: Double,
     val pressure: Int,

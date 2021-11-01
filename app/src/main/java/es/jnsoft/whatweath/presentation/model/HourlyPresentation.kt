@@ -1,7 +1,6 @@
 package es.jnsoft.whatweath.presentation.model
 
 data class HourlyPresentation(
-    val cityId: Long,
     val clouds: String,
     val deltaTime: Long,
     val description: String,

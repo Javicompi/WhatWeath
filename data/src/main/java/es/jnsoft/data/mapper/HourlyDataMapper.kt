@@ -8,14 +8,12 @@ object HourlyDataMapper : DataMapper<HourlyData, Hourly> {
 
     override fun mapToDomain(source: HourlyData): Hourly {
         return Hourly(
-            cityId = source.cityId,
             clouds = source.clouds,
             deltaTime = source.deltaTime,
             description = source.description,
             dewPoint = source.dewPoint,
             humidity = source.humidity,
             icon = source.icon,
-            id = source.id,
             location = Location(source.lat, source.lon),
             pop = source.pop,
             pressure = source.pressure,
@@ -33,14 +31,12 @@ object HourlyDataMapper : DataMapper<HourlyData, Hourly> {
 
     override fun mapFromDomain(source: Hourly): HourlyData {
         return HourlyData(
-            cityId = source.cityId,
             clouds = source.clouds,
             deltaTime = source.deltaTime,
             description = source.description,
             dewPoint = source.dewPoint,
             humidity = source.humidity,
             icon = source.icon,
-            id = source.id,
             lat = source.location.lat,
             lon = source.location.lon,
             pop = source.pop,
