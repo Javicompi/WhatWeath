@@ -30,8 +30,10 @@ import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel.*
 import es.jnsoft.whatweath.presentation.ui.theme.WhatWeathTheme
 import es.jnsoft.whatweath.utils.DrawableLoader
 import es.jnsoft.whatweath.utils.DrawableType
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
 @Composable
@@ -40,7 +42,8 @@ fun SearchScreen(
     navController: NavHostController
 ) {
     val events = viewModel.eventsFlow.collectAsState(initial = null)
-    val searchResult = viewModel.currentPresentation.collectAsState(initial = null)
+    val searchCurrentResult = viewModel.currentPresentation.collectAsState(initial = null)
+    val searchHourlyResult = viewModel.hourlyPresentation.collectAsState(initial = null)
     val scaffoldState = rememberBottomSheetScaffoldState()
     val isCollapsed = scaffoldState.bottomSheetState.targetValue.ordinal == 0
     val bottomSheetColor = animateColorAsState(if (isCollapsed) {
@@ -51,7 +54,12 @@ fun SearchScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     Box(modifier = Modifier.fillMaxSize()) {
-        when (val result = searchResult.value) {
+        if (searchHourlyResult.value is Result.Success) {
+
+        }else {
+
+        }
+        when (val result = searchCurrentResult.value) {
             is Result.Loading -> {
                 SearchProgressIndicator()
             }
@@ -92,7 +100,7 @@ fun SearchScreen(
         }
         SearchCollapsibleAppBar(
             onSearchClick = { viewModel.findByName(it) },
-            isLoading = searchResult.value is Result.Loading,
+            isLoading = searchCurrentResult.value is Result.Loading,
             shown = isCollapsed
         )
         val resources = LocalContext.current.resources
@@ -222,7 +230,7 @@ private fun SearchProgressIndicator(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier,
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()

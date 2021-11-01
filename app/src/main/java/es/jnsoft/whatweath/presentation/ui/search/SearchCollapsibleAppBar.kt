@@ -29,7 +29,7 @@ fun SearchCollapsibleAppBar(
     onSearchClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
-    shown: Boolean
+    shown: Boolean = true
 ) {
     AnimatedVisibility(
         visible = shown,
