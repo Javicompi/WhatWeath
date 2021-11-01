@@ -5,6 +5,7 @@ import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.concurrent.TimeUnit
 
 class FakeCurrentRepository : CurrentRepository {
 
@@ -54,5 +55,10 @@ class FakeCurrentRepository : CurrentRepository {
         } else {
             Result.Failure("Location not found")
         }
+    }
+
+    override fun shouldUpdate(deltaTime: Long): Boolean {
+        val currentTime = System.currentTimeMillis()
+        return currentTime - deltaTime >= TimeUnit.HOURS.toMillis(1)
     }
 }
