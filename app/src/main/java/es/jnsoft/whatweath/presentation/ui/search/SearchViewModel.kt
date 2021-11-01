@@ -7,29 +7,68 @@ import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.SettingsRepository
 import es.jnsoft.domain.usecase.FindCurrentByNameUseCase
+import es.jnsoft.domain.usecase.FindHourliesUseCase
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
+import es.jnsoft.whatweath.presentation.model.HourlyPresentation
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
+@ExperimentalCoroutinesApi
 class SearchViewModel @Inject constructor(
     private val findCurrentByNameUseCase: FindCurrentByNameUseCase,
+    private val findHourliesUseCase: FindHourliesUseCase,
     settingsRepository: SettingsRepository
 ) : ViewModel() {
 
+    private val units = settingsRepository.getUnits()
+
     private val currentDomain = MutableStateFlow<Result<Current>?>(null)
 
-    private val units = settingsRepository.getUnits()
+    private val hourlyDomain = currentDomain.flatMapLatest { current ->
+        flow {
+            if (current is Result.Success) {
+                emit(Result.Loading)
+                emit(findHourliesUseCase.invoke(current.value.location))
+            }
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = null
+    )
 
     val currentPresentation: StateFlow<Result<CurrentPresentation>?> =
         combine(currentDomain, units) { resultSearch, selectedUnits ->
             when (resultSearch) {
                 is Result.Success -> {
                     Result.Success(resultSearch.value.toPresentation(selectedUnits))
+                }
+                is Result.Loading -> Result.Loading
+                is Result.Failure -> {
+                    sendEvent(Event.ShowSnackbarString(resultSearch.message))
+                    Result.Failure(resultSearch.message)
+                }
+                else -> null
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
+
+    val hourlyPresentation: StateFlow<Result<List<HourlyPresentation>>?> =
+        combine(hourlyDomain, units) { resultSearch, selectedUnits ->
+            when (resultSearch) {
+                is Result.Success -> {
+                    Result.Success(resultSearch.value.map { hourly ->
+                        hourly.toPresentation(selectedUnits)
+                    })
                 }
                 is Result.Loading -> Result.Loading
                 is Result.Failure -> {
