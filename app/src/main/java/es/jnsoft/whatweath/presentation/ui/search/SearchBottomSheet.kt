@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -122,16 +123,27 @@ fun SearchBottomSheet(
                 modifier = Modifier.weight(0.5f)
             )
         }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp)
+        ) {
+            SearchElementSunriseSunset(
+                sunrise = current?.sunriseText ?: "",
+                sunset = current?.sunsetText ?: "",
+                sunDuration = current?.daytimeDuration ?: ""
+            )
+        }
         Spacer(modifier = Modifier.height(320.dp))
     }
 }
 
 @Composable
 private fun SearchElementIcon(
-    modifier: Modifier = Modifier,
     iconRes: Int,
     iconTitle: Int,
     iconDescription: String,
+    modifier: Modifier = Modifier,
     iconDegrees: Int = 0
 ) {
     Box(
@@ -169,8 +181,78 @@ private fun SearchElementIcon(
     }
 }
 
+@Composable
+fun SearchElementSunriseSunset(
+    sunrise: String,
+    sunset: String,
+    sunDuration: String,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .padding(8.dp)
+            .background(
+                color = Color.White.copy(alpha = 0.5f),
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(8.dp)
+    ) {
+        Column {
+            Row {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_sunrise),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .weight(1f)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_sunline),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .height(48.dp)
+                        .weight(3f)
+                )
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_sunset),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .weight(1f)
+                )
+            }
+            Row {
+                Text(
+                    text = sunrise,
+                    fontSize = 12.sp,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = sunDuration,
+                    fontSize = 12.sp,
+                    modifier = Modifier.weight(3f),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = sunset,
+                    fontSize = 12.sp,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 fun PreviewSearchBottomSheet() {
     SearchBottomSheet(current = null)
+}
+
+@Preview(widthDp = 360)
+@Composable
+fun PreviewSearchElementSunriseSunset() {
+    SearchElementSunriseSunset(sunrise = "7:15", sunset = "18.21", sunDuration = "11:06")
 }

@@ -8,7 +8,7 @@ fun List<HourlyData>.mapFromResponse(source: HourlyResponse): List<HourlyData> {
     return source.hourly.map { hourly ->
         HourlyData(
             clouds = hourly.clouds,
-            deltaTime = (hourly.dt * 1000).toLong(),
+            deltaTime = hourly.dt.toLong() * 1000,
             description = hourly.weather[0].description,
             dewPoint = hourly.dewPoint,
             humidity = hourly.humidity,

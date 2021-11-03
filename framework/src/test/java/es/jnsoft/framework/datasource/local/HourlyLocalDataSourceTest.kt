@@ -27,8 +27,8 @@ class HourlyLocalDataSourceTest {
         //hourlyDao.saveHourlies(hourlies.mapToEntityList())
         dataSource.saveHourlies(hourlies)
         //val retrieved = hourlyDao.getHourlies(cityId).first()
-        val retrieved = dataSource.getHourlies(cityId).first()
+        val retrieved = dataSource.getHourlies(hourlies[0].lat, hourlies[0].lon).first()
         assert(retrieved.isNotEmpty())
-        assert(retrieved[0].cityId == cityId)
+        assert(retrieved[0].lat == hourlies[0].lat && retrieved[0].lon == hourlies[0].lon)
     }
 }
