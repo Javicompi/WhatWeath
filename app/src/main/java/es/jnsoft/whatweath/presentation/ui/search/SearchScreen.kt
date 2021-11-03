@@ -12,8 +12,10 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -54,11 +56,6 @@ fun SearchScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
     Box(modifier = Modifier.fillMaxSize()) {
-        if (searchHourlyResult.value is Result.Success) {
-
-        }else {
-
-        }
         when (val result = searchCurrentResult.value) {
             is Result.Loading -> {
                 SearchProgressIndicator()
@@ -69,7 +66,7 @@ fun SearchScreen(
                     sheetContent = {
                         SearchBottomSheet(current = result.value)
                     },
-                    sheetPeekHeight = 270.dp,
+                    sheetPeekHeight = 276.dp,
                     sheetBackgroundColor = bottomSheetColor.value,
                     sheetElevation = 0.dp,
                     sheetShape = RoundedCornerShape(
@@ -166,6 +163,13 @@ private fun SearchBackDropBackground(
                 } ?: "Unknown location"),
                 textAlign = TextAlign.End,
                 fontSize = 32.sp,
+                color = current?.let {
+                    if (it.icon.contains("n")) {
+                        Color.White
+                    } else {
+                        Color.Black
+                    }
+                } ?: MaterialTheme.colors.onPrimary,
                 modifier = Modifier
                     .padding(top = 72.dp, end = 24.dp)
                     .fillMaxWidth()
