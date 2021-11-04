@@ -90,7 +90,6 @@ dependencies {
     implementation appDependencies.lifecycleCompose
 
     // Moshi
-
     implementation appDependencies.moshi
 
     // Test
