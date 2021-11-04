@@ -38,7 +38,8 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
                     .setScale(2, RoundingMode.HALF_EVEN).toString() + " in"
             }
         },
-        temp = when (units) {
+        temp = temp,
+        tempText = when (units) {
             Units.STANDARD -> temp.roundToInt().toString() + " K"
             Units.METRIC -> (temp - 273.15).roundToInt().toString() + " ºC"
             Units.IMPERIAL -> ((temp - 273.15) * 9 / 5 + 32).roundToInt().toString() + " ºF"
