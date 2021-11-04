@@ -1,10 +1,10 @@
 ext {
     // Kotlin
-    kotlinVersion = '1.5.21'
-    kotlinReflectVersion = '1.5.21'
+    kotlinVersion = '1.5.31'
+    kotlinReflectVersion = '1.5.31'
 
     // Compose
-    composeVersion = '1.0.1'
+    composeVersion = '1.0.4'
 
     // Android Core
     compileSDKVersion = 30
@@ -64,7 +64,7 @@ ext {
             lifecycleCompose        : "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleComposeVersion",
             accompanistInsets       : "com.google.accompanist:accompanist-insets:$accompanistVersion",
             accompanistInsetsUi     : "com.google.accompanist:accompanist-insets-ui:$accompanistVersion",
-            moshi                   : "com.squareup.moshi:moshi-kotlin:$moshiVersion",
+            moshi                   : "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     ]
 
     commonDependencies = [
