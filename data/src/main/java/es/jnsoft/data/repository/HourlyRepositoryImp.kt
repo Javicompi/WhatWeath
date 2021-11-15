@@ -18,15 +18,15 @@ class HourlyRepositoryImp @Inject constructor(
     override fun getHourlies(lat: Double, lon: Double): Flow<List<Hourly>> {
         return flow {
             val hourlies = localDataSource.getHourlies(lat, lon)
-            emitAll(hourlies.map { HourlyDataMapper.mapToDomainList(it) })
             hourlies.first().let { list ->
-                if (list.isNotEmpty() && shouldUpdate(list[0].deltaTime)) {
-                    val newHourlies = remoteDataSource.findHourly(list[0].lat, list[0].lon)
+                if (list.isEmpty() || shouldUpdate(list[0].deltaTime)) {
+                    val newHourlies = remoteDataSource.findHourly(lat, lon)
                     if (newHourlies is Result.Success) {
                         localDataSource.saveHourlies(newHourlies.value)
                     }
                 }
             }
+            emitAll(hourlies.map { HourlyDataMapper.mapToDomainList(it) })
         }
     }
 
