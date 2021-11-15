@@ -1,14 +1,15 @@
-package es.jnsoft.whatweath.presentation.ui.search
+package es.jnsoft.whatweath.presentation.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -16,17 +17,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
+import es.jnsoft.whatweath.presentation.model.HourlyPresentation
 
 @Composable
-fun SearchBottomSheet(
+fun CurrentBottomSheet(
     current: CurrentPresentation?,
+    hourlies: Result<List<HourlyPresentation>>,
     modifier: Modifier = Modifier
 ) {
+    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Row(
@@ -111,7 +117,7 @@ fun SearchBottomSheet(
         ) {
             SearchElementIcon(
                 iconRes = R.drawable.ic_wind,
-                iconTitle = R.string.search_wind_title,
+                iconTitle = R.string.search_wind_speed_title,
                 iconDescription = current?.windSpeed ?: "~~",
                 modifier = Modifier.weight(0.5f)
             )
@@ -134,7 +140,21 @@ fun SearchBottomSheet(
                 sunDuration = current?.daytimeDuration ?: ""
             )
         }
-        Spacer(modifier = Modifier.height(320.dp))
+        when (hourlies) {
+            is Result.Loading -> {
+                SearchProgressIndicator()
+            }
+            is Result.Failure -> {
+                SearchEmptyMessage()
+            }
+            is Result.Success -> {
+                CurrentHoursForecast(
+                    hourlies = hourlies.value.subList(0, hourlies.value.size / 2),
+                    modifier = modifier
+                        .fillMaxWidth()
+                )
+            }
+        }
     }
 }
 
@@ -150,7 +170,7 @@ private fun SearchElementIcon(
         modifier = modifier
             .padding(8.dp)
             .background(
-                color = Color.White.copy(alpha = 0.5f),
+                color = MaterialTheme.colors.surface.copy(alpha = 0.5f),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(8.dp)
@@ -192,7 +212,7 @@ fun SearchElementSunriseSunset(
         modifier = modifier
             .padding(8.dp)
             .background(
-                color = Color.White.copy(alpha = 0.5f),
+                color = MaterialTheme.colors.surface.copy(alpha = 0.5f),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(8.dp)
@@ -223,6 +243,29 @@ fun SearchElementSunriseSunset(
             }
             Row {
                 Text(
+                    text = stringResource(id = R.string.current_sunrise_title),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = stringResource(id = R.string.current_daylight_title),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(3f)
+                )
+                Text(
+                    text = stringResource(id = R.string.current_sunset_title),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            Row {
+                Text(
                     text = sunrise,
                     fontSize = 12.sp,
                     modifier = Modifier.weight(1f),
@@ -245,10 +288,48 @@ fun SearchElementSunriseSunset(
     }
 }
 
+@Composable
+private fun SearchEmptyMessage(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(320.dp)
+            .padding(start = 24.dp),
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = (stringResource(id = R.string.search_message_empty_hourlies_title)),
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = (stringResource(id = R.string.search_message_empty_hourlies_message)),
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Light
+        )
+    }
+}
+
+@Composable
+private fun SearchProgressIndicator(
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(320.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
 @Preview
 @Composable
 fun PreviewSearchBottomSheet() {
-    SearchBottomSheet(current = null)
+    CurrentBottomSheet(current = null, hourlies = Result.Failure(""))
 }
 
 @Preview(widthDp = 360)
