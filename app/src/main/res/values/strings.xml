@@ -20,6 +20,9 @@
     <string name="search_text_field_label">Search</string>
     <string name="search_message_empty_title">Nothing to show</string>
     <string name="search_message_empty_message">Please search a location</string>
+    <string name="search_message_empty_hourlies_title">Something went wrong</string>
+    <string name="search_message_empty_hourlies_message">Couldn\'t load hourly data</string>
+    <string name="search_message_hourlies_forecast">%d hours forecast</string>
     <string name="search_min_characters">Please input at least 3 characters</string>
     <string name="search_unknown_location">Unknown</string>
     <string name="search_temp_title">Temperature</string>
@@ -27,8 +30,19 @@
     <string name="search_rain_title">Rain amount</string>
     <string name="search_snow_title">Snow amount</string>
     <string name="search_humidity_title">Humidity</string>
-    <string name="search_wind_title">Wind speed</string>
+    <string name="search_wind_title">Wind</string>
+    <string name="search_wind_speed_title">Wind speed</string>
     <string name="search_pressure_title">Pressure</string>
     <string name="search_direction_title">Wind dir.</string>
     <string name="search_fab_save">Save</string>
+
+    // Current
+    <string name="current_sunrise_title">Sunrise</string>
+    <string name="current_sunset_title">Sunset</string>
+    <string name="current_daylight_title">Daylight</string>
+    <string name="current_precipitation_title">Precipitations</string>
+    <string name="current_probability_title">Probability</string>
+    <string name="current_amount_title">Amount</string>
+    <string name="current_delete">Delete</string>
+    <string name="current_entry_deleted">%s deleted</string>
 </resources>
