@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +26,7 @@ import androidx.navigation.NavHostController
 import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
+import es.jnsoft.whatweath.presentation.ui.common.CurrentBottomSheet
 import es.jnsoft.whatweath.presentation.ui.main.BottomNavScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel.*
 import es.jnsoft.whatweath.presentation.ui.theme.WhatWeathTheme
@@ -45,8 +45,10 @@ fun SearchScreen(
 ) {
     val events = viewModel.eventsFlow.collectAsState(initial = null)
     val searchCurrentResult = viewModel.currentPresentation.collectAsState(initial = null)
-    val searchHourlyResult = viewModel.hourlyPresentation.collectAsState(initial = null)
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val searchHourlyResult = viewModel.hourlyPresentation.collectAsState(initial = Result.Loading)
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    )
     val isCollapsed = scaffoldState.bottomSheetState.targetValue.ordinal == 0
     val bottomSheetColor = animateColorAsState(if (isCollapsed) {
         MaterialTheme.colors.surface.copy(alpha = 0.3f)
@@ -64,14 +66,18 @@ fun SearchScreen(
                 BottomSheetScaffold(
                     scaffoldState = scaffoldState,
                     sheetContent = {
-                        SearchBottomSheet(current = result.value)
+                        CurrentBottomSheet(
+                            current = result.value,
+                            hourlies = searchHourlyResult.value
+                        )
                     },
                     sheetPeekHeight = 276.dp,
                     sheetBackgroundColor = bottomSheetColor.value,
+                    //sheetBackgroundColor = MaterialTheme.colors.surface.copy(alpha = bottomSheetColor.value),
                     sheetElevation = 0.dp,
                     sheetShape = RoundedCornerShape(
-                        topStart = 12.dp,
-                        topEnd = 12.dp,
+                        topStart = 0.dp,
+                        topEnd = 0.dp,
                         bottomStart = 0.dp,
                         bottomEnd = 0.dp
                     )
@@ -84,7 +90,7 @@ fun SearchScreen(
                 SearchFloatingActionButton(
                     collapsed = isCollapsed,
                     onClick = {
-                        // TODO to be implemented
+                        viewModel.saveData()
                     },
                     modifier = Modifier
                         .align(Alignment.BottomEnd)

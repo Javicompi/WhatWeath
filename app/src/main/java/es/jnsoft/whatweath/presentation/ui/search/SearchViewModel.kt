@@ -6,8 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.SettingsRepository
-import es.jnsoft.domain.usecase.FindCurrentByNameUseCase
-import es.jnsoft.domain.usecase.FindHourliesUseCase
+import es.jnsoft.domain.usecase.*
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
@@ -23,6 +22,9 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val findCurrentByNameUseCase: FindCurrentByNameUseCase,
     private val findHourliesUseCase: FindHourliesUseCase,
+    private val saveCurrentUseCase: SaveCurrentUseCase,
+    private val saveHourliesUseCase: SaveHourliesUseCase,
+    private val setSelectedIdUseCase: SetSelectedIdUseCase,
     settingsRepository: SettingsRepository
 ) : ViewModel() {
 
@@ -62,7 +64,7 @@ class SearchViewModel @Inject constructor(
             initialValue = null
         )
 
-    val hourlyPresentation: StateFlow<Result<List<HourlyPresentation>>?> =
+    val hourlyPresentation: StateFlow<Result<List<HourlyPresentation>>> =
         combine(hourlyDomain, units) { resultSearch, selectedUnits ->
             when (resultSearch) {
                 is Result.Success -> {
@@ -75,12 +77,12 @@ class SearchViewModel @Inject constructor(
                     sendEvent(Event.ShowSnackbarString(resultSearch.message))
                     Result.Failure(resultSearch.message)
                 }
-                else -> null
+                else -> Result.Loading
             }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = null
+            initialValue = Result.Loading
         )
 
     private val eventChannel = Channel<Event>(Channel.BUFFERED)
@@ -93,6 +95,21 @@ class SearchViewModel @Inject constructor(
             } else {
                 currentDomain.value = Result.Loading
                 currentDomain.value = findCurrentByNameUseCase.invoke(name)
+            }
+        }
+    }
+
+    fun saveData() {
+        viewModelScope.launch {
+            val current = currentDomain.value
+            if (current is Result.Success) {
+                saveCurrentUseCase.invoke(current.value)
+                val hourlies = hourlyDomain.value
+                if (hourlies is Result.Success && hourlies.value.isNotEmpty()) {
+                    saveHourliesUseCase.invoke(hourlies.value)
+                }
+                setSelectedIdUseCase.invoke(current.value.id)
+                sendEvent(Event.NavigateToCurrent)
             }
         }
     }
