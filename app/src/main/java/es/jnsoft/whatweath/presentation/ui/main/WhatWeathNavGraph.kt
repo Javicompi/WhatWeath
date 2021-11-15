@@ -9,18 +9,22 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
-import es.jnsoft.whatweath.presentation.ui.CurrentScreen
+import es.jnsoft.whatweath.presentation.ui.current.CurrentScreen
+import es.jnsoft.whatweath.presentation.ui.current.CurrentViewModel
 import es.jnsoft.whatweath.presentation.ui.days.DaysScreen
 import es.jnsoft.whatweath.presentation.ui.hours.HoursScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel
 import es.jnsoft.whatweath.presentation.ui.search.SearchScreen
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 sealed class BottomNavScreen(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
     object Current : BottomNavScreen("current", R.string.screen_current, Icons.Filled.Home)
@@ -30,6 +34,7 @@ sealed class BottomNavScreen(val route: String, @StringRes val resourceId: Int, 
     object Result: BottomNavScreen("search", R.string.screen_search, Icons.Filled.Search)
 }
 
+@ExperimentalCoroutinesApi
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
 @Composable
@@ -43,7 +48,8 @@ fun WhatWeathNavGraph(
         modifier = modifier
     ) {
         composable(BottomNavScreen.Current.route) {
-            CurrentScreen()
+            val currentViewModel: CurrentViewModel = hiltViewModel()
+            CurrentScreen(currentViewModel)
         }
         composable(BottomNavScreen.Hours.route) {
             HoursScreen()
