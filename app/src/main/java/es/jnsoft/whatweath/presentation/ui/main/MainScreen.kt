@@ -31,7 +31,6 @@ import com.google.accompanist.insets.ui.Scaffold
 import com.google.accompanist.insets.ui.TopAppBar
 import es.jnsoft.domain.enums.Units
 import es.jnsoft.whatweath.R
-import es.jnsoft.whatweath.presentation.model.BasePresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -80,11 +79,13 @@ fun MainScreen() {
         },
         drawerContent = {
             WhatWeathDrawer(
-                scope = scope,
-                scaffoldState = scaffoldState,
-                navController = navController,
-                currentsFlow = mainViewModel.presentation,
-                modifier = Modifier.statusBarsPadding()
+                currentsFlow = mainViewModel.currentsPresentation,
+                modifier = Modifier.statusBarsPadding(),
+                onItemClick = {
+                    scope.launch { scaffoldState.drawerState.close() }
+                    mainViewModel.setSelectedId(it)
+                    navController.navigate(BottomNavScreen.Current.route)
+                }
             )
         }
     ) { innerPadding ->
@@ -173,11 +174,9 @@ private fun WhatWeathAppBar(
 
 @Composable
 private fun WhatWeathDrawer(
-    scope: CoroutineScope,
-    scaffoldState: ScaffoldState,
-    navController: NavHostController,
     modifier: Modifier = Modifier,
-    currentsFlow: Flow<List<CurrentPresentation>?>
+    currentsFlow: Flow<List<CurrentPresentation>?>,
+    onItemClick: (Long) -> Unit
 ) {
     val currents = currentsFlow.collectAsState(initial = emptyList()).value
     Log.d("MainScreen", "Currents: ${currents?.size}")
@@ -186,7 +185,7 @@ private fun WhatWeathDrawer(
             currents = currents,
             modifier = modifier,
             onDrawerItemClick = {
-                // TODO to be implemented
+                onItemClick(it)
             }
         )
     } else {
@@ -198,14 +197,14 @@ private fun WhatWeathDrawer(
 private fun CurrentsList(
     currents: List<CurrentPresentation>,
     modifier: Modifier = Modifier,
-    onDrawerItemClick: (BasePresentation) -> Unit
+    onDrawerItemClick: (Long) -> Unit
 ) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         modifier = modifier
     ) {
         items(currents) { current ->
-            DrawerItem(item = current, selected = false, onItemClick = onDrawerItemClick)
+            DrawerItem(item = current, selected = false, onItemClick = { onDrawerItemClick(current.id) })
         }
     }
 }
@@ -226,13 +225,13 @@ private fun EmptyList(
 private fun DrawerItem(
     item: CurrentPresentation,
     selected: Boolean,
-    onItemClick: (CurrentPresentation) -> Unit
+    onItemClick: (Long) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = { onItemClick(item) })
+            .clickable(onClick = { onItemClick(item.id) })
             .height(45.dp)
             .padding(start = 10.dp)
     ) {
