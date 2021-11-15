@@ -2,9 +2,12 @@ package es.jnsoft.framework.local.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(tableName = "hourlies", primaryKeys = arrayOf("latitude", "longitude"))
+@Entity(tableName = "hourlies")
 data class HourlyEntity(
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     @ColumnInfo(name = "clouds")
     val clouds: Int,
     @ColumnInfo(name = "delta_time")
