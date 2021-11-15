@@ -4,6 +4,8 @@ import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Hourly
 import es.jnsoft.whatweath.presentation.model.HourlyPresentation
 import java.math.RoundingMode
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.roundToInt
 
 fun Hourly.toPresentation(units: Units): HourlyPresentation {
@@ -23,6 +25,14 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
         pop = (pop * 100).roundToInt(),
         pressure = pressure,
         rain = when (units) {
+            Units.STANDARD -> rain
+            Units.METRIC -> rain
+            Units.IMPERIAL -> {
+                (rain / 25.4).toBigDecimal()
+                    .setScale(2, RoundingMode.HALF_EVEN).toDouble()
+            }
+        },
+        rainText = when (units) {
             Units.STANDARD -> "$rain mm"
             Units.METRIC -> "$rain mm"
             Units.IMPERIAL -> {
@@ -31,6 +41,14 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
             }
         },
         snow = when (units) {
+            Units.STANDARD -> snow
+            Units.METRIC -> snow
+            Units.IMPERIAL -> {
+                (snow / 25.4).toBigDecimal()
+                    .setScale(2, RoundingMode.HALF_EVEN).toDouble()
+            }
+        },
+        snowText = when (units) {
             Units.STANDARD -> "$snow mm"
             Units.METRIC -> "$snow mm"
             Units.IMPERIAL -> {
@@ -38,7 +56,11 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
                     .setScale(2, RoundingMode.HALF_EVEN).toString() + " in"
             }
         },
-        temp = temp,
+        temp = when (units) {
+            Units.STANDARD -> temp.roundToInt()
+            Units.METRIC -> (temp - 273.15).roundToInt()
+            Units.IMPERIAL -> ((temp - 273.15) * 9 / 5 + 32).roundToInt()
+        },
         tempText = when (units) {
             Units.STANDARD -> temp.roundToInt().toString() + " K"
             Units.METRIC -> (temp - 273.15).roundToInt().toString() + " ºC"
@@ -50,6 +72,7 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
             Units.IMPERIAL -> ((tempFeelsLike - 273.15) * 9 / 5 + 32).roundToInt()
                 .toString() + " ºF"
         },
+        timeText = convertLongToTime(deltaTime, timeZone),
         timeZone = timeZone,
         uvi = uvi,
         visibility = when (units) {
@@ -57,7 +80,8 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
             Units.METRIC -> (visibility / 1000).toString() + " km/s"
             Units.IMPERIAL -> (visibility / 1609).toString() + " mi/s"
         },
-        windDegrees = when {
+        windDegrees = windDegrees,
+        windDegreesText = when {
             windDegrees <= 11 -> "N"
             windDegrees <= 33 -> "NNE"
             windDegrees <= 56 -> "NE"
@@ -76,10 +100,19 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
             windDegrees <= 348 -> "NNW"
             else -> "N"
         },
-        windSpeed = when (units) {
+        windSpeed = windSpeed,
+        windSpeedText = when (units) {
             Units.STANDARD -> windSpeed.roundToInt().toString() + " ms"
             Units.METRIC -> (windSpeed * 3.6).roundToInt().toString() + " kmh"
             Units.IMPERIAL -> (windSpeed * 2.237).roundToInt().toString() + " mph"
         }
     )
+}
+
+private fun convertLongToTime(time: Long, offset: Int): String {
+    val date = Date(time)
+    date.time += offset.toLong() * 1000
+    val format = SimpleDateFormat("HH:mm")
+    format.timeZone = TimeZone.getTimeZone("UTC")
+    return format.format(date)
 }
