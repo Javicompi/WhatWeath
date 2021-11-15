@@ -4,14 +4,15 @@ import android.content.Context
 
 enum class DrawableType(val value: String) {
     FULLSCREEN("fs_"),
-    LISTELEMENT("le_")
+    LISTELEMENT("le_"),
+    ICONELEMENT("ic_")
 }
 
 object DrawableLoader {
-    fun loadDrawable(resourceName: String, type: DrawableType, context: Context): Int {
+    fun loadDrawable(resourceName: String, drawableType: DrawableType, context: Context): Int {
         return try {
             context.resources.getIdentifier(
-                type.value.plus(resourceName),
+                drawableType.value.plus(resourceName),
                 "drawable",
                 context.packageName
             )
