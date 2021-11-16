@@ -30,7 +30,7 @@ class SearchViewModel @Inject constructor(
 
     private val units = settingsRepository.getUnits()
 
-    private val currentDomain = MutableStateFlow<Result<Current>?>(null)
+    private val currentDomain = MutableStateFlow<Result<Current>>(Result.Failure(""))
 
     private val hourlyDomain = currentDomain.flatMapLatest { current ->
         flow {
@@ -42,10 +42,10 @@ class SearchViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = null
+        initialValue = Result.Loading
     )
 
-    val currentPresentation: StateFlow<Result<CurrentPresentation>?> =
+    val currentPresentation: StateFlow<Result<CurrentPresentation>> =
         combine(currentDomain, units) { resultSearch, selectedUnits ->
             when (resultSearch) {
                 is Result.Success -> {
@@ -53,15 +53,16 @@ class SearchViewModel @Inject constructor(
                 }
                 is Result.Loading -> Result.Loading
                 is Result.Failure -> {
-                    sendEvent(Event.ShowSnackbarString(resultSearch.message))
+                    if (resultSearch.message.isNotEmpty()) {
+                        sendEvent(Event.ShowSnackbarString(resultSearch.message))
+                    }
                     Result.Failure(resultSearch.message)
                 }
-                else -> null
             }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = null
+            initialValue = Result.Failure("")
         )
 
     val hourlyPresentation: StateFlow<Result<List<HourlyPresentation>>> =
@@ -74,7 +75,7 @@ class SearchViewModel @Inject constructor(
                 }
                 is Result.Loading -> Result.Loading
                 is Result.Failure -> {
-                    sendEvent(Event.ShowSnackbarString(resultSearch.message))
+                    //sendEvent(Event.ShowSnackbarString(resultSearch.message))
                     Result.Failure(resultSearch.message)
                 }
                 else -> Result.Loading
