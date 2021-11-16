@@ -1,9 +1,7 @@
 package es.jnsoft.framework.datasource.local
 
 import es.jnsoft.framework.local.HourlyLocalDataSourceImp
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.single
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -21,14 +19,28 @@ class HourlyLocalDataSourceTest {
     }
 
     @Test
+    fun emptyHourlies_retrieveEmptyList() = runBlocking {
+        val retrieved = dataSource.getHourlies(35.555, 5.555).first()
+        assert(retrieved.isEmpty())
+    }
+
+    @Test
     fun saveHourlies_retrieveHourlies() = runBlocking {
-        val cityId = 7214801L
-        val hourlies = createHourlyList(cityId)
-        //hourlyDao.saveHourlies(hourlies.mapToEntityList())
+        val hourlies = createHourlyList()
         dataSource.saveHourlies(hourlies)
-        //val retrieved = hourlyDao.getHourlies(cityId).first()
         val retrieved = dataSource.getHourlies(hourlies[0].lat, hourlies[0].lon).first()
         assert(retrieved.isNotEmpty())
         assert(retrieved[0].lat == hourlies[0].lat && retrieved[0].lon == hourlies[0].lon)
+    }
+
+    @Test
+    fun saveHourlies_retrieveHourlies_deleteHourlies() = runBlocking {
+        val hourlies = createHourlyList()
+        dataSource.saveHourlies(hourlies)
+        val retrieved = dataSource.getHourlies(hourlies[0].lat, hourlies[0].lon).first()
+        assert(retrieved.isNotEmpty() && retrieved.size == 3)
+        dataSource.deleteHourlies(retrieved)
+        val emptyData = dataSource.getHourlies(hourlies[0].lat, hourlies[0].lon).first()
+        assert(emptyData.isEmpty())
     }
 }
