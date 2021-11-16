@@ -19,9 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 @ExperimentalCoroutinesApi
 class MainViewModel @Inject constructor(
-    private val getCurrentsUseCase: GetCurrentsUseCase,
+    getCurrentsUseCase: GetCurrentsUseCase,
     private val setSelectedIdUseCase: SetSelectedIdUseCase,
-    private val getUnitsUseCase: GetUnitsUseCase,
+    getUnitsUseCase: GetUnitsUseCase,
     private val setUnitsUseCase: SetUnitsUseCase
 ) : BaseViewModel(getUnitsUseCase) {
 
