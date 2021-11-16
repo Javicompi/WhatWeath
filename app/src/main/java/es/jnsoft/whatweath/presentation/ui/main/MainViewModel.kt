@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.enums.Units
-import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.usecase.GetCurrentsUseCase
 import es.jnsoft.domain.usecase.GetUnitsUseCase
 import es.jnsoft.domain.usecase.SetSelectedIdUseCase
@@ -12,7 +11,6 @@ import es.jnsoft.domain.usecase.SetUnitsUseCase
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import es.jnsoft.whatweath.presentation.ui.base.BaseViewModel
-import es.jnsoft.whatweath.presentation.ui.base.NewBaseViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -25,7 +23,7 @@ class MainViewModel @Inject constructor(
     private val setSelectedIdUseCase: SetSelectedIdUseCase,
     private val getUnitsUseCase: GetUnitsUseCase,
     private val setUnitsUseCase: SetUnitsUseCase
-) : NewBaseViewModel(getUnitsUseCase) {
+) : BaseViewModel(getUnitsUseCase) {
 
 
     private val currentsDomain = getCurrentsUseCase.invoke(Unit)
