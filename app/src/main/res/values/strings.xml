@@ -43,6 +43,6 @@
     <string name="current_precipitation_title">Precipitations</string>
     <string name="current_probability_title">Probability</string>
     <string name="current_amount_title">Amount</string>
-    <string name="current_delete">Delete</string>
+    <string name="current_fab_delete">Delete</string>
     <string name="current_entry_deleted">%s deleted</string>
 </resources>

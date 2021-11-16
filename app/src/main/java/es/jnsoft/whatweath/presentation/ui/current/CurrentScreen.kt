@@ -35,7 +35,7 @@ fun CurrentScreen(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             AnimatedFloatingActionButton(
-                text = stringResource(id = R.string.current_delete),
+                text = stringResource(id = R.string.current_fab_delete),
                 onClick = { viewModel.deleteData() },
                 show = currentResult is Result.Success,
                 collapsed = isCollapsed
