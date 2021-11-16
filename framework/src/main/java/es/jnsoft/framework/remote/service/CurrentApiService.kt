@@ -24,4 +24,11 @@ interface CurrentApiService {
         @Query("units") units: String? = Units.STANDARD.value,
         @Query("lang") language: String = Locale.getDefault().language
     ): NetworkResponse<CurrentResponse, ErrorResponse>
+
+    @GET("weather?appid=${ApiConstants.API_KEY}")
+    suspend fun findCurrentResponseById(
+        @Query("id") id: Long,
+        @Query("units") units: String? = Units.STANDARD.value,
+        @Query("lang") language: String = Locale.getDefault().language
+    ): NetworkResponse<CurrentResponse, ErrorResponse>
 }
