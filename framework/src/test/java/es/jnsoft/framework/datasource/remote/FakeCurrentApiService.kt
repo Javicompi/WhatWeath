@@ -28,12 +28,35 @@ class FakeCurrentApiService : CurrentApiService {
         language: String
     ): NetworkResponse<CurrentResponse, ErrorResponse> {
         delay((500..2000).random().toLong())
-        return if (location.isEmpty()) {
-            NetworkResponse.ServerError(null, 400)
-        } else if (location.length <= 3) {
-            NetworkResponse.ServerError(null, 404)
-        } else {
-            NetworkResponse.Success(mockResponse(), null, 200)
+        return when {
+            location.isEmpty() -> {
+                NetworkResponse.ServerError(null, 400)
+            }
+            location.length <= 3 -> {
+                NetworkResponse.ServerError(null, 404)
+            }
+            else -> {
+                NetworkResponse.Success(mockResponse(), null, 200)
+            }
+        }
+    }
+
+    override suspend fun findCurrentResponseById(
+        id: Long,
+        units: String?,
+        language: String
+    ): NetworkResponse<CurrentResponse, ErrorResponse> {
+        delay((500..2000).random().toLong())
+        return when (id) {
+            0L -> {
+                NetworkResponse.ServerError(null, 400)
+            }
+            111111L -> {
+                NetworkResponse.ServerError(null, 404)
+            }
+            else -> {
+                NetworkResponse.Success(mockResponse(), null, 200)
+            }
         }
     }
 

@@ -71,4 +71,28 @@ class CurrentApiServiceTest {
         assert(result is NetworkResponse.ServerError)
         assert((result as NetworkResponse.ServerError).code == 404)
     }
+
+    @Test
+    fun givenOkId_networkResponse200() = runBlocking {
+        val id = 4017728L
+        val result = apiService.findCurrentResponseById(id)
+        assert(result is NetworkResponse.Success)
+        assert((result as NetworkResponse.Success).code == 200)
+    }
+
+    @Test
+    fun givenEmptyId_networkResponse400() = runBlocking {
+        val id = 0L
+        val result = apiService.findCurrentResponseById(id)
+        assert(result is NetworkResponse.ServerError)
+        assert((result as NetworkResponse.ServerError).code == 400)
+    }
+
+    @Test
+    fun givenWrongId_networkResponse404() = runBlocking {
+        val id = 111111L
+        val result = apiService.findCurrentResponseById(id)
+        assert(result is NetworkResponse.ServerError)
+        assert((result as NetworkResponse.ServerError).code == 404)
+    }
 }
