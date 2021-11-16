@@ -21,7 +21,7 @@ class CurrentRepositoryImp @Inject constructor(
             currents.first().let { list ->
                 list.map { current ->
                     if (shouldUpdate(current.deltaTime)) {
-                        val newData = remoteDataSource.findCurrentByLatLon(current.lat, current.lon)
+                        val newData = remoteDataSource.findCurrentById(current.id)
                         if (newData is Result.Success) {
                             localDataSource.saveCurrent(newData.value)
                         }
@@ -30,9 +30,6 @@ class CurrentRepositoryImp @Inject constructor(
             }
             emitAll(currents.map { CurrentDataMapper.mapToDomainList(it) })
         }
-        /*return localDataSource.getCurrents().map { list ->
-            CurrentDataMapper.mapToDomainList(list)
-        }*/
     }
 
     override fun getCurrentById(id: Long): Flow<Current?> {
@@ -40,7 +37,7 @@ class CurrentRepositoryImp @Inject constructor(
             val current = localDataSource.getCurrentById(id)
             current.first()?.let { value ->
                 if (shouldUpdate(value.deltaTime)) {
-                    val newData = remoteDataSource.findCurrentByLatLon(value.lat, value.lon)
+                    val newData = remoteDataSource.findCurrentById(value.id)
                     if (newData is Result.Success) {
                         localDataSource.saveCurrent(newData.value)
                     }
@@ -50,10 +47,6 @@ class CurrentRepositoryImp @Inject constructor(
                 value?.let { CurrentDataMapper.mapToDomain(it) }
             })
         }
-        /*val data = localDataSource.getCurrentById(id)
-        return data.map {
-            if (it != null) CurrentDataMapper.mapToDomain(it) else null
-        }*/
     }
 
     override suspend fun saveCurrent(current: Current) {
