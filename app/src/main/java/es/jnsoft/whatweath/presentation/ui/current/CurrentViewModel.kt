@@ -8,7 +8,7 @@ import es.jnsoft.domain.usecase.*
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import es.jnsoft.whatweath.presentation.model.HourlyPresentation
-import es.jnsoft.whatweath.presentation.ui.base.NewBaseViewModel
+import es.jnsoft.whatweath.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -23,14 +23,19 @@ class CurrentViewModel @Inject constructor(
     private val deleteHourliesUseCase: DeleteHourliesUseCase,
     getUnitsUseCase: GetUnitsUseCase,
     getSelectedIdUseCase: GetSelectedIdUseCase
-) : NewBaseViewModel(getUnitsUseCase) {
+) : BaseViewModel(getUnitsUseCase) {
 
     private val currentDomain = getSelectedIdUseCase.invoke(Unit).flatMapLatest { id ->
         getCurrentByIdUseCase.invoke(id)
     }
 
     private val hourlyDomain = currentDomain.flatMapLatest { current ->
-        current?.let { getHourliesUseCase.invoke(current.location) } ?: flow { listOf<Hourly>() }
+        //current?.let { getHourliesUseCase.invoke(current.location) } ?: flow { listOf<Hourly>() }
+        flow {
+            current?.let {
+                emitAll(getHourliesUseCase.invoke(it.location))
+            } ?: listOf<Hourly>()
+        }
     }
 
     val currentPresentation: StateFlow<Result<CurrentPresentation>> =
