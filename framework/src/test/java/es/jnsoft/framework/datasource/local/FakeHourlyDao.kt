@@ -9,30 +9,23 @@ class FakeHourlyDao : HourlyDao {
 
     private var savedHourlies: MutableList<HourlyEntity> = mutableListOf()
 
-    private var primaryKey = 1L
-
-    override fun getHourlies(cityId: Long): Flow<List<HourlyEntity>> {
+    override fun getHourlies(lat: Double, lon: Double): Flow<List<HourlyEntity>> {
         return flow {
-            val hourlies = savedHourlies.filter { it.cityId == cityId }
+            val hourlies = savedHourlies.filter { it.latitude == lat && it.longitude == lon }
             emit(hourlies)
-            //emit(savedHourlies/*.filter { it.cityId == cityId }*/)
         }
     }
 
     override suspend fun saveHourlies(hourlies: List<HourlyEntity>) {
-        /*savedHourlies.removeAll { it.cityId == hourlies[0].cityId }
-        val newHourlies: List<HourlyEntity> = hourlies.map { hourly ->
-            if (hourly.id == 0L) {
-                primaryKey++
-                hourly.copy(id = primaryKey)
-            } else {
-                hourly
-            }
-        }*/
+        if (savedHourlies.isNotEmpty()) {
+            val lat = hourlies[0].latitude
+            val lon = hourlies[0].longitude
+            savedHourlies.removeIf { it.latitude == lat && it.longitude == lon }
+        }
         savedHourlies.addAll(hourlies)
     }
 
-    override suspend fun deleteHourlies(cityId: Long) {
-        savedHourlies.removeAll { it.cityId == cityId }
+    override suspend fun deleteHourlies(lat: Double, lon: Double) {
+        savedHourlies.removeAll { it.latitude == lat && lon == lon }
     }
 }
