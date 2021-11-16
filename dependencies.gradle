@@ -48,6 +48,9 @@ ext {
     // Lifecycle Compose
     lifecycleComposeVersion = '1.0.0-alpha07'
 
+    // WorkManager
+    workManagerVersion = '2.7.0'
+
     appDependencies = [
             hiltCore                : "com.google.dagger:hilt-android:$hiltVersion",
             hiltCompiler            : "com.google.dagger:hilt-android-compiler:$hiltVersion",
@@ -88,6 +91,7 @@ ext {
             androidxTestCore      : "androidx.test:core-ktx:$androidxTestCoreVersion",
             androidxTestRunner    : "androidx.test:runner:$androidxTestRunnerVersion",
             androidxTestRules     : "androidx.test:rules:$androidxTestRulesVersion",
-            androidxTestExt       : "androidx.test.ext:junit-ktx:$androidxTestExtJunitVersion"
+            androidxTestExt       : "androidx.test.ext:junit-ktx:$androidxTestExtJunitVersion",
+            workManager           : "androidx.work:work-runtime-ktx:$workManagerVersion"
     ]
 }
