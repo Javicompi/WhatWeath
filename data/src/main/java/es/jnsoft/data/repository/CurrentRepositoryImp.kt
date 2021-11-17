@@ -18,16 +18,7 @@ class CurrentRepositoryImp @Inject constructor(
     override fun getCurrents(): Flow<List<Current>> {
         return flow {
             val currents = localDataSource.getCurrents()
-            currents.first().let { list ->
-                list.map { current ->
-                    if (shouldUpdate(current.deltaTime)) {
-                        val newData = remoteDataSource.findCurrentById(current.id)
-                        if (newData is Result.Success) {
-                            localDataSource.saveCurrent(newData.value)
-                        }
-                    }
-                }
-            }
+            if (currents.first().isNotEmpty()) updateCurrents()
             emitAll(currents.map { CurrentDataMapper.mapToDomainList(it) })
         }
     }
