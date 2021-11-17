@@ -7,8 +7,8 @@ ext {
     composeVersion = '1.0.4'
 
     // Android Core
-    compileSDKVersion = 30
-    targetSDKVersion = 30
+    compileSDKVersion = 31
+    targetSDKVersion = 31
     minSDKVersion = 23
 
     // Coroutines
@@ -31,9 +31,9 @@ ext {
     turbineVersion = '0.6.0'
     mockitoVersion = '3.12.1'
 
-    // Hilt
-    hiltVersion = '2.38.1'
-    androidxHiltVersion = '1.0.0-alpha01'
+    hiltVersion = '2.40.1'
+    androidxHiltVersion = '1.0.0'
+    hiltViewModelVersion = '1.0.0-alpha01'
     hiltNavigationVersion = '1.0.0-alpha03'
 
     // Navigation
@@ -54,7 +54,9 @@ ext {
     appDependencies = [
             hiltCore                : "com.google.dagger:hilt-android:$hiltVersion",
             hiltCompiler            : "com.google.dagger:hilt-android-compiler:$hiltVersion",
-            androidxHiltLifecycle   : "androidx.hilt:hilt-lifecycle-viewmodel:$androidxHiltVersion",
+            workManager             : "androidx.work:work-runtime-ktx:$workManagerVersion",
+            androidXHiltWork        : "androidx.hilt:hilt-work:$androidxHiltVersion",
+            androidxHiltLifecycle   : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewModelVersion",
             androidxHiltCompiler    : "androidx.hilt:hilt-compiler:$androidxHiltVersion",
             androidxHiltNavigation  : "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion",
             androidxArchCore        : "androidx.arch.core:core-testing:$androidxArchCoreVersion",
@@ -91,7 +93,6 @@ ext {
             androidxTestCore      : "androidx.test:core-ktx:$androidxTestCoreVersion",
             androidxTestRunner    : "androidx.test:runner:$androidxTestRunnerVersion",
             androidxTestRules     : "androidx.test:rules:$androidxTestRulesVersion",
-            androidxTestExt       : "androidx.test.ext:junit-ktx:$androidxTestExtJunitVersion",
-            workManager           : "androidx.work:work-runtime-ktx:$workManagerVersion"
+            androidxTestExt       : "androidx.test.ext:junit-ktx:$androidxTestExtJunitVersion"
     ]
 }

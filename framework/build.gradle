@@ -68,9 +68,6 @@ dependencies {
     // DataStore
     api frameworkDependencies.dataStorePreferences
 
-    // WorkManager
-    api frameworkDependencies.workManager
-
     // Test
     testImplementation frameworkDependencies.roomTesting
     androidTestImplementation frameworkDependencies.androidxTestCore
