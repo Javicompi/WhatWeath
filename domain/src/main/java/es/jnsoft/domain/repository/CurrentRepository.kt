@@ -14,6 +14,8 @@ interface CurrentRepository {
 
     suspend fun deleteCurrent(current: Current)
 
+    suspend fun updateCurrents()
+
     suspend fun findCurrentByLatLon(lat: Double, lon: Double): Result<Current>
 
     suspend fun findCurrentByName(name: String): Result<Current>
