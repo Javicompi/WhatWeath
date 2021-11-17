@@ -38,8 +38,10 @@ class WhatWeathApplication : Application(), Configuration.Provider {
             .setRequiresBatteryNotLow(true)
             .build()
         val repeatingRequest =
-            PeriodicWorkRequestBuilder<CurrentUpdateWorker>(60, TimeUnit.MINUTES)
-                .setConstraints(constraints)
+            PeriodicWorkRequestBuilder<CurrentUpdateWorker>(
+                90, TimeUnit.MINUTES,
+                30, TimeUnit.MINUTES
+            ).setConstraints(constraints)
                 .build()
         WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
             CurrentUpdateWorker.WORK_NAME,
