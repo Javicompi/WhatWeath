@@ -3,24 +3,24 @@ package es.jnsoft.whatweath.di
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
 import es.jnsoft.framework.local.dao.CurrentDao
 import es.jnsoft.framework.local.dao.HourlyDao
 import es.jnsoft.framework.local.database.AppDatabase
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object DaoModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideCurrentDao(database: AppDatabase): CurrentDao {
         return database.currentDao()
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideHourlyDao(database: AppDatabase): HourlyDao {
         return database.hourlyDao()
     }
