@@ -76,9 +76,14 @@ dependencies {
     // Hilt
     implementation appDependencies.hiltCore
     kapt appDependencies.hiltCompiler
+    implementation appDependencies.androidXHiltWork
     implementation appDependencies.androidxHiltLifecycle
     kapt appDependencies.androidxHiltCompiler
     implementation appDependencies.androidxHiltNavigation
+
+    // WorkManager
+    implementation appDependencies.workManager
+    androidTestImplementation appDependencies.androidxWorkTesting
 
     // Navigation
     implementation appDependencies.navigation

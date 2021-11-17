@@ -56,6 +56,7 @@ ext {
             hiltCompiler            : "com.google.dagger:hilt-android-compiler:$hiltVersion",
             workManager             : "androidx.work:work-runtime-ktx:$workManagerVersion",
             androidXHiltWork        : "androidx.hilt:hilt-work:$androidxHiltVersion",
+            androidxWorkTesting     : "androidx.work:work-testing:$workManagerVersion",
             androidxHiltLifecycle   : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewModelVersion",
             androidxHiltCompiler    : "androidx.hilt:hilt-compiler:$androidxHiltVersion",
             androidxHiltNavigation  : "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion",
