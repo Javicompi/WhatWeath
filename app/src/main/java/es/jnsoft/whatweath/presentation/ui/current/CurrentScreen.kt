@@ -7,12 +7,14 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.ui.common.AnimatedFloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
@@ -29,14 +31,20 @@ fun CurrentScreen(
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     )
-    val isCollapsed = bottomSheetScaffoldState.bottomSheetState.targetValue.ordinal == 0
+    val isCollapsed = bottomSheetScaffoldState.bottomSheetState.isCollapsed
+    val scope = rememberCoroutineScope()
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             AnimatedFloatingActionButton(
                 text = stringResource(id = R.string.current_fab_delete),
-                onClick = { viewModel.deleteData() },
+                onClick = {
+                    if (!isCollapsed) scope.launch {
+                        bottomSheetScaffoldState.bottomSheetState.collapse()
+                    }
+                    viewModel.deleteData()
+                },
                 show = currentResult is Result.Success,
                 collapsed = isCollapsed
             )
