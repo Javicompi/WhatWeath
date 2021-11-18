@@ -20,5 +20,7 @@ interface CurrentRepository {
 
     suspend fun findCurrentByName(name: String): Result<Current>
 
+    suspend fun findCurrentById(id: Long): Result<Current>
+
     fun shouldUpdate(deltaTime: Long): Boolean
 }

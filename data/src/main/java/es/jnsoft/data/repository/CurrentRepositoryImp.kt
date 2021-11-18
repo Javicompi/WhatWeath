@@ -78,6 +78,14 @@ class CurrentRepositoryImp @Inject constructor(
         }
     }
 
+    override suspend fun findCurrentById(id: Long): Result<Current> {
+        return when (val result = remoteDataSource.findCurrentById(id)) {
+            is Result.Success -> Result.Success(CurrentDataMapper.mapToDomain(result.value))
+            is Result.Failure -> result
+            is Result.Loading -> result
+        }
+    }
+
     override fun shouldUpdate(deltaTime: Long): Boolean {
         val currentTime = System.currentTimeMillis()
         return currentTime - deltaTime >= TimeUnit.HOURS.toMillis(1)
