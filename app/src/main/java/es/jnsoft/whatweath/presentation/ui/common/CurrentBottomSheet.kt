@@ -149,7 +149,6 @@ fun CurrentBottomSheet(
             }
             is Result.Success -> {
                 CurrentHoursForecast(
-                    //hourlies = hourlies.value.subList(0, hourlies.value.size / 2),
                     hourlies = hourlies.value,
                     modifier = modifier
                         .fillMaxWidth()
