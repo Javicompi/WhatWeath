@@ -26,7 +26,12 @@ class HourlyRepositoryImp @Inject constructor(
                     }
                 }
             }
-            emitAll(hourlies.map { HourlyDataMapper.mapToDomainList(it) })
+            val currentTime = System.currentTimeMillis()
+            val endTime = currentTime.plus(TimeUnit.HOURS.toMillis(24L))
+            emitAll(hourlies.map { list ->
+                list.filter { it.deltaTime in currentTime until endTime }
+                    .map { HourlyDataMapper.mapToDomain(it) }
+            })
         }
     }
 
