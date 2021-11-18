@@ -1,6 +1,5 @@
 package es.jnsoft.whatweath.presentation.ui.main
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -18,7 +17,7 @@ import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 @Composable
 fun DrawerItem(
     current: CurrentPresentation,
-    onDrawerItemClick: (Long) -> Unit,
+    isSelected: Boolean,
     modifier: Modifier = Modifier
 ) {
     val backgroundColor = when (current.icon) {
@@ -38,17 +37,14 @@ fun DrawerItem(
         else -> { Color(0xFF000000) }
     }
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(180.dp)
-            .padding(12.dp),
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = backgroundColor
+        backgroundColor = backgroundColor,
+        elevation = if (isSelected) 0.dp else 4.dp,
+        modifier = modifier
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { onDrawerItemClick(current.id) }
                 .padding(20.dp)
         ) {
             Text(
@@ -78,7 +74,7 @@ fun DrawerItem(
 fun PreviewDrawerItem() {
     DrawerItem(
         current = mockCurrentPresentation(),
-        onDrawerItemClick = { },
+        isSelected = false,
         modifier = Modifier
             .fillMaxWidth()
             .height(240.dp)
