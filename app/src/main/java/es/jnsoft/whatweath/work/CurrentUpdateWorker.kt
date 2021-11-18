@@ -9,9 +9,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import es.jnsoft.domain.repository.CurrentRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
-import java.util.*
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class CurrentUpdateWorker @AssistedInject constructor(
@@ -22,10 +22,22 @@ class CurrentUpdateWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            repository.updateCurrents()
-            val format = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val message = format.format(Date(System.currentTimeMillis()))
-            Log.d(this.javaClass.simpleName, "CurrentUpdateWorker executed at: $message")
+            val currents = repository.getCurrents().first()
+            if (currents.isNotEmpty()) {
+                val currentTime = System.currentTimeMillis()
+                currents.map { current ->
+                    if (currentTime - current.deltaTime >= TimeUnit.HOURS.toMillis(1)) {
+                        val currentResult = repository.findCurrentById(current.id)
+                        if (currentResult is es.jnsoft.domain.model.Result.Success) {
+                            repository.saveCurrent(currentResult.value)
+                        } else {
+                            Result.retry()
+                        }
+                    }
+                }
+            } else {
+                Result.success()
+            }
             Result.success()
         } catch (ex: Exception) {
             Log.e(this.javaClass.simpleName, "Error updating currents", ex)
