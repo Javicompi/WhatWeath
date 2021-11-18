@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -32,7 +33,6 @@ import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 @ExperimentalMaterialApi
@@ -41,6 +41,8 @@ import kotlinx.coroutines.launch
 @ExperimentalCoroutinesApi
 fun MainScreen() {
     val mainViewModel: MainViewModel = hiltViewModel()
+    val currents = mainViewModel.currentsPresentation.collectAsState(initial = listOf())
+    val selectedId = mainViewModel.selectedId.collectAsState(initial = 0L)
     val scaffoldState =
         rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
     val scope = rememberCoroutineScope()
@@ -77,13 +79,14 @@ fun MainScreen() {
         },
         drawerContent = {
             WhatWeathDrawer(
-                currentsFlow = mainViewModel.currentsPresentation,
-                modifier = Modifier.statusBarsPadding(),
+                currents = currents.value,
+                selectedId = selectedId.value,
                 onItemClick = {
                     scope.launch { scaffoldState.drawerState.close() }
                     mainViewModel.setSelectedId(it)
                     navController.navigate(BottomNavScreen.Current.route)
-                }
+                },
+                modifier = Modifier.statusBarsPadding()
             )
         }
     ) { innerPadding ->
@@ -112,7 +115,9 @@ private fun WhatWeathAppBottomNavigation(
                 onClick = {
                     if (currentDestination?.route != screen.route) {
                         navController.navigate(screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
                             launchSingleTop = true
                             restoreState = true
                         }
@@ -172,19 +177,20 @@ private fun WhatWeathAppBar(
 
 @Composable
 private fun WhatWeathDrawer(
-    modifier: Modifier = Modifier,
-    currentsFlow: Flow<List<CurrentPresentation>?>,
-    onItemClick: (Long) -> Unit
+    currents: List<CurrentPresentation>,
+    selectedId: Long,
+    onItemClick: (Long) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val currents = currentsFlow.collectAsState(initial = emptyList()).value
-    Log.d("MainScreen", "Currents: ${currents?.size}")
-    if (currents != null && currents.isNotEmpty()) {
+    Log.d("MainScreen", "Currents: ${currents.size}")
+    if (currents.isNotEmpty()) {
         CurrentsList(
             currents = currents,
-            modifier = modifier,
+            selectedId = selectedId,
             onDrawerItemClick = {
                 onItemClick(it)
-            }
+            },
+            modifier = modifier
         )
     } else {
         EmptyList()
@@ -194,8 +200,9 @@ private fun WhatWeathDrawer(
 @Composable
 private fun CurrentsList(
     currents: List<CurrentPresentation>,
-    modifier: Modifier = Modifier,
-    onDrawerItemClick: (Long) -> Unit
+    selectedId: Long,
+    onDrawerItemClick: (Long) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
         contentPadding = PaddingValues(horizontal = 8.dp, vertical = 8.dp),
@@ -203,9 +210,20 @@ private fun CurrentsList(
         modifier = modifier
     ) {
         items(currents) { current ->
+            val isSelected = current.id == selectedId
             DrawerItem(
                 current = current,
-                onDrawerItemClick = { onDrawerItemClick(it) }
+                isSelected = isSelected,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(180.dp)
+                    .padding(12.dp)
+                    .selectable(
+                        selected = isSelected,
+                        onClick = {
+                            onDrawerItemClick(current.id)
+                        }
+                    )
             )
         }
     }
@@ -222,26 +240,6 @@ private fun EmptyList(
         )
     }
 }
-
-/*@Composable
-private fun DrawerItem(
-    item: CurrentPresentation,
-    selected: Boolean,
-    onItemClick: (Long) -> Unit
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = { onItemClick(item.id) })
-            .height(45.dp)
-            .padding(start = 10.dp)
-    ) {
-        Text(text = item.name, fontSize = 18.sp)
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = item.description, fontSize = 18.sp)
-    }
-}*/
 
 @ExperimentalMaterialApi
 @ExperimentalAnimationApi
