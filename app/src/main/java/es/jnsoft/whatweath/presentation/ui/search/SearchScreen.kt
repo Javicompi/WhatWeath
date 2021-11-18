@@ -35,7 +35,7 @@ fun SearchScreen(
         bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed),
         snackbarHostState = SnackbarHostState()
     )
-    val isCollapsed = bottomSheetScaffoldState.bottomSheetState.targetValue.ordinal == 0
+    val isCollapsed = bottomSheetScaffoldState.bottomSheetState.isCollapsed
     val resources = LocalContext.current.resources
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
