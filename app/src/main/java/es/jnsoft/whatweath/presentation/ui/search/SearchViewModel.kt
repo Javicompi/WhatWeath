@@ -69,13 +69,12 @@ class SearchViewModel @Inject constructor(
         combine(hourlyDomain, units) { resultSearch, selectedUnits ->
             when (resultSearch) {
                 is Result.Success -> {
-                    Result.Success(resultSearch.value.map { hourly ->
+                    Result.Success(resultSearch.value.subList(1, 25).map { hourly ->
                         hourly.toPresentation(selectedUnits)
                     })
                 }
                 is Result.Loading -> Result.Loading
                 is Result.Failure -> {
-                    //sendEvent(Event.ShowSnackbarString(resultSearch.message))
                     Result.Failure(resultSearch.message)
                 }
                 else -> Result.Loading
