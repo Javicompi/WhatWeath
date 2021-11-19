@@ -18,20 +18,8 @@ class HourlyRepositoryImp @Inject constructor(
     override fun getHourlies(lat: Double, lon: Double): Flow<List<Hourly>> {
         return flow {
             val hourlies = localDataSource.getHourlies(lat, lon)
-            hourlies.first().let { list ->
-                if (list.isEmpty() || shouldUpdate(list[0].deltaTime)) {
-                    val newHourlies = remoteDataSource.findHourly(lat, lon)
-                    if (newHourlies is Result.Success) {
-                        localDataSource.saveHourlies(newHourlies.value)
-                    }
-                }
-            }
-            val currentTime = System.currentTimeMillis()
-            val endTime = currentTime.plus(TimeUnit.HOURS.toMillis(24L))
-            emitAll(hourlies.map { list ->
-                list.filter { it.deltaTime in currentTime until endTime }
-                    .map { HourlyDataMapper.mapToDomain(it) }
-            })
+            if (hourlies.first().isNotEmpty()) updateHourlies(lat, lon)
+            emitAll(hourlies.map { HourlyDataMapper.mapToDomainList(it) })
         }
     }
 
@@ -50,6 +38,13 @@ class HourlyRepositoryImp @Inject constructor(
             }
             is Result.Failure -> result
             is Result.Loading -> result
+        }
+    }
+
+    override suspend fun updateHourlies(lat: Double, lon: Double) {
+        val newHourlies = remoteDataSource.findHourly(lat, lon)
+        if (newHourlies is Result.Success) {
+            localDataSource.saveHourlies(newHourlies.value)
         }
     }
 

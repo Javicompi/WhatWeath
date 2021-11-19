@@ -12,6 +12,7 @@ import es.jnsoft.whatweath.presentation.ui.base.BaseViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,7 +31,6 @@ class CurrentViewModel @Inject constructor(
     }
 
     private val hourlyDomain = currentDomain.flatMapLatest { current ->
-        //current?.let { getHourliesUseCase.invoke(current.location) } ?: flow { listOf<Hourly>() }
         flow {
             current?.let {
                 emitAll(getHourliesUseCase.invoke(it.location))
@@ -56,7 +56,11 @@ class CurrentViewModel @Inject constructor(
             if (hourlies.isNullOrEmpty()) {
                 Result.Failure("")
             } else {
-                Result.Success(hourlies.map { it.toPresentation(selectedUnits) })
+                Result.Success(hourlies.filter { hourly ->
+                    val currentTime = System.currentTimeMillis()
+                    val nextTime = currentTime.plus(TimeUnit.HOURS.toMillis(24L))
+                    hourly.deltaTime in currentTime until nextTime
+                }.map { it.toPresentation(selectedUnits) })
             }
         }.stateIn(
             scope = viewModelScope,
