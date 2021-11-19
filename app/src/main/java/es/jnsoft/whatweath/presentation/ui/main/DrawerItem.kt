@@ -40,7 +40,9 @@ fun DrawerItem(
         shape = RoundedCornerShape(16.dp),
         backgroundColor = backgroundColor,
         elevation = if (isSelected) 0.dp else 4.dp,
-        modifier = modifier
+        modifier = modifier.padding(
+            if (isSelected) 6.dp else 0.dp
+        )
     ) {
         Box(
             modifier = Modifier
