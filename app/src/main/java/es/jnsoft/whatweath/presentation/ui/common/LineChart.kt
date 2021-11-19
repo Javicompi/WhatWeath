@@ -33,32 +33,30 @@ fun LineChart(
         }
         var currentXOffset = 0f
         val strokeWidth = 10.0f
-        entries.forEachIndexed { index, entry ->
-            if (index == 0) {
-                drawLine(
-                    start = Offset(
-                        x = currentXOffset,
-                        y = calculateYCoordinate(
-                            minEntryValue,
-                            maxEntryValue,
-                            entry.entryValue,
-                            canvasHeight
-                        )
-                    ),
-                    end = Offset(
-                        x = currentXOffset + (lineDistance / 2),
-                        y = calculateYCoordinate(
-                            minEntryValue,
-                            maxEntryValue,
-                            entry.entryValue,
-                            canvasHeight
-                        )
-                    ),
-                    color = contentColor,
-                    strokeWidth = strokeWidth
+        drawLine(
+            start = Offset(
+                x = currentXOffset,
+                y = calculateYCoordinate(
+                    minEntryValue,
+                    maxEntryValue,
+                    entries.first().entryValue,
+                    canvasHeight
                 )
-                currentXOffset += lineDistance / 2
-            }
+            ),
+            end = Offset(
+                x = currentXOffset + (lineDistance / 2),
+                y = calculateYCoordinate(
+                    minEntryValue,
+                    maxEntryValue,
+                    entries.first().entryValue,
+                    canvasHeight
+                )
+            ),
+            color = contentColor,
+            strokeWidth = strokeWidth
+        )
+        currentXOffset += lineDistance / 2
+        entries.forEachIndexed { index, entry ->
             if (index <= entries.size - 2) {
                 drawLine(
                     start = Offset(
@@ -94,32 +92,30 @@ fun LineChart(
                 ) - size.height * 0.15f,
                 textPaint
             )
-            if (index == entries.size - 1) {
-                drawLine(
-                    start = Offset(
-                        x = currentXOffset,
-                        y = calculateYCoordinate(
-                            minEntryValue,
-                            maxEntryValue,
-                            entry.entryValue,
-                            canvasHeight
-                        )
-                    ),
-                    end = Offset(
-                        x = currentXOffset + (lineDistance / 2),
-                        y = calculateYCoordinate(
-                            minEntryValue,
-                            maxEntryValue,
-                            entry.entryValue,
-                            canvasHeight
-                        )
-                    ),
-                    color = contentColor,
-                    strokeWidth = strokeWidth
-                )
-            }
             currentXOffset += lineDistance
         }
+        drawLine(
+            start = Offset(
+                x = currentXOffset - lineDistance,
+                y = calculateYCoordinate(
+                    minEntryValue,
+                    maxEntryValue,
+                    entries.last().entryValue,
+                    canvasHeight
+                )
+            ),
+            end = Offset(
+                x = currentXOffset + (lineDistance / 2),
+                y = calculateYCoordinate(
+                    minEntryValue,
+                    maxEntryValue,
+                    entries.last().entryValue,
+                    canvasHeight
+                )
+            ),
+            color = contentColor,
+            strokeWidth = strokeWidth
+        )
     }
 }
 
