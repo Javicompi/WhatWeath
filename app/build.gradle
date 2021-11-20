@@ -90,9 +90,7 @@ dependencies {
 
     // Lifecycle
     implementation appDependencies.lifecycle
-
-    // Lifecycle Compose
-    implementation appDependencies.lifecycleCompose
+    implementation appDependencies.lifecycleViewModelCompose
 
     // Moshi
     implementation appDependencies.moshi

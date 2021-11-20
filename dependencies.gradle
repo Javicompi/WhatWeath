@@ -43,34 +43,31 @@ ext {
     accompanistVersion = '0.17.0'
 
     // Lifecycle
-    lifecycleVersion = '2.4.0-alpha02'
-
-    // Lifecycle Compose
-    lifecycleComposeVersion = '1.0.0-alpha07'
+    lifecycleVersion = '2.4.0'
 
     // WorkManager
     workManagerVersion = '2.7.0'
 
     appDependencies = [
-            hiltCore                : "com.google.dagger:hilt-android:$hiltVersion",
-            hiltCompiler            : "com.google.dagger:hilt-android-compiler:$hiltVersion",
-            workManager             : "androidx.work:work-runtime-ktx:$workManagerVersion",
-            androidXHiltWork        : "androidx.hilt:hilt-work:$androidxHiltVersion",
-            androidxWorkTesting     : "androidx.work:work-testing:$workManagerVersion",
-            androidxHiltLifecycle   : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewModelVersion",
-            androidxHiltCompiler    : "androidx.hilt:hilt-compiler:$androidxHiltVersion",
-            androidxHiltNavigation  : "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion",
-            androidxArchCore        : "androidx.arch.core:core-testing:$androidxArchCoreVersion",
-            kotlinxCoroutinesTest   : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesCoreVersion",
-            turbine                 : "app.cash.turbine:turbine:$turbineVersion",
-            mockito                 : "org.mockito:mockito-core:$mockitoVersion",
-            mockitoInline           : "org.mockito:mockito-inline:$mockitoVersion",
-            navigation              : "androidx.navigation:navigation-compose:$navigationVersion",
-            lifecycle               : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
-            lifecycleCompose        : "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleComposeVersion",
-            accompanistInsets       : "com.google.accompanist:accompanist-insets:$accompanistVersion",
-            accompanistInsetsUi     : "com.google.accompanist:accompanist-insets-ui:$accompanistVersion",
-            moshi                   : "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+            hiltCore                  : "com.google.dagger:hilt-android:$hiltVersion",
+            hiltCompiler              : "com.google.dagger:hilt-android-compiler:$hiltVersion",
+            workManager               : "androidx.work:work-runtime-ktx:$workManagerVersion",
+            androidXHiltWork          : "androidx.hilt:hilt-work:$androidxHiltVersion",
+            androidxWorkTesting       : "androidx.work:work-testing:$workManagerVersion",
+            androidxHiltLifecycle     : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewModelVersion",
+            androidxHiltCompiler      : "androidx.hilt:hilt-compiler:$androidxHiltVersion",
+            androidxHiltNavigation    : "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion",
+            androidxArchCore          : "androidx.arch.core:core-testing:$androidxArchCoreVersion",
+            kotlinxCoroutinesTest     : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesCoreVersion",
+            turbine                   : "app.cash.turbine:turbine:$turbineVersion",
+            mockito                   : "org.mockito:mockito-core:$mockitoVersion",
+            mockitoInline             : "org.mockito:mockito-inline:$mockitoVersion",
+            navigation                : "androidx.navigation:navigation-compose:$navigationVersion",
+            lifecycle                 : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
+            lifecycleViewModelCompose : "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion",
+            accompanistInsets         : "com.google.accompanist:accompanist-insets:$accompanistVersion",
+            accompanistInsetsUi       : "com.google.accompanist:accompanist-insets-ui:$accompanistVersion",
+            moshi                     : "com.squareup.moshi:moshi-kotlin:$moshiVersion"
     ]
 
     commonDependencies = [
