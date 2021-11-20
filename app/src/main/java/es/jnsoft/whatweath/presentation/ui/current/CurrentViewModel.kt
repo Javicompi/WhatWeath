@@ -1,5 +1,6 @@
 package es.jnsoft.whatweath.presentation.ui.current
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.model.Hourly
@@ -67,6 +68,10 @@ class CurrentViewModel @Inject constructor(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = Result.Loading
         )
+
+    fun onStart() {
+        Log.d("CurrentViewModel", "En onStart")
+    }
 
     fun deleteData() {
         viewModelScope.launch {
