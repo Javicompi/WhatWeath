@@ -180,6 +180,23 @@ fun CurrentHoursForecast(
                     modifier = Modifier.padding(top = 16.dp, start = 72.dp)
                 ) {
                     Text(
+                        text = stringResource(id = R.string.current_amount_title),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp
+                    )
+                }
+                FilledChart(
+                    entries = precipitationEntries,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .padding(top = 24.dp),
+                    contentColor = MaterialTheme.colors.onSurface
+                )
+                Row(
+                    modifier = Modifier.padding(top = 16.dp, start = 72.dp)
+                ) {
+                    Text(
                         text = stringResource(id = R.string.current_probability_title),
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp
@@ -201,23 +218,6 @@ fun CurrentHoursForecast(
                         )
                     }
                 }
-                Row(
-                    modifier = Modifier.padding(top = 16.dp, start = 72.dp)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.current_amount_title),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp
-                    )
-                }
-                FilledChart(
-                    entries = precipitationEntries,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                        .padding(top = 24.dp),
-                    contentColor = MaterialTheme.colors.onSurface
-                )
                 Spacer(modifier = Modifier.height(80.dp))
             }
         }
