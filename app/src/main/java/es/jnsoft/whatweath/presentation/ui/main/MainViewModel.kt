@@ -18,6 +18,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     getSelectedIdUseCase: GetSelectedIdUseCase,
     getCurrentsUseCase: GetCurrentsUseCase,
+    getCurrentByIdUseCase: GetCurrentByIdUseCase,
     private val setSelectedIdUseCase: SetSelectedIdUseCase,
     getUnitsUseCase: GetUnitsUseCase,
     private val setUnitsUseCase: SetUnitsUseCase
@@ -28,6 +29,10 @@ class MainViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = 0L
     )
+
+    val currentDomain = selectedId.flatMapLatest { id ->
+        getCurrentByIdUseCase.invoke(id)
+    }
 
     private val currentsDomain = getCurrentsUseCase.invoke(Unit)
 

@@ -43,6 +43,7 @@ fun MainScreen() {
     val mainViewModel: MainViewModel = hiltViewModel()
     val currents = mainViewModel.currentsPresentation.collectAsState(initial = listOf())
     val selectedId = mainViewModel.selectedId.collectAsState(initial = 0L)
+    val current = mainViewModel.currentDomain.collectAsState(initial = null)
     val scaffoldState =
         rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
     val scope = rememberCoroutineScope()
@@ -64,6 +65,7 @@ fun MainScreen() {
             WhatWeathAppBar(
                 scope = scope,
                 scaffoldState = scaffoldState,
+                title = current.value?.name ?: stringResource(id = R.string.app_name),
                 menuActions = menuActions,
                 onMenuItemClick = { mainViewModel.setUnits(units = it) },
                 modifier = Modifier.statusBarsPadding(),
@@ -130,15 +132,16 @@ private fun WhatWeathAppBottomNavigation(
 
 @Composable
 private fun WhatWeathAppBar(
-    modifier: Modifier = Modifier,
     scope: CoroutineScope,
     scaffoldState: ScaffoldState,
+    title: String,
     menuActions: List<MenuAction>,
     onMenuItemClick: (Units) -> Unit,
-    navController: NavController
+    navController: NavController,
+    modifier: Modifier = Modifier,
 ) {
     TopAppBar(
-        title = { Text(text = stringResource(id = R.string.app_name)) },
+        title = { Text(text = title) },
         navigationIcon = {
             if (navController.previousBackStackEntry?.destination?.route == BottomNavScreen.Result.route) {
                 IconButton(onClick = {
