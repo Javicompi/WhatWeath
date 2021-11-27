@@ -1,6 +1,5 @@
 package es.jnsoft.whatweath.presentation.ui.current
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.model.Hourly
@@ -33,9 +32,7 @@ class CurrentViewModel @Inject constructor(
 
     private val hourlyDomain = currentDomain.flatMapLatest { current ->
         flow {
-            current?.let {
-                emitAll(getHourliesUseCase.invoke(it.location))
-            } ?: listOf<Hourly>()
+            current?.let { emitAll(getHourliesUseCase.invoke(it.location)) } ?: listOf<Hourly>()
         }
     }
 
@@ -70,7 +67,9 @@ class CurrentViewModel @Inject constructor(
         )
 
     fun onStart() {
-        Log.d("CurrentViewModel", "En onStart")
+        viewModelScope.launch {
+            hourlyDomain.collect()
+        }
     }
 
     fun deleteData() {
