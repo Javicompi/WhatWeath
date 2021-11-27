@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.ui.common.AnimatedFloatingActionButton
-import es.jnsoft.whatweath.presentation.ui.current.CurrentContent
+import es.jnsoft.whatweath.presentation.ui.common.CurrentContent
 import es.jnsoft.whatweath.presentation.ui.main.BottomNavScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

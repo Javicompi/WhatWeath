@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.ui.common.AnimatedFloatingActionButton
+import es.jnsoft.whatweath.presentation.ui.common.CurrentContent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
