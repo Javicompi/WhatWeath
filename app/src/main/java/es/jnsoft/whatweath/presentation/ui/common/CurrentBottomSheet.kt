@@ -61,8 +61,8 @@ fun CurrentBottomSheet(
         ) {
             SearchElementIcon(
                 iconRes = R.drawable.ic_temp,
-                iconTitle = R.string.search_temp_title,
-                iconDescription = current?.temp ?: "~~",
+                iconTitle = R.string.current_temp_feels_like_title,
+                iconDescription = current?.tempFeelsLike ?: "~~",
                 modifier = Modifier.weight(0.5f)
             )
             SearchElementIcon(

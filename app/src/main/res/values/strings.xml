@@ -25,7 +25,6 @@
     <string name="search_message_hourlies_forecast">%d hours forecast</string>
     <string name="search_min_characters">Please input at least 3 characters</string>
     <string name="search_unknown_location">Unknown</string>
-    <string name="search_temp_title">Temperature</string>
     <string name="search_clouds_title">Cloud cover</string>
     <string name="search_rain_title">Rain amount</string>
     <string name="search_snow_title">Snow amount</string>
@@ -37,6 +36,7 @@
     <string name="search_fab_save">Save</string>
 
     // Current
+    <string name="current_temp_feels_like_title">Feels like</string>
     <string name="current_sunrise_title">Sunrise</string>
     <string name="current_sunset_title">Sunset</string>
     <string name="current_daylight_title">Daylight</string>
