@@ -1,4 +1,4 @@
-package es.jnsoft.whatweath.presentation.ui.current
+package es.jnsoft.whatweath.presentation.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,7 +21,6 @@ import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import es.jnsoft.whatweath.presentation.model.HourlyPresentation
-import es.jnsoft.whatweath.presentation.ui.common.CurrentBottomSheet
 import es.jnsoft.whatweath.utils.DrawableLoader
 import es.jnsoft.whatweath.utils.DrawableType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,7 +43,11 @@ fun CurrentContent(
                 hourlies = hourliesValue
             )
         },
-        sheetPeekHeight = if (currentValue is Result.Success) 276.dp else 0.dp,
+        sheetPeekHeight = if (currentValue is Result.Success) {
+            dimensionResource(id = R.dimen.bottom_sheet_peek_height)
+        } else {
+            0.dp
+        },
         sheetElevation = 0.dp,
         sheetShape = RoundedCornerShape(
             topStart = 0.dp,
@@ -106,25 +110,25 @@ private fun CurrentBackDropBackground(
                 modifier = Modifier.fillMaxSize()
             )
             Text(
-                text = (current?.let { current ->
-                    if (current.name.isNotEmpty() && current.country.isNotEmpty()) {
-                        current.name + ", " + current.country
-                    } else {
-                        current.name
-                    }
-                } ?: "Unknown location"),
+                text = (current?.temp ?: "¿? º"),
                 textAlign = TextAlign.End,
-                fontSize = 32.sp,
-                color = current?.let {
-                    if (it.icon.contains("n")) {
-                        Color.White
-                    } else {
-                        Color.Black
-                    }
-                } ?: MaterialTheme.colors.onPrimary,
+                fontSize = 48.sp,
+                color = Color.White,
                 modifier = Modifier
                     .padding(top = 72.dp, end = 24.dp)
                     .fillMaxWidth()
+            )
+            Text(
+                text = (current?.description ?: "Unknown description"),
+                fontSize = 32.sp,
+                color = Color.White,
+                modifier = Modifier
+                    .padding(
+                        bottom = dimensionResource(id = R.dimen.bottom_sheet_peek_height) + 24.dp,
+                        start = 24.dp
+                    )
+                    .fillMaxWidth()
+                    .align(Alignment.BottomStart)
             )
         }
     }
