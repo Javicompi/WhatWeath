@@ -7,6 +7,7 @@ data class Daily(
     val dewPoint: Double,
     val humidity: Int,
     val icon: String,
+    val location: Location,
     val moonPhase: Double,
     val pop: Double,
     val pressure: Int,
@@ -16,7 +17,9 @@ data class Daily(
     val sunset: Long,
     val tempMax: Double,
     val tempMin: Double,
+    val timeZone: Int,
     val uvi: Double,
+    val visibility: Int,
     val windDegrees: Int,
     val windSpeed: Double
 )
