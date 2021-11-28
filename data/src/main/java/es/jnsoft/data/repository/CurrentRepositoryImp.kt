@@ -50,13 +50,11 @@ class CurrentRepositoryImp @Inject constructor(
 
     override suspend fun updateCurrents() {
         val currents = localDataSource.getCurrents().first()
-        if (currents.isNotEmpty()) {
-            currents.map { current ->
-                if (shouldUpdate(current.deltaTime)) {
-                    val currentResult = remoteDataSource.findCurrentById(current.id)
-                    if (currentResult is Result.Success) {
-                        localDataSource.saveCurrent(currentResult.value)
-                    }
+        currents.map { current ->
+            if (shouldUpdate(current.deltaTime)) {
+                val currentResult = remoteDataSource.findCurrentById(current.id)
+                if (currentResult is Result.Success) {
+                    localDataSource.saveCurrent(currentResult.value)
                 }
             }
         }
