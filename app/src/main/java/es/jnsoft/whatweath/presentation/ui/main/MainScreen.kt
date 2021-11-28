@@ -13,10 +13,14 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -39,7 +43,9 @@ import kotlinx.coroutines.launch
 @ExperimentalAnimationApi
 @Composable
 @ExperimentalCoroutinesApi
-fun MainScreen() {
+fun MainScreen(
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+) {
     val mainViewModel: MainViewModel = hiltViewModel()
     val currents = mainViewModel.currentsPresentation.collectAsState(initial = listOf())
     val selectedId = mainViewModel.selectedId.collectAsState(initial = 0L)
@@ -96,6 +102,15 @@ fun MainScreen() {
             navController = navController,
             modifier = Modifier.padding(innerPadding)
         )
+    }
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_START) {
+                mainViewModel.onStart()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
 }
 

@@ -58,4 +58,10 @@ class MainViewModel @Inject constructor(
             setUnitsUseCase.invoke(units)
         }
     }
+
+    fun onStart() {
+        viewModelScope.launch {
+            currentsDomain.collect()
+        }
+    }
 }
