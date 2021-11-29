@@ -26,7 +26,6 @@ object DailyDataMapper : DataMapper<DailyData, Daily> {
             tempMin = source.tempMin,
             timeZone = source.timeZone,
             uvi = source.uvi,
-            visibility = source.visibility,
             windDegrees = source.windDegrees,
             windSpeed = source.windSpeed
         )
@@ -53,7 +52,6 @@ object DailyDataMapper : DataMapper<DailyData, Daily> {
             tempMin = source.tempMin,
             timeZone = source.timeZone,
             uvi = source.uvi,
-            visibility = source.visibility,
             windDegrees = source.windDegrees,
             windSpeed = source.windSpeed
         )

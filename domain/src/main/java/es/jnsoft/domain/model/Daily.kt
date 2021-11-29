@@ -19,7 +19,6 @@ data class Daily(
     val tempMin: Double,
     val timeZone: Int,
     val uvi: Double,
-    val visibility: Int,
     val windDegrees: Int,
     val windSpeed: Double
 )
