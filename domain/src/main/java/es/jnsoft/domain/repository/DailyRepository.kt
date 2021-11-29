@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface DailyRepository {
 
-    fun getDailies(lat: Double, long: Double): Flow<List<Daily>>
+    fun getDailies(lat: Double, lon: Double): Flow<List<Daily>>
 
     suspend fun saveDailies(dailies: List<Daily>)
 
