@@ -59,13 +59,13 @@ fun CurrentBottomSheet(
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            SearchElementIcon(
+            CurrentElementIcon(
                 iconRes = R.drawable.ic_temp,
                 iconTitle = R.string.current_temp_feels_like_title,
                 iconDescription = current?.tempFeelsLike ?: "~~",
                 modifier = Modifier.weight(0.5f)
             )
-            SearchElementIcon(
+            CurrentElementIcon(
                 iconRes = R.drawable.ic_cloud,
                 iconTitle = R.string.search_clouds_title,
                 iconDescription = current?.clouds ?: "~~",
@@ -79,7 +79,7 @@ fun CurrentBottomSheet(
         ) {
             when {
                 current?.snow ?: 0.0 > 0.0 -> {
-                    SearchElementIcon(
+                    CurrentElementIcon(
                         iconRes = R.drawable.ic_snow,
                         iconTitle = R.string.search_snow_title,
                         iconDescription = current?.snowText ?: "~~",
@@ -87,7 +87,7 @@ fun CurrentBottomSheet(
                     )
                 }
                 current?.rain ?: 0.0 > 0.0 -> {
-                    SearchElementIcon(
+                    CurrentElementIcon(
                         iconRes = R.drawable.ic_rain,
                         iconTitle = R.string.search_rain_title,
                         iconDescription = current?.rainText ?: "~~",
@@ -95,7 +95,7 @@ fun CurrentBottomSheet(
                     )
                 }
                 else -> {
-                    SearchElementIcon(
+                    CurrentElementIcon(
                         iconRes = R.drawable.ic_humidity,
                         iconTitle = R.string.search_humidity_title,
                         iconDescription = current?.humidity ?: "~~",
@@ -103,7 +103,7 @@ fun CurrentBottomSheet(
                     )
                 }
             }
-            SearchElementIcon(
+            CurrentElementIcon(
                 iconRes = R.drawable.ic_pressure,
                 iconTitle = R.string.search_pressure_title,
                 iconDescription = current?.pressure ?: "~~",
@@ -115,13 +115,13 @@ fun CurrentBottomSheet(
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            SearchElementIcon(
+            CurrentElementIcon(
                 iconRes = R.drawable.ic_wind,
                 iconTitle = R.string.search_wind_speed_title,
                 iconDescription = current?.windSpeed ?: "~~",
                 modifier = Modifier.weight(0.5f)
             )
-            SearchElementIcon(
+            CurrentElementIcon(
                 iconRes = R.drawable.ic_degrees,
                 iconTitle = R.string.search_direction_title,
                 iconDescription = current?.windDegreesText ?: "~~",
@@ -134,7 +134,7 @@ fun CurrentBottomSheet(
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            SearchElementSunriseSunset(
+            CurrentElementSunriseSunset(
                 sunrise = current?.sunriseText ?: "",
                 sunset = current?.sunsetText ?: "",
                 sunDuration = current?.daytimeDuration ?: ""
@@ -159,7 +159,7 @@ fun CurrentBottomSheet(
 }
 
 @Composable
-private fun SearchElementIcon(
+private fun CurrentElementIcon(
     iconRes: Int,
     iconTitle: Int,
     iconDescription: String,
@@ -170,7 +170,7 @@ private fun SearchElementIcon(
         modifier = modifier
             .padding(8.dp)
             .background(
-                color = MaterialTheme.colors.surface.copy(alpha = 0.5f),
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(8.dp)
@@ -202,7 +202,7 @@ private fun SearchElementIcon(
 }
 
 @Composable
-fun SearchElementSunriseSunset(
+fun CurrentElementSunriseSunset(
     sunrise: String,
     sunset: String,
     sunDuration: String,
@@ -212,7 +212,7 @@ fun SearchElementSunriseSunset(
         modifier = modifier
             .padding(8.dp)
             .background(
-                color = MaterialTheme.colors.surface.copy(alpha = 0.5f),
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(8.dp)
@@ -335,5 +335,5 @@ fun PreviewSearchBottomSheet() {
 @Preview(widthDp = 360)
 @Composable
 fun PreviewSearchElementSunriseSunset() {
-    SearchElementSunriseSunset(sunrise = "7:15", sunset = "18.21", sunDuration = "11:06")
+    CurrentElementSunriseSunset(sunrise = "7:15", sunset = "18.21", sunDuration = "11:06")
 }
