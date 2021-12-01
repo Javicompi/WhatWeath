@@ -22,7 +22,7 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
         icon = icon,
         lat = location.lat,
         lon = location.lon,
-        pop = (pop * 100).roundToInt(),
+        pop = pop,
         pressure = pressure,
         rain = when (units) {
             Units.STANDARD -> rain

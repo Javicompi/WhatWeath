@@ -9,7 +9,7 @@ data class HourlyData(
     val icon: String,
     val lat: Double,
     val lon: Double,
-    val pop: Double,
+    val pop: Int,
     val pressure: Int,
     val rain: Double,
     val snow: Double,

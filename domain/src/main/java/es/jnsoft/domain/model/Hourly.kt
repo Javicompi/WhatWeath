@@ -8,7 +8,7 @@ data class Hourly(
     val humidity: Int,
     val icon: String,
     val location: Location,
-    val pop: Double,
+    val pop: Int,
     val pressure: Int,
     val rain: Double,
     val snow: Double,
