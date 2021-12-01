@@ -25,7 +25,7 @@ data class HourlyEntity(
     @ColumnInfo(name = "longitude")
     val longitude: Double,
     @ColumnInfo(name = "pop")
-    val pop: Double,
+    val pop: Int,
     @ColumnInfo(name = "pressure")
     val pressure: Int,
     @ColumnInfo(name = "rain")
