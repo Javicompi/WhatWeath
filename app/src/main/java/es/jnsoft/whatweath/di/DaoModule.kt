@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import es.jnsoft.framework.local.dao.CurrentDao
+import es.jnsoft.framework.local.dao.DailyDao
 import es.jnsoft.framework.local.dao.HourlyDao
 import es.jnsoft.framework.local.database.AppDatabase
 import javax.inject.Singleton
@@ -23,5 +24,11 @@ object DaoModule {
     @Singleton
     fun provideHourlyDao(database: AppDatabase): HourlyDao {
         return database.hourlyDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDailyDao(database: AppDatabase): DailyDao {
+        return database.dailyDao()
     }
 }

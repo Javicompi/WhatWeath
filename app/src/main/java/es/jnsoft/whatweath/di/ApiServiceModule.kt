@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import es.jnsoft.framework.remote.service.CurrentApiService
+import es.jnsoft.framework.remote.service.DailyApiService
 import es.jnsoft.framework.remote.service.HourlyApiService
 import retrofit2.Retrofit
 import javax.inject.Singleton
@@ -23,5 +24,11 @@ object ApiServiceModule {
     @Singleton
     fun provideHourlyApiService(retrofit: Retrofit): HourlyApiService {
         return retrofit.create(HourlyApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDailyApiService(retrofit: Retrofit): DailyApiService {
+        return retrofit.create(DailyApiService::class.java)
     }
 }
