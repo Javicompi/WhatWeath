@@ -51,12 +51,13 @@ class AppDatabaseTest {
 
     @Test
     fun saveHourlies_retrieveHourlies() = runBlocking {
-        val cityId = 7220871L
-        val hourlies = createHourlyList(cityId)
+        val lat = 30.00
+        val lon = 50.00
+        val hourlies = createHourlyList(lat, lon)
         hourlyDao.saveHourlies(hourlies.mapToEntityList())
-        val retrieved = hourlyDao.getHourlies(cityId).first()
+        val retrieved = hourlyDao.getHourlies(lat, lon).first()
         assert(retrieved.isNotEmpty())
-        assert(retrieved[0].cityId == cityId)
+        assert((retrieved[0].latitude == lat) && (retrieved[0].longitude == lon))
     }
 
     @Test
@@ -71,15 +72,18 @@ class AppDatabaseTest {
 
     @Test
     fun saveMultipleHourlies_retrieveSelectedHourlies() = runBlocking {
-        val firstCityId = 7220871L
-        val secondCityId = 6972210L
-        val firstHourlies = createHourlyList(firstCityId)
-        val secondHourlies = createHourlyList(secondCityId)
+        val firstLat = 10.00
+        val firstLon = 20.00
+        val secondLat = 30.00
+        val secondLon = 40.00
+        val firstHourlies = createHourlyList(firstLat, firstLon)
+        val secondHourlies = createHourlyList(secondLat, secondLon)
         hourlyDao.saveHourlies(firstHourlies.mapToEntityList())
         hourlyDao.saveHourlies(secondHourlies.mapToEntityList())
-        val firstHourliesSaved = hourlyDao.getHourlies(firstCityId).first()
+        val firstHourliesSaved = hourlyDao.getHourlies(firstLat, firstLon).first()
         assert(firstHourliesSaved.size == 3)
-        assert(firstHourliesSaved[0].cityId == firstCityId)
+        assert(firstHourliesSaved[0].latitude == firstLat)
+        assert(firstHourliesSaved[0].longitude == firstLon)
     }
 
     @Test
@@ -96,14 +100,15 @@ class AppDatabaseTest {
 
     @Test
     fun saveHourlies_retrieveHourlies_deleteHourlies() = runBlocking {
-        val cityId = 7220871L
-        val hourlies = createHourlyList(cityId)
+        val lat = 30.00
+        val lon = 40.00
+        val hourlies = createHourlyList(lat, lon)
         hourlyDao.saveHourlies(hourlies.mapToEntityList())
-        val savedHourlies = hourlyDao.getHourlies(cityId).first()
+        val savedHourlies = hourlyDao.getHourlies(lat, lon).first()
         assert(savedHourlies.size == 3)
-        assert(savedHourlies[0].cityId == cityId)
-        hourlyDao.deleteHourlies(cityId)
-        val deletedHourlies = hourlyDao.getHourlies(cityId).first()
+        assert((savedHourlies[0].latitude == lat) && (savedHourlies[0].longitude == lon))
+        hourlyDao.deleteHourlies(lat, lon)
+        val deletedHourlies = hourlyDao.getHourlies(lat, lon).first()
         assert(deletedHourlies.isEmpty())
     }
 
@@ -123,19 +128,20 @@ class AppDatabaseTest {
 
     @Test
     fun saveHourlies_retrieveHourlies_updateHourlies() = runBlocking {
-        val cityId = 7220871L
-        val hourlies = createHourlyList(cityId)
+        val lat = 30.00
+        val lon = 40.00
+        val hourlies = createHourlyList(lat, lon)
         hourlyDao.saveHourlies(hourlies.mapToEntityList())
-        val savedHourlies = hourlyDao.getHourlies(cityId).first()
+        val savedHourlies = hourlyDao.getHourlies(lat, lon).first()
         assert(savedHourlies.size == 3)
-        assert(savedHourlies[0].cityId == cityId)
+        assert((savedHourlies[0].latitude == lat) && (savedHourlies[0].longitude == lon))
         val newHourlies = savedHourlies.map { hourly ->
             hourly.copy(deltaTime = hourly.deltaTime + 3600000)
         }
         hourlyDao.updateHourlies(newHourlies)
-        val updatedHourlies = hourlyDao.getHourlies(cityId).first()
+        val updatedHourlies = hourlyDao.getHourlies(lat, lon).first()
         assert(updatedHourlies.size == 3)
-        assert(updatedHourlies[0].cityId == cityId)
+        assert((updatedHourlies[0].latitude == lat) && (updatedHourlies[0].longitude == lon))
         assert(updatedHourlies[0].deltaTime > hourlies[0].deltaTime)
     }
 
@@ -153,7 +159,7 @@ class AppDatabaseTest {
 
     @Test
     fun nothingSave_retrieveEmptyList() = runBlocking {
-        val hourlies = hourlyDao.getHourlies(7L).first()
+        val hourlies = hourlyDao.getHourlies(10.00, 20.00).first()
         assert(hourlies.isEmpty())
     }
 }
