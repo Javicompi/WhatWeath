@@ -170,7 +170,7 @@ private fun CurrentElementIcon(
         modifier = modifier
             .padding(8.dp)
             .background(
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(8.dp)
@@ -212,7 +212,7 @@ fun CurrentElementSunriseSunset(
         modifier = modifier
             .padding(8.dp)
             .background(
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.3f),
+                color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
                 shape = RoundedCornerShape(12.dp)
             )
             .padding(8.dp)
