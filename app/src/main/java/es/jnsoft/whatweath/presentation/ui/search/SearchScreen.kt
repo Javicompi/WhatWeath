@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
@@ -48,11 +49,30 @@ fun SearchScreen(
                 show = searchCurrentResult is Result.Success,
                 collapsed = isCollapsed
             )
-        },
-        snackbarHost = {
-            when (val event = events.value) {
+        }
+    ) { paddingValues ->
+        CurrentContent(
+            scaffoldState = bottomSheetScaffoldState,
+            currentValue = searchCurrentResult,
+            hourliesValue = searchHourlyResult,
+            modifier = Modifier.padding(paddingValues)
+        )
+        SearchCollapsibleAppBar(
+            onSearchClick = { viewModel.findByName(it) },
+            isLoading = searchCurrentResult is Result.Loading,
+            shown = isCollapsed
+        )
+        val event = events.value
+        LaunchedEffect(event) {
+            when (event) {
                 is Event.NavigateToCurrent -> {
-                    navController.navigate(BottomNavScreen.Current.route)
+                    navController.navigate(BottomNavScreen.Current.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
                 is Event.ShowSnackbarResource -> {
                     val message = event.resource
@@ -69,21 +89,9 @@ fun SearchScreen(
                         )
                     }
                 }
-                else -> return@Scaffold
+                else -> return@LaunchedEffect
             }
             viewModel.sendEvent(Event.Clean)
         }
-    ) { paddingValues ->
-        CurrentContent(
-            scaffoldState = bottomSheetScaffoldState,
-            currentValue = searchCurrentResult,
-            hourliesValue = searchHourlyResult,
-            modifier = Modifier.padding(paddingValues)
-        )
-        SearchCollapsibleAppBar(
-            onSearchClick = { viewModel.findByName(it) },
-            isLoading = searchCurrentResult is Result.Loading,
-            shown = isCollapsed
-        )
     }
 }
