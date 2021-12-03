@@ -92,7 +92,13 @@ fun MainScreen(
                 onItemClick = {
                     scope.launch { scaffoldState.drawerState.close() }
                     mainViewModel.setSelectedId(it)
-                    navController.navigate(BottomNavScreen.Current.route)
+                    navController.navigate(BottomNavScreen.Current.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
                 modifier = Modifier.statusBarsPadding()
             )
