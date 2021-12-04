@@ -19,7 +19,7 @@ class HourlyLocalDataSourceImp @Inject constructor(
     }
 
     override suspend fun saveHourlies(hourlies: List<HourlyData>) {
-        hourlyDao.updateHourlies(hourlies.mapToEntityList())
+        hourlyDao.saveHourlies(hourlies.mapToEntityList())
     }
 
     override suspend fun deleteHourlies(hourlies: List<HourlyData>) {
