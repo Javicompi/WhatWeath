@@ -46,6 +46,7 @@ class HourlyRepositoryImp @Inject constructor(
     override suspend fun updateHourlies(lat: Double, lon: Double) {
         val newHourlies = remoteDataSource.findHourly(lat, lon)
         if (newHourlies is Result.Success) {
+            localDataSource.deleteHourlies(newHourlies.value)
             localDataSource.saveHourlies(newHourlies.value)
         }
     }
