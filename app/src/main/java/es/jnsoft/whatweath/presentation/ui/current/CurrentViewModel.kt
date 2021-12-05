@@ -75,12 +75,12 @@ class CurrentViewModel @Inject constructor(
     fun deleteData() {
         viewModelScope.launch {
             val current = currentDomain.first()
-            if (current != null) {
-                deleteCurrentUseCase.invoke(current)
-            }
             val hourlies = hourlyDomain.first()
             if (hourlies.isNotEmpty()) {
                 deleteHourliesUseCase.invoke(hourlies)
+            }
+            if (current != null) {
+                deleteCurrentUseCase.invoke(current)
             }
         }
     }
