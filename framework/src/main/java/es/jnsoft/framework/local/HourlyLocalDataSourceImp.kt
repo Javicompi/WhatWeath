@@ -27,4 +27,8 @@ class HourlyLocalDataSourceImp @Inject constructor(
         val lon = hourlies[0].lon
         hourlyDao.deleteHourlies(lat = lat, lon = lon)
     }
+
+    override suspend fun updateHourlies(hourlies: List<HourlyData>) {
+        hourlyDao.updateHourlies(hourlies.mapToEntityList())
+    }
 }

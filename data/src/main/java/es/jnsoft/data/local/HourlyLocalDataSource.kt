@@ -10,4 +10,6 @@ interface HourlyLocalDataSource {
     suspend fun saveHourlies(hourlies: List<HourlyData>)
 
     suspend fun deleteHourlies(hourlies: List<HourlyData>)
+
+    suspend fun updateHourlies(hourlies: List<HourlyData>)
 }
