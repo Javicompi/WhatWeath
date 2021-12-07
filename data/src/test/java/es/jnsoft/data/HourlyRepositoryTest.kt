@@ -31,34 +31,39 @@ class HourlyRepositoryTest {
 
     @Test
     fun getHourlies_retrieveEmptyList() = runBlocking {
-        val hourlies = repository.getHourlies(6697298).first()
+        val lat = 10.0
+        val lon = 20.0
+        val hourlies = repository.getHourlies(lat, lon).first()
         assert(hourlies.isEmpty())
     }
 
     @Test
     fun mapHourly_saveHourlies_retrieveHourlies() = runBlocking {
-        val cityId = 6697298L
-        val hourlies = createHourlyList(cityId)
+        val lat = 10.0
+        val lon = 20.0
+        val hourlies = createHourlyList(lat, lon)
         repository.saveHourlies(HourlyDataMapper.mapToDomainList(hourlies))
-        val savedHourlies = repository.getHourlies(cityId).first()
+        val savedHourlies = repository.getHourlies(lat, lon).first()
         assert(savedHourlies.isNotEmpty())
-        assert(savedHourlies[0].cityId == cityId)
+        assert(savedHourlies[0].location.lat == lat && savedHourlies[0].location.lon == lon)
     }
 
     @Test
     fun saveHourlies_retrieveHourlies_deleteHourlies() = runBlocking {
-        val firstCityId = 6697298L
-        val firstHourlies = createHourlyList(firstCityId)
+        val firstLat = 10.0
+        val firstLon = 20.0
+        val firstHourlies = createHourlyList(firstLat, firstLon)
         repository.saveHourlies(HourlyDataMapper.mapToDomainList(firstHourlies))
-        val secondCityId = 7729981L
-        val secondHourlies = createHourlyList(secondCityId)
+        val secondLat = 30.0
+        val secondLon = 40.0
+        val secondHourlies = createHourlyList(secondLat, secondLon)
         repository.saveHourlies(HourlyDataMapper.mapToDomainList(secondHourlies))
-        val hourliesSaved = repository.getHourlies(firstCityId).first()
+        val hourliesSaved = repository.getHourlies(secondLat, secondLon).first()
         assert(hourliesSaved.size == 3)
-        repository.deleteHourlies(firstCityId)
-        val emptyHourlies = repository.getHourlies(firstCityId).first()
+        repository.deleteHourlies(HourlyDataMapper.mapToDomainList(firstHourlies))
+        val emptyHourlies = repository.getHourlies(firstLat, firstLon).first()
         assert(emptyHourlies.isEmpty())
-        val savedHourlies = repository.getHourlies(secondCityId).first()
+        val savedHourlies = repository.getHourlies(secondLat, secondLon).first()
         assert(savedHourlies.size == 3)
     }
 

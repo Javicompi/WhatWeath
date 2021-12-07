@@ -9,17 +9,31 @@ class FakeHourlyLocalDataSource : HourlyLocalDataSource {
 
     private var savedHourlies: MutableList<HourlyData> = mutableListOf()
 
-    override fun getHourlies(cityId: Long): Flow<List<HourlyData>> {
-        return flow { emit(savedHourlies.filter { it.cityId == cityId }) }
+    override fun getHourlies(lat: Double, lon: Double): Flow<List<HourlyData>> {
+        return flow {
+            val selectedHourlies = savedHourlies.filter { it.lat == lat && it.lon == lon }
+            emit(selectedHourlies)
+        }
     }
 
     override suspend fun saveHourlies(hourlies: List<HourlyData>) {
-        savedHourlies = savedHourlies.filter { it.cityId != hourlies[0].cityId }.toMutableList()
+        savedHourlies = savedHourlies.filter { saveds ->
+            saveds.lat != hourlies[0].lat && saveds.lon != hourlies[0].lon
+        }.toMutableList()
         savedHourlies.addAll(hourlies)
     }
 
-    override suspend fun deleteHourlies(cityId: Long) {
-        savedHourlies = savedHourlies.filter { it.cityId != cityId }.toMutableList()
+    override suspend fun deleteHourlies(hourlies: List<HourlyData>) {
+        savedHourlies = savedHourlies.filter { saveds ->
+            saveds.lat != hourlies[0].lat && saveds.lon != hourlies[0].lon
+        }.toMutableList()
+    }
+
+    override suspend fun updateHourlies(hourlies: List<HourlyData>) {
+        val lat = hourlies[0].lat
+        val lon = hourlies[0].lon
+        savedHourlies = savedHourlies.filter { it.lat == lat && it.lon == lon }.toMutableList()
+        savedHourlies.addAll(hourlies)
     }
 
     fun clearData() {
