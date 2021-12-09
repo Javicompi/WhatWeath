@@ -10,7 +10,7 @@ interface HourlyRepository {
 
     suspend fun saveHourlies(hourlies: List<Hourly>)
 
-    suspend fun deleteHourlies(hourlies: List<Hourly>)
+    suspend fun deleteHourlies(lat: Double, lon: Double)
 
     suspend fun findHourlies(lat: Double, lon: Double): Result<List<Hourly>>
 

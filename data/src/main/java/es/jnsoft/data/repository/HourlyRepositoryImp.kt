@@ -29,8 +29,8 @@ class HourlyRepositoryImp @Inject constructor(
         localDataSource.saveHourlies(HourlyDataMapper.mapFromDomainList(hourlies))
     }
 
-    override suspend fun deleteHourlies(hourlies: List<Hourly>) {
-        localDataSource.deleteHourlies(HourlyDataMapper.mapFromDomainList(hourlies))
+    override suspend fun deleteHourlies(lat: Double, lon: Double) {
+        localDataSource.deleteHourlies(lat, lon)
     }
 
     override suspend fun findHourlies(lat: Double, lon: Double): Result<List<Hourly>> {

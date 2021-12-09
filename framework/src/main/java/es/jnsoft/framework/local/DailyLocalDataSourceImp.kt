@@ -2,6 +2,7 @@ package es.jnsoft.framework.local
 
 import es.jnsoft.data.local.DailyLocalDataSource
 import es.jnsoft.data.model.DailyData
+import es.jnsoft.domain.model.Location
 import es.jnsoft.framework.local.dao.DailyDao
 import es.jnsoft.framework.mapper.mapFromEntityList
 import es.jnsoft.framework.mapper.mapToEntityList
@@ -23,9 +24,7 @@ class DailyLocalDataSourceImp @Inject constructor(
         dailyDao.updateDailies(dailies.mapToEntityList())
     }
 
-    override suspend fun deleteDailies(dailies: List<DailyData>) {
-        val lat = dailies[0].lat
-        val lon = dailies[0].lon
-        dailyDao.deleteDailies(lat = lat, lon = lon)
+    override suspend fun deleteDailies(location: Location) {
+        dailyDao.deleteDailies(lat = location.lat, lon = location.lon)
     }
 }

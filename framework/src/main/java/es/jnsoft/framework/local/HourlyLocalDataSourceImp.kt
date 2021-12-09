@@ -5,7 +5,8 @@ import es.jnsoft.data.model.HourlyData
 import es.jnsoft.framework.local.dao.HourlyDao
 import es.jnsoft.framework.mapper.mapFromEntityList
 import es.jnsoft.framework.mapper.mapToEntityList
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HourlyLocalDataSourceImp @Inject constructor(
@@ -22,9 +23,7 @@ class HourlyLocalDataSourceImp @Inject constructor(
         hourlyDao.saveHourlies(hourlies.mapToEntityList())
     }
 
-    override suspend fun deleteHourlies(hourlies: List<HourlyData>) {
-        val lat = hourlies[0].lat
-        val lon = hourlies[0].lon
+    override suspend fun deleteHourlies(lat: Double, lon: Double) {
         hourlyDao.deleteHourlies(lat = lat, lon = lon)
     }
 

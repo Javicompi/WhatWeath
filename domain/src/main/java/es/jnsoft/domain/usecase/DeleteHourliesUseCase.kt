@@ -1,6 +1,6 @@
 package es.jnsoft.domain.usecase
 
-import es.jnsoft.domain.model.Hourly
+import es.jnsoft.domain.model.Location
 import es.jnsoft.domain.repository.HourlyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -8,9 +8,9 @@ import javax.inject.Inject
 
 class DeleteHourliesUseCase @Inject constructor(
     private val repository: HourlyRepository
-) : BaseUseCase<List<Hourly>, Unit> {
+) : BaseUseCase<Location, Unit> {
 
-    override suspend fun invoke(params: List<Hourly>) = withContext(Dispatchers.IO) {
-        repository.deleteHourlies(params)
+    override suspend fun invoke(params: Location) = withContext(Dispatchers.IO) {
+        repository.deleteHourlies(params.lat, params.lon)
     }
 }
