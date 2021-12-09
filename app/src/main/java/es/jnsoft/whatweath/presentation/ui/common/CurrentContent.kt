@@ -1,7 +1,10 @@
 package es.jnsoft.whatweath.presentation.ui.common
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -12,8 +15,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,9 +72,7 @@ private fun CurrentBackDrop(
 ) {
     when (currentResult) {
         is Result.Loading -> {
-            CurrentProgressIndicator(
-                modifier = modifier
-            )
+            ProgressIndicator(modifier = modifier)
         }
         is Result.Success -> {
             CurrentBackDropBackground(
@@ -82,9 +81,7 @@ private fun CurrentBackDrop(
             )
         }
         else -> {
-            CurrentEmptyMessage(
-                modifier = modifier
-            )
+            EmptyMessage(modifier = modifier)
         }
     }
 }
@@ -131,39 +128,5 @@ private fun CurrentBackDropBackground(
                     .align(Alignment.BottomStart)
             )
         }
-    }
-}
-
-@Composable
-private fun CurrentEmptyMessage(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .padding(start = 24.dp),
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = (stringResource(id = R.string.search_message_empty_title)),
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            text = (stringResource(id = R.string.search_message_empty_message)),
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Light
-        )
-    }
-}
-
-@Composable
-private fun CurrentProgressIndicator(
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
     }
 }
