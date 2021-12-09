@@ -6,6 +6,9 @@ ext {
     // Compose
     composeVersion = '1.0.4'
 
+    // ConstraintLayout
+    constraintLayoutVersion = '1.0.0-rc02'
+
     // Android Core
     compileSDKVersion = 31
     targetSDKVersion = 31
@@ -31,6 +34,7 @@ ext {
     turbineVersion = '0.6.0'
     mockitoVersion = '3.12.1'
 
+    // Hilt
     hiltVersion = '2.40.1'
     androidxHiltVersion = '1.0.0'
     hiltViewModelVersion = '1.0.0-alpha01'
@@ -52,6 +56,7 @@ ext {
             hiltCore                  : "com.google.dagger:hilt-android:$hiltVersion",
             hiltCompiler              : "com.google.dagger:hilt-android-compiler:$hiltVersion",
             workManager               : "androidx.work:work-runtime-ktx:$workManagerVersion",
+            androidxConstraintLayout  : "androidx.constraintlayout:constraintlayout-compose:$constraintLayoutVersion",
             androidXHiltWork          : "androidx.hilt:hilt-work:$androidxHiltVersion",
             androidxWorkTesting       : "androidx.work:work-testing:$workManagerVersion",
             androidxHiltLifecycle     : "androidx.hilt:hilt-lifecycle-viewmodel:$hiltViewModelVersion",
