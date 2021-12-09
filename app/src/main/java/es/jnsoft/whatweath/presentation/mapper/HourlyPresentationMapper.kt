@@ -3,9 +3,8 @@ package es.jnsoft.whatweath.presentation.mapper
 import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Hourly
 import es.jnsoft.whatweath.presentation.model.HourlyPresentation
+import es.jnsoft.whatweath.utils.convertLongToTime
 import java.math.RoundingMode
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.math.roundToInt
 
 fun Hourly.toPresentation(units: Units): HourlyPresentation {
@@ -107,12 +106,4 @@ fun Hourly.toPresentation(units: Units): HourlyPresentation {
             Units.IMPERIAL -> (windSpeed * 2.237).roundToInt().toString() + " mph"
         }
     )
-}
-
-private fun convertLongToTime(time: Long, offset: Int): String {
-    val date = Date(time)
-    date.time += offset.toLong() * 1000
-    val format = SimpleDateFormat("HH:mm")
-    format.timeZone = TimeZone.getTimeZone("UTC")
-    return format.format(date)
 }

@@ -3,9 +3,9 @@ package es.jnsoft.whatweath.presentation.mapper
 import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Current
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
+import es.jnsoft.whatweath.utils.convertLongToTime
+import es.jnsoft.whatweath.utils.daytimeDuration
 import java.math.RoundingMode
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.math.roundToInt
 
 fun Current.toPresentation(units: Units): CurrentPresentation {
@@ -87,19 +87,4 @@ fun Current.toPresentation(units: Units): CurrentPresentation {
             Units.IMPERIAL -> (windSpeed * 2.237).roundToInt().toString() + " mph"
         }
     )
-}
-
-private fun convertLongToTime(time: Long, offset: Int): String {
-    val date = Date(time)
-    date.time += offset.toLong() * 1000
-    val format = SimpleDateFormat("HH:mm")
-    format.timeZone = TimeZone.getTimeZone("UTC")
-    return format.format(date)
-}
-
-private fun daytimeDuration(sunrise: Long, sunset: Long): String {
-    val time = Date(sunset - sunrise)
-    val format = SimpleDateFormat("HH:mm")
-    format.timeZone = TimeZone.getTimeZone("UTC")
-    return format.format(time)
 }
