@@ -11,6 +11,8 @@ import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import es.jnsoft.whatweath.presentation.model.HourlyPresentation
+import es.jnsoft.whatweath.utils.createDaily
+import es.jnsoft.whatweath.utils.createHourly
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -24,6 +26,7 @@ class SearchViewModel @Inject constructor(
     private val findHourliesUseCase: FindHourliesUseCase,
     private val saveCurrentUseCase: SaveCurrentUseCase,
     private val saveHourliesUseCase: SaveHourliesUseCase,
+    private val saveDailiesUseCase: SaveDailiesUseCase,
     private val setSelectedIdUseCase: SetSelectedIdUseCase,
     settingsRepository: SettingsRepository
 ) : ViewModel() {
@@ -104,10 +107,16 @@ class SearchViewModel @Inject constructor(
             val current = currentDomain.value
             if (current is Result.Success) {
                 saveCurrentUseCase.invoke(current.value)
+                val lat = current.value.location.lat
+                val lon = current.value.location.lon
                 val hourlies = hourlyDomain.value
                 if (hourlies is Result.Success && hourlies.value.isNotEmpty()) {
                     saveHourliesUseCase.invoke(hourlies.value)
+                } else {
+                    saveHourliesUseCase.invoke(listOf(createHourly(lat, lon)))
                 }
+                val dailies = createDaily(lat, lon)
+                saveDailiesUseCase.invoke(listOf(dailies))
                 setSelectedIdUseCase.invoke(current.value.id)
                 sendEvent(Event.NavigateToCurrent)
             }
