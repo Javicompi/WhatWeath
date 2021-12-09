@@ -1,0 +1,31 @@
+package es.jnsoft.whatweath.presentation.model
+
+data class DailyPresentation(
+    val clouds: String,
+    val deltaTime: Long,
+    val description: String,
+    val dewPoint: String,
+    val humidity: String,
+    val icon: String,
+    val lat: Double,
+    val lon: Double,
+    val moonPhase: Int,
+    val pop: Int,
+    val pressure: Int,
+    val rain: Double,
+    val rainText: String,
+    val snow: Double,
+    val snowText: String,
+    val sunrise: Long,
+    val sunriseText: String,
+    val sunset: Long,
+    val sunsetText: String,
+    val tempMax: String,
+    val tempMin: String,
+    val timeZone: Int,
+    val uvi: Double,
+    val windDegrees: Int,
+    val windDegreesText: String,
+    val windSpeed: Double,
+    val windSpeedText: String
+) : BasePresentation

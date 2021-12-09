@@ -28,9 +28,7 @@ fun CurrentScreen(
 ) {
     val currentResult by viewModel.currentPresentation.collectAsState(initial = Result.Failure(""))
     val hourlyResult by viewModel.hourlyPresentation.collectAsState(initial = Result.Loading)
-    val scaffoldState = rememberScaffoldState(
-        snackbarHostState = SnackbarHostState()
-    )
+    val scaffoldState = rememberScaffoldState()
     val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     )

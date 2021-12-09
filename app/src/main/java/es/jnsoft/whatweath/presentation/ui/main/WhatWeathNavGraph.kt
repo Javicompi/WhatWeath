@@ -19,6 +19,7 @@ import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.ui.current.CurrentScreen
 import es.jnsoft.whatweath.presentation.ui.current.CurrentViewModel
 import es.jnsoft.whatweath.presentation.ui.days.DaysScreen
+import es.jnsoft.whatweath.presentation.ui.days.DaysViewModel
 import es.jnsoft.whatweath.presentation.ui.hours.HoursScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel
 import es.jnsoft.whatweath.presentation.ui.search.SearchScreen
@@ -53,7 +54,8 @@ fun WhatWeathNavGraph(
             HoursScreen()
         }
         composable(BottomNavScreen.Days.route) {
-            DaysScreen()
+            val daysViewModel: DaysViewModel = hiltViewModel()
+            DaysScreen(daysViewModel)
         }
         composable(BottomNavScreen.Search.route) {
             val searchViewModel: SearchViewModel = hiltViewModel()

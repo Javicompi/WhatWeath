@@ -22,6 +22,7 @@ class CurrentViewModel @Inject constructor(
     private val getHourliesUseCase: GetHourliesUseCase,
     private val deleteCurrentUseCase: DeleteCurrentUseCase,
     private val deleteHourliesUseCase: DeleteHourliesUseCase,
+    private val deleteDailiesUseCase: DeleteDailiesUseCase,
     getUnitsUseCase: GetUnitsUseCase,
     getSelectedIdUseCase: GetSelectedIdUseCase
 ) : BaseViewModel(getUnitsUseCase) {
@@ -75,12 +76,10 @@ class CurrentViewModel @Inject constructor(
     fun deleteData() {
         viewModelScope.launch {
             val current = currentDomain.first()
-            val hourlies = hourlyDomain.first()
-            if (hourlies.isNotEmpty()) {
-                deleteHourliesUseCase.invoke(hourlies)
-            }
-            if (current != null) {
-                deleteCurrentUseCase.invoke(current)
+            current?.let { entry ->
+                deleteDailiesUseCase.invoke(entry.location)
+                deleteHourliesUseCase.invoke(entry.location)
+                deleteCurrentUseCase.invoke(entry)
             }
         }
     }
