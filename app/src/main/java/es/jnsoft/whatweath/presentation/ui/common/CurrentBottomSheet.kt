@@ -9,7 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -59,13 +58,13 @@ fun CurrentBottomSheet(
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            CurrentElementIcon(
+            WeatherElementIcon(
                 iconRes = R.drawable.ic_temp,
                 iconTitle = R.string.current_temp_feels_like_title,
                 iconDescription = current?.tempFeelsLike ?: "~~",
                 modifier = Modifier.weight(0.5f)
             )
-            CurrentElementIcon(
+            WeatherElementIcon(
                 iconRes = R.drawable.ic_cloud,
                 iconTitle = R.string.search_clouds_title,
                 iconDescription = current?.clouds ?: "~~",
@@ -79,7 +78,7 @@ fun CurrentBottomSheet(
         ) {
             when {
                 current?.snow ?: 0.0 > 0.0 -> {
-                    CurrentElementIcon(
+                    WeatherElementIcon(
                         iconRes = R.drawable.ic_snow,
                         iconTitle = R.string.search_snow_title,
                         iconDescription = current?.snowText ?: "~~",
@@ -87,7 +86,7 @@ fun CurrentBottomSheet(
                     )
                 }
                 current?.rain ?: 0.0 > 0.0 -> {
-                    CurrentElementIcon(
+                    WeatherElementIcon(
                         iconRes = R.drawable.ic_rain,
                         iconTitle = R.string.search_rain_title,
                         iconDescription = current?.rainText ?: "~~",
@@ -95,7 +94,7 @@ fun CurrentBottomSheet(
                     )
                 }
                 else -> {
-                    CurrentElementIcon(
+                    WeatherElementIcon(
                         iconRes = R.drawable.ic_humidity,
                         iconTitle = R.string.search_humidity_title,
                         iconDescription = current?.humidity ?: "~~",
@@ -103,7 +102,7 @@ fun CurrentBottomSheet(
                     )
                 }
             }
-            CurrentElementIcon(
+            WeatherElementIcon(
                 iconRes = R.drawable.ic_pressure,
                 iconTitle = R.string.search_pressure_title,
                 iconDescription = current?.pressure ?: "~~",
@@ -115,13 +114,13 @@ fun CurrentBottomSheet(
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            CurrentElementIcon(
+            WeatherElementIcon(
                 iconRes = R.drawable.ic_wind,
                 iconTitle = R.string.search_wind_speed_title,
                 iconDescription = current?.windSpeed ?: "~~",
                 modifier = Modifier.weight(0.5f)
             )
-            CurrentElementIcon(
+            WeatherElementIcon(
                 iconRes = R.drawable.ic_degrees,
                 iconTitle = R.string.search_direction_title,
                 iconDescription = current?.windDegreesText ?: "~~",
@@ -134,7 +133,7 @@ fun CurrentBottomSheet(
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            CurrentElementSunriseSunset(
+            WeatherElementSunriseSunset(
                 sunrise = current?.sunriseText ?: "",
                 sunset = current?.sunsetText ?: "",
                 sunDuration = current?.daytimeDuration ?: ""
@@ -152,136 +151,6 @@ fun CurrentBottomSheet(
                     hourlies = hourlies.value,
                     modifier = modifier
                         .fillMaxWidth()
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun CurrentElementIcon(
-    iconRes: Int,
-    iconTitle: Int,
-    iconDescription: String,
-    modifier: Modifier = Modifier,
-    iconDegrees: Int = 0
-) {
-    Box(
-        modifier = modifier
-            .padding(8.dp)
-            .background(
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(12.dp)
-            )
-            .padding(8.dp)
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = iconRes),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(48.dp)
-                    .rotate(iconDegrees.toFloat())
-            )
-            Column(
-                modifier = Modifier
-                    .padding(start = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(id = iconTitle),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp
-                )
-                Text(
-                    text = iconDescription,
-                    fontSize = 12.sp
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun CurrentElementSunriseSunset(
-    sunrise: String,
-    sunset: String,
-    sunDuration: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .padding(8.dp)
-            .background(
-                color = MaterialTheme.colors.onSurface.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(12.dp)
-            )
-            .padding(8.dp)
-    ) {
-        Column {
-            Row {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_sunrise),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(48.dp)
-                        .weight(1f)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_sunline),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(48.dp)
-                        .weight(3f)
-                )
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_sunset),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(48.dp)
-                        .weight(1f)
-                )
-            }
-            Row {
-                Text(
-                    text = stringResource(id = R.string.current_sunrise_title),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = stringResource(id = R.string.current_daylight_title),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(3f)
-                )
-                Text(
-                    text = stringResource(id = R.string.current_sunset_title),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.weight(1f)
-                )
-            }
-            Row {
-                Text(
-                    text = sunrise,
-                    fontSize = 12.sp,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = sunDuration,
-                    fontSize = 12.sp,
-                    modifier = Modifier.weight(3f),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = sunset,
-                    fontSize = 12.sp,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
                 )
             }
         }
@@ -335,5 +204,5 @@ fun PreviewSearchBottomSheet() {
 @Preview(widthDp = 360)
 @Composable
 fun PreviewSearchElementSunriseSunset() {
-    CurrentElementSunriseSunset(sunrise = "7:15", sunset = "18.21", sunDuration = "11:06")
+    WeatherElementSunriseSunset(sunrise = "7:15", sunset = "18.21", sunDuration = "11:06")
 }
