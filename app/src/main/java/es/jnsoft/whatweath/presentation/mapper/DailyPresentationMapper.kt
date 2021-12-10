@@ -4,12 +4,14 @@ import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Daily
 import es.jnsoft.whatweath.presentation.model.DailyPresentation
 import es.jnsoft.whatweath.utils.convertLongToTime
+import es.jnsoft.whatweath.utils.convertLongToWeekDay
 import java.math.RoundingMode
 import kotlin.math.roundToInt
 
 fun Daily.toPresentation(units: Units): DailyPresentation {
     return DailyPresentation(
         clouds = "$clouds %",
+        dayText = convertLongToWeekDay(deltaTime, timeZone),
         deltaTime = deltaTime,
         description = description,
         dewPoint = when (units) {

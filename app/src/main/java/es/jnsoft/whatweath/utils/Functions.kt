@@ -63,8 +63,16 @@ fun convertLongToTime(time: Long, offset: Int): String {
 }
 
 fun daytimeDuration(sunrise: Long, sunset: Long): String {
-    val time = Date(sunset - sunrise)
+    val date = Date(sunset - sunrise)
     val format = SimpleDateFormat("HH:mm")
     format.timeZone = TimeZone.getTimeZone("UTC")
-    return format.format(time)
+    return format.format(date)
+}
+
+fun convertLongToWeekDay(deltaTime: Long, offset: Int): String {
+    val date = Date(deltaTime)
+    date.time += offset.toLong() * 1000
+    val format = SimpleDateFormat("EEEE")
+    format.timeZone = TimeZone.getTimeZone("UTC")
+    return format.format(date).replaceFirstChar { it.uppercase() }
 }

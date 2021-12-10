@@ -2,6 +2,7 @@ package es.jnsoft.whatweath.presentation.model
 
 data class DailyPresentation(
     val clouds: String,
+    val dayText: String,
     val deltaTime: Long,
     val description: String,
     val dewPoint: String,
