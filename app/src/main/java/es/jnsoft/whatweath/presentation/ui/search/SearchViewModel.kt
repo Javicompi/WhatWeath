@@ -6,7 +6,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.SettingsRepository
-import es.jnsoft.domain.usecase.*
+import es.jnsoft.domain.usecase.FindCurrentByNameUseCase
+import es.jnsoft.domain.usecase.FindHourliesUseCase
+import es.jnsoft.domain.usecase.SaveEntryUseCase
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
@@ -24,10 +26,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val findCurrentByNameUseCase: FindCurrentByNameUseCase,
     private val findHourliesUseCase: FindHourliesUseCase,
-    private val saveCurrentUseCase: SaveCurrentUseCase,
-    private val saveHourliesUseCase: SaveHourliesUseCase,
-    private val saveDailiesUseCase: SaveDailiesUseCase,
-    private val setSelectedIdUseCase: SetSelectedIdUseCase,
+    private val saveEntryUseCase: SaveEntryUseCase,
     settingsRepository: SettingsRepository
 ) : ViewModel() {
 
@@ -106,18 +105,16 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             val current = currentDomain.value
             if (current is Result.Success) {
-                saveCurrentUseCase.invoke(current.value)
                 val lat = current.value.location.lat
                 val lon = current.value.location.lon
-                val hourlies = hourlyDomain.value
-                if (hourlies is Result.Success && hourlies.value.isNotEmpty()) {
-                    saveHourliesUseCase.invoke(hourlies.value)
+                val hourlyData = hourlyDomain.value
+                val hourlies = if (hourlyData is Result.Success && hourlyData.value.isNotEmpty()) {
+                    hourlyData.value
                 } else {
-                    saveHourliesUseCase.invoke(listOf(createHourly(lat, lon)))
+                    listOf(createHourly(lat, lon))
                 }
-                val dailies = createDaily(lat, lon)
-                saveDailiesUseCase.invoke(listOf(dailies))
-                setSelectedIdUseCase.invoke(current.value.id)
+                val dailies = listOf(createDaily(lat, lon))
+                saveEntryUseCase.invoke(current.value, hourlies, dailies)
                 sendEvent(Event.NavigateToCurrent)
             }
         }
