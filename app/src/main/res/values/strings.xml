@@ -4,7 +4,7 @@
     // Navigation
     <string name="screen_current">Current</string>
     <string name="screen_hours">48 hours</string>
-    <string name="screen_days">7 days</string>
+    <string name="screen_week">Week</string>
     <string name="screen_search">Search</string>
     <string name="screen_result">Result</string>
 
@@ -45,4 +45,12 @@
     <string name="current_amount_title">Amount</string>
     <string name="current_fab_delete">Delete</string>
     <string name="current_entry_deleted">%s deleted</string>
+
+    // Daily
+    <string name="daily_uvi_title">UV Index</string>
+    <string name="daily_uvi_low">Low</string>
+    <string name="daily_uvi_moderate">Moderate</string>
+    <string name="daily_uvi_high">High</string>
+    <string name="daily_uvi_very_high">Very high</string>
+    <string name="daily_uvi_extreme">Extreme</string>
 </resources>
