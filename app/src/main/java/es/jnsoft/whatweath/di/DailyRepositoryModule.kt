@@ -3,32 +3,32 @@ package es.jnsoft.whatweath.di
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
 import es.jnsoft.data.local.DailyLocalDataSource
 import es.jnsoft.data.remote.DailyRemoteDataSource
 import es.jnsoft.data.repository.DailyRepositoryImp
 import es.jnsoft.domain.repository.DailyRepository
 import es.jnsoft.framework.local.DailyLocalDataSourceImp
 import es.jnsoft.framework.remote.DailyRemoteDataSourceImp
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class DailyRepositoryModule {
 
     @Binds
-    @ViewModelScoped
+    @Singleton
     abstract fun bindDailyLocalDataSource(
         dataSource: DailyLocalDataSourceImp
     ): DailyLocalDataSource
 
     @Binds
-    @ViewModelScoped
+    @Singleton
     abstract fun bindDailyRemoteDataSource(
         dataSource: DailyRemoteDataSourceImp
     ): DailyRemoteDataSource
 
     @Binds
-    @ViewModelScoped
+    @Singleton
     abstract fun bindDailyRepository(repository: DailyRepositoryImp): DailyRepository
 }
