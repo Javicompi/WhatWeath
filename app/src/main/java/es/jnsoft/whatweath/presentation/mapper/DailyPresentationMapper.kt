@@ -5,6 +5,7 @@ import es.jnsoft.domain.model.Daily
 import es.jnsoft.whatweath.presentation.model.DailyPresentation
 import es.jnsoft.whatweath.utils.convertLongToTime
 import es.jnsoft.whatweath.utils.convertLongToWeekDay
+import es.jnsoft.whatweath.utils.daytimeDuration
 import java.math.RoundingMode
 import kotlin.math.roundToInt
 
@@ -13,6 +14,7 @@ fun Daily.toPresentation(units: Units): DailyPresentation {
         clouds = "$clouds %",
         dayText = convertLongToWeekDay(deltaTime, timeZone),
         deltaTime = deltaTime,
+        dayTimeDuration = daytimeDuration(sunrise, sunset),
         description = description,
         dewPoint = when (units) {
             Units.STANDARD -> dewPoint.roundToInt().toString() + " K"
@@ -25,7 +27,7 @@ fun Daily.toPresentation(units: Units): DailyPresentation {
         lon = location.lon,
         moonPhase = moonPhase,
         pop = pop,
-        pressure = pressure,
+        pressure = "$pressure hPa",
         rain = when (units) {
             Units.STANDARD -> rain
             Units.METRIC -> rain
