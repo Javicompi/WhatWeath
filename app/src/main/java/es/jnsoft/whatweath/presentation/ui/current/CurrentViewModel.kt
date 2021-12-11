@@ -18,18 +18,12 @@ import javax.inject.Inject
 @HiltViewModel
 @ExperimentalCoroutinesApi
 class CurrentViewModel @Inject constructor(
-    private val getCurrentByIdUseCase: GetCurrentByIdUseCase,
     private val getHourliesUseCase: GetHourliesUseCase,
-    private val deleteCurrentUseCase: DeleteCurrentUseCase,
-    private val deleteHourliesUseCase: DeleteHourliesUseCase,
-    private val deleteDailiesUseCase: DeleteDailiesUseCase,
+    private val deleteEntryUseCase: DeleteEntryUseCase,
     getUnitsUseCase: GetUnitsUseCase,
-    getSelectedIdUseCase: GetSelectedIdUseCase
-) : BaseViewModel(getUnitsUseCase) {
-
-    private val currentDomain = getSelectedIdUseCase.invoke(Unit).flatMapLatest { id ->
-        getCurrentByIdUseCase.invoke(id)
-    }
+    getSelectedIdUseCase: GetSelectedIdUseCase,
+    getCurrentByIdUseCase: GetCurrentByIdUseCase
+) : BaseViewModel(getUnitsUseCase, getSelectedIdUseCase, getCurrentByIdUseCase) {
 
     private val hourlyDomain = currentDomain.flatMapLatest { current ->
         flow {
@@ -77,9 +71,7 @@ class CurrentViewModel @Inject constructor(
         viewModelScope.launch {
             val current = currentDomain.first()
             current?.let { entry ->
-                deleteDailiesUseCase.invoke(entry.location)
-                deleteHourliesUseCase.invoke(entry.location)
-                deleteCurrentUseCase.invoke(entry)
+                deleteEntryUseCase.invoke(entry)
             }
         }
     }

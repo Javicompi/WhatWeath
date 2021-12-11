@@ -16,23 +16,19 @@ import javax.inject.Inject
 @HiltViewModel
 @ExperimentalCoroutinesApi
 class MainViewModel @Inject constructor(
+    private val setSelectedIdUseCase: SetSelectedIdUseCase,
+    private val setUnitsUseCase: SetUnitsUseCase,
     getSelectedIdUseCase: GetSelectedIdUseCase,
     getCurrentsUseCase: GetCurrentsUseCase,
     getCurrentByIdUseCase: GetCurrentByIdUseCase,
-    private val setSelectedIdUseCase: SetSelectedIdUseCase,
     getUnitsUseCase: GetUnitsUseCase,
-    private val setUnitsUseCase: SetUnitsUseCase
-) : BaseViewModel(getUnitsUseCase) {
+) : BaseViewModel(getUnitsUseCase, getSelectedIdUseCase, getCurrentByIdUseCase) {
 
     val selectedId: StateFlow<Long> = getSelectedIdUseCase.invoke(Unit).stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = 0L
     )
-
-    val currentDomain = selectedId.flatMapLatest { id ->
-        getCurrentByIdUseCase.invoke(id)
-    }
 
     private val currentsDomain = getCurrentsUseCase.invoke(Unit)
 
