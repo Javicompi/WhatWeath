@@ -1,16 +1,20 @@
 package es.jnsoft.whatweath.presentation.ui.main
 
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 
@@ -18,31 +22,63 @@ import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 fun DrawerItem(
     current: CurrentPresentation,
     isSelected: Boolean,
+    onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val elevationDp: Dp by animateDpAsState(if (isSelected) 0.dp else 4.dp)
     val backgroundColor = when (current.icon) {
-        "01d" -> { Color(0xFF5BC5F2) }
-        "02d" -> { Color(0xFF56B7E0) }
-        "03d" -> { Color(0xFF50A9CE) }
-        "04d" -> { Color(0xFF499ABB) }
-        "09d" -> { Color(0xFF397A94) }
-        "10d" -> { Color(0xFF418AA8) }
-        "11d" -> { Color(0xFF397A94) }
-        "13d" -> { Color(0xFF397A94) }
-        "50d" -> { Color(0xFF397A94) }
-        "01n" -> { Color(0xFF575756) }
-        "02n" -> { Color(0xFF4A4A49) }
-        "03n" -> { Color(0xFF3C3C3B) }
-        "04n" -> { Color(0xFF282727) }
-        else -> { Color(0xFF000000) }
+        "01d" -> {
+            Color(0xFF5BC5F2)
+        }
+        "02d" -> {
+            Color(0xFF56B7E0)
+        }
+        "03d" -> {
+            Color(0xFF50A9CE)
+        }
+        "04d" -> {
+            Color(0xFF499ABB)
+        }
+        "09d" -> {
+            Color(0xFF397A94)
+        }
+        "10d" -> {
+            Color(0xFF418AA8)
+        }
+        "11d" -> {
+            Color(0xFF397A94)
+        }
+        "13d" -> {
+            Color(0xFF397A94)
+        }
+        "50d" -> {
+            Color(0xFF397A94)
+        }
+        "01n" -> {
+            Color(0xFF575756)
+        }
+        "02n" -> {
+            Color(0xFF4A4A49)
+        }
+        "03n" -> {
+            Color(0xFF3C3C3B)
+        }
+        "04n" -> {
+            Color(0xFF282727)
+        }
+        else -> {
+            Color(0xFF000000)
+        }
     }
     Card(
         shape = RoundedCornerShape(16.dp),
         backgroundColor = backgroundColor,
-        elevation = if (isSelected) 0.dp else 4.dp,
-        modifier = modifier.padding(
-            if (isSelected) 6.dp else 0.dp
-        )
+        elevation = elevationDp,
+        modifier = modifier
+            .clickable { onItemClick() }
+            .padding(
+                if (isSelected) 6.dp else 0.dp
+            )
     ) {
         Box(
             modifier = Modifier
@@ -51,19 +87,19 @@ fun DrawerItem(
         ) {
             Text(
                 text = current.name,
-                color = MaterialTheme.colors.onPrimary,
+                color = Color.White,
                 style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.align(Alignment.TopEnd)
             )
             Text(
                 text = current.temp,
-                color = MaterialTheme.colors.onPrimary,
+                color = Color.White,
                 style = MaterialTheme.typography.h5,
                 modifier = Modifier.align(Alignment.BottomStart)
             )
             Text(
                 text = current.description,
-                color = MaterialTheme.colors.onPrimary,
+                color = Color.White,
                 style = MaterialTheme.typography.h5,
                 modifier = Modifier.align(Alignment.BottomEnd)
             )
@@ -77,6 +113,7 @@ fun PreviewDrawerItem() {
     DrawerItem(
         current = mockCurrentPresentation(),
         isSelected = false,
+        onItemClick = { },
         modifier = Modifier
             .fillMaxWidth()
             .height(240.dp)
