@@ -4,7 +4,6 @@ import es.jnsoft.data.local.DailyLocalDataSource
 import es.jnsoft.data.mapper.DailyDataMapper
 import es.jnsoft.data.remote.DailyRemoteDataSource
 import es.jnsoft.domain.model.Daily
-import es.jnsoft.domain.model.Location
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.DailyRepository
 import kotlinx.coroutines.flow.*
@@ -30,8 +29,8 @@ class DailyRepositoryImp @Inject constructor(
         localDataSource.saveDailies(DailyDataMapper.mapFromDomainList(dailies))
     }
 
-    override suspend fun deleteDailies(location: Location) {
-        localDataSource.deleteDailies(location)
+    override suspend fun deleteDailies(lat: Double, lon: Double) {
+        localDataSource.deleteDailies(lat, lon)
     }
 
     override suspend fun findDailies(lat: Double, lon: Double): Result<List<Daily>> {
