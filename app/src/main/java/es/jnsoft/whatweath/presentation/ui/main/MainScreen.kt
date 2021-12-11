@@ -5,7 +5,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -21,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -56,7 +54,6 @@ fun MainScreen(
     val navController = rememberNavController()
     val screens = listOf(
         BottomNavScreen.Current,
-        BottomNavScreen.Hours,
         BottomNavScreen.Days,
         BottomNavScreen.Search
     )
@@ -74,8 +71,7 @@ fun MainScreen(
                 title = current.value?.name ?: stringResource(id = R.string.app_name),
                 menuActions = menuActions,
                 onMenuItemClick = { mainViewModel.setUnits(units = it) },
-                modifier = Modifier.statusBarsPadding(),
-                navController = navController
+                modifier = Modifier.statusBarsPadding()
             )
         },
         bottomBar = {
@@ -158,24 +154,15 @@ private fun WhatWeathAppBar(
     title: String,
     menuActions: List<MenuAction>,
     onMenuItemClick: (Units) -> Unit,
-    navController: NavController,
     modifier: Modifier = Modifier,
 ) {
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            if (navController.previousBackStackEntry?.destination?.route == BottomNavScreen.Result.route) {
-                IconButton(onClick = {
-                    scope.launch { navController.popBackStack() }
-                }) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
-                }
-            } else {
-                IconButton(onClick = {
-                    scope.launch { scaffoldState.drawerState.open() }
-                }) {
-                    Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
-                }
+            IconButton(onClick = {
+                scope.launch { scaffoldState.drawerState.open() }
+            }) {
+                Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
             }
         },
         modifier = modifier,
@@ -238,16 +225,11 @@ private fun CurrentsList(
             DrawerItem(
                 current = current,
                 isSelected = isSelected,
+                onItemClick = { onDrawerItemClick(current.id) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(180.dp)
                     .padding(12.dp)
-                    .selectable(
-                        selected = isSelected,
-                        onClick = {
-                            onDrawerItemClick(current.id)
-                        }
-                    )
             )
         }
     }
