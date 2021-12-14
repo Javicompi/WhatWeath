@@ -1,6 +1,7 @@
 package es.jnsoft.whatweath.presentation.ui.main
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,11 +13,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
+import es.jnsoft.whatweath.utils.DrawableLoader
+import es.jnsoft.whatweath.utils.DrawableType
 
 @Composable
 fun DrawerItem(
@@ -25,54 +31,10 @@ fun DrawerItem(
     onItemClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val elevationDp: Dp by animateDpAsState(if (isSelected) 0.dp else 4.dp)
-    val backgroundColor = when (current.icon) {
-        "01d" -> {
-            Color(0xFF5BC5F2)
-        }
-        "02d" -> {
-            Color(0xFF56B7E0)
-        }
-        "03d" -> {
-            Color(0xFF50A9CE)
-        }
-        "04d" -> {
-            Color(0xFF499ABB)
-        }
-        "09d" -> {
-            Color(0xFF397A94)
-        }
-        "10d" -> {
-            Color(0xFF418AA8)
-        }
-        "11d" -> {
-            Color(0xFF397A94)
-        }
-        "13d" -> {
-            Color(0xFF397A94)
-        }
-        "50d" -> {
-            Color(0xFF397A94)
-        }
-        "01n" -> {
-            Color(0xFF575756)
-        }
-        "02n" -> {
-            Color(0xFF4A4A49)
-        }
-        "03n" -> {
-            Color(0xFF3C3C3B)
-        }
-        "04n" -> {
-            Color(0xFF282727)
-        }
-        else -> {
-            Color(0xFF000000)
-        }
-    }
     Card(
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = backgroundColor,
         elevation = elevationDp,
         modifier = modifier
             .clickable { onItemClick() }
@@ -80,6 +42,18 @@ fun DrawerItem(
                 if (isSelected) 6.dp else 0.dp
             )
     ) {
+        Image(
+            painter = painterResource(
+                id = DrawableLoader.loadDrawable(
+                    resourceName = current.icon,
+                    drawableType = DrawableType.DRAWABLEELEMENT,
+                    context = context
+                )
+            ),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
         Box(
             modifier = Modifier
                 .fillMaxSize()
