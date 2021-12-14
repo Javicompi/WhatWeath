@@ -22,7 +22,7 @@ API_KEY="your_api_key"
   
   -[Room](https://developer.android.com/training/data-storage/room) for local persistence.
   
-  -[WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) for background asynchronous tasks.
+  -[WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) for background asynchronous scheduled tasks.
   
   -[Datastore](https://developer.android.com/topic/libraries/architecture/datastore) for settings persistence.
   
