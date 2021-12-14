@@ -4,7 +4,7 @@ import android.content.Context
 
 enum class DrawableType(val value: String) {
     FULLSCREEN("fs_"),
-    LISTELEMENT("le_"),
+    DRAWABLEELEMENT("di_"),
     ICONELEMENT("ic_")
 }
 
