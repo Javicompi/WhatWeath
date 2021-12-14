@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -24,7 +25,8 @@ fun WeatherElementIcon(
     iconTitle: Int,
     iconDescription: String,
     modifier: Modifier = Modifier,
-    iconDegrees: Int = 0
+    iconDegrees: Int = 0,
+    tintColor: Color = MaterialTheme.colors.onSurface
 ) {
     Box(
         modifier = modifier
@@ -38,6 +40,7 @@ fun WeatherElementIcon(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = iconRes),
+                tint = tintColor,
                 contentDescription = null,
                 modifier = Modifier
                     .size(48.dp)
@@ -49,11 +52,13 @@ fun WeatherElementIcon(
             ) {
                 Text(
                     text = stringResource(id = iconTitle),
+                    color = tintColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp
                 )
                 Text(
                     text = iconDescription,
+                    color = tintColor,
                     fontSize = 12.sp
                 )
             }
@@ -66,7 +71,8 @@ fun WeatherElementSunriseSunset(
     sunrise: String,
     sunset: String,
     sunDuration: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    tintColor: Color = MaterialTheme.colors.onSurface
 ) {
     Box(
         modifier = modifier
@@ -81,6 +87,7 @@ fun WeatherElementSunriseSunset(
             Row {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_sunrise),
+                    tint = tintColor,
                     contentDescription = null,
                     modifier = Modifier
                         .size(48.dp)
@@ -88,6 +95,7 @@ fun WeatherElementSunriseSunset(
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_sunline),
+                    tint = tintColor,
                     contentDescription = null,
                     modifier = Modifier
                         .height(48.dp)
@@ -95,6 +103,7 @@ fun WeatherElementSunriseSunset(
                 )
                 Icon(
                     painter = painterResource(id = R.drawable.ic_sunset),
+                    tint = tintColor,
                     contentDescription = null,
                     modifier = Modifier
                         .size(48.dp)
@@ -104,6 +113,7 @@ fun WeatherElementSunriseSunset(
             Row {
                 Text(
                     text = stringResource(id = R.string.current_sunrise_title),
+                    color = tintColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
@@ -111,6 +121,7 @@ fun WeatherElementSunriseSunset(
                 )
                 Text(
                     text = stringResource(id = R.string.current_daylight_title),
+                    color = tintColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
@@ -118,6 +129,7 @@ fun WeatherElementSunriseSunset(
                 )
                 Text(
                     text = stringResource(id = R.string.current_sunset_title),
+                    color = tintColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,
                     textAlign = TextAlign.Center,
@@ -127,18 +139,21 @@ fun WeatherElementSunriseSunset(
             Row {
                 Text(
                     text = sunrise,
+                    color = tintColor,
                     fontSize = 12.sp,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = sunDuration,
+                    color = tintColor,
                     fontSize = 12.sp,
                     modifier = Modifier.weight(3f),
                     textAlign = TextAlign.Center
                 )
                 Text(
                     text = sunset,
+                    color = tintColor,
                     fontSize = 12.sp,
                     modifier = Modifier.weight(1f),
                     textAlign = TextAlign.Center
