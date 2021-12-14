@@ -228,7 +228,7 @@ private fun CurrentsList(
                 onItemClick = { onDrawerItemClick(current.id) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(180.dp)
+                    .height(220.dp)
                     .padding(12.dp)
             )
         }
