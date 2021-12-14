@@ -1,5 +1,5 @@
 # WhatWeath
-Compose WhatWeath is an small weather Android app focused on Jetpack Compose using OpenWeatherMap API. The app uses Clean Architecture, SOLID and MVVM with repository pattern. Single Activity, no Fragments.
+Compose WhatWeath is an small weather Android app focused on Jetpack Compose using [OpenWeatherMap API](https://openweathermap.org/api). The app uses Clean Architecture, SOLID and MVVM with repository pattern. Single Activity, no Fragments.
 
 ![alt text](https://github.com/Javicompi/WhatWeath/blob/master/previews/Presentation.png "Preview")
 
