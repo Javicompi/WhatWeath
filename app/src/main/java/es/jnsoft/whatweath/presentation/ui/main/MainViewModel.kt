@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.enums.Units
-import es.jnsoft.domain.usecase.*
+import es.jnsoft.usecase.*
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import es.jnsoft.whatweath.presentation.ui.base.BaseViewModel

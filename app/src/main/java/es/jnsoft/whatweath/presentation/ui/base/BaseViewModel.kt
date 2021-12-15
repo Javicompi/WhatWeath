@@ -1,9 +1,9 @@
 package es.jnsoft.whatweath.presentation.ui.base
 
 import androidx.lifecycle.ViewModel
-import es.jnsoft.domain.usecase.GetCurrentByIdUseCase
-import es.jnsoft.domain.usecase.GetSelectedIdUseCase
-import es.jnsoft.domain.usecase.GetUnitsUseCase
+import es.jnsoft.usecase.GetCurrentByIdUseCase
+import es.jnsoft.usecase.GetSelectedIdUseCase
+import es.jnsoft.usecase.GetUnitsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flatMapLatest
 

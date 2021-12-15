@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.model.Hourly
 import es.jnsoft.domain.model.Result
-import es.jnsoft.domain.usecase.*
+import es.jnsoft.usecase.*
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import es.jnsoft.whatweath.presentation.model.HourlyPresentation
