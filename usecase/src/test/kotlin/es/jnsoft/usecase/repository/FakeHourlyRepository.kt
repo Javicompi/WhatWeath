@@ -1,8 +1,9 @@
-package es.jnsoft.domain.repository
+package es.jnsoft.usecase.repository
 
-import es.jnsoft.domain.createHourlyList
 import es.jnsoft.domain.model.Hourly
 import es.jnsoft.domain.model.Result
+import es.jnsoft.domain.repository.HourlyRepository
+import es.jnsoft.usecase.createHourlyList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.concurrent.TimeUnit
@@ -41,9 +42,7 @@ class FakeHourlyRepository : HourlyRepository {
         this.hourlies.addAll(hourlies)
     }
 
-    override suspend fun deleteHourlies(hourlies: List<Hourly>) {
-        val lat = hourlies[0].location.lat
-        val lon = hourlies[0].location.lon
+    override suspend fun deleteHourlies(lat: Double, lon: Double) {
         val newHourlies = this.hourlies.filter { it.location.lat != lat && it.location.lon != lon }
         /*hourlies.forEach { hourly ->
             if (hourly.location.lat != lat && hourly.location.lon != lon) newHourlies.add(hourly)
@@ -57,6 +56,10 @@ class FakeHourlyRepository : HourlyRepository {
         } else {
             Result.Failure("Location not found")
         }
+    }
+
+    override suspend fun updateHourlies(lat: Double, lon: Double) {
+        TODO("Not yet implemented")
     }
 
     override fun shouldUpdate(deltaTime: Long): Boolean {

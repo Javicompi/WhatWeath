@@ -1,8 +1,9 @@
-package es.jnsoft.domain.repository
+package es.jnsoft.usecase.repository
 
-import es.jnsoft.domain.createFirstCurrent
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
+import es.jnsoft.domain.repository.CurrentRepository
+import es.jnsoft.usecase.createFirstCurrent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.util.concurrent.TimeUnit
@@ -55,6 +56,14 @@ class FakeCurrentRepository : CurrentRepository {
         } else {
             Result.Failure("Location not found")
         }
+    }
+
+    override suspend fun findCurrentById(id: Long): Result<Current> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateCurrents() {
+        TODO("Not yet implemented")
     }
 
     override fun shouldUpdate(deltaTime: Long): Boolean {

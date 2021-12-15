@@ -1,4 +1,4 @@
-package es.jnsoft.domain
+package es.jnsoft.usecase
 
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Hourly
@@ -63,7 +63,7 @@ fun createHourly(lat: Double = 38.2246, lon: Double = -0.5193): Hourly {
         humidity = 65,
         icon = "02d",
         location = Location(lat, lon),
-        pop = 0.0,
+        pop = 0,
         pressure = 1019,
         rain = 0.0,
         snow = 0.0,

@@ -1,0 +1,19 @@
+plugins {
+    id 'java-library'
+    id 'kotlin'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    api commonDependencies.kotlin
+    api commonDependencies.coroutinesCore
+
+    testImplementation commonDependencies.junit
+
+    implementation group: 'javax.inject', name: 'javax.inject', version: '1'
+    implementation project(path: ':domain')
+}

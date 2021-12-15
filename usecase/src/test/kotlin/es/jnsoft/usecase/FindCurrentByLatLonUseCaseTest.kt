@@ -1,27 +1,28 @@
-package es.jnsoft.domain
+package es.jnsoft.usecase
 
+import es.jnsoft.domain.model.Location
 import es.jnsoft.domain.model.Result
-import es.jnsoft.domain.repository.FakeCurrentRepository
-import es.jnsoft.domain.usecase.FindCurrentByNameUseCase
+import es.jnsoft.usecase.repository.FakeCurrentRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class FindCurrentByNameUseCaseTest {
+class FindCurrentByLatLonUseCaseTest {
 
     private lateinit var repository: FakeCurrentRepository
 
-    private lateinit var useCase: FindCurrentByNameUseCase
+    private lateinit var useCase: FindCurrentByLatLonUseCase
 
     @Before
     fun setup() {
         repository = FakeCurrentRepository()
-        useCase = FindCurrentByNameUseCase(repository)
+        useCase = FindCurrentByLatLonUseCase(repository)
     }
 
     @Test
     fun findCurrent_resultSuccess() = runBlocking {
-        val result = useCase.invoke("ok")
+        val successLocation = Location(1.0, 1.0)
+        val result = useCase.invoke(successLocation)
         assert(result is Result.Success)
         val data = (result as Result.Success).value
         assert(data.name == "Gran Alacant")
@@ -29,7 +30,8 @@ class FindCurrentByNameUseCaseTest {
 
     @Test
     fun findCurrent_resultFailure() = runBlocking {
-        val result = useCase.invoke("")
+        val failureLocation = Location(0.0, 0.0)
+        val result = useCase.invoke(failureLocation)
         assert(result is Result.Failure)
     }
 }

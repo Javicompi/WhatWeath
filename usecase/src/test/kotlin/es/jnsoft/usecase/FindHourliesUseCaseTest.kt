@@ -1,9 +1,8 @@
-package es.jnsoft.domain
+package es.jnsoft.usecase
 
 import es.jnsoft.domain.model.Location
 import es.jnsoft.domain.model.Result
-import es.jnsoft.domain.repository.FakeHourlyRepository
-import es.jnsoft.domain.usecase.FindHourliesUseCase
+import es.jnsoft.usecase.repository.FakeHourlyRepository
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test

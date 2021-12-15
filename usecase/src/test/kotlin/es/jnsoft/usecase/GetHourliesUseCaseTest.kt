@@ -1,8 +1,7 @@
-package es.jnsoft.domain
+package es.jnsoft.usecase
 
 import es.jnsoft.domain.model.Location
-import es.jnsoft.domain.repository.FakeHourlyRepository
-import es.jnsoft.domain.usecase.GetHourliesUseCase
+import es.jnsoft.usecase.repository.FakeHourlyRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList

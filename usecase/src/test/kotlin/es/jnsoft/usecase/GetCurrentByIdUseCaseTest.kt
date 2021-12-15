@@ -1,7 +1,6 @@
-package es.jnsoft.domain
+package es.jnsoft.usecase
 
-import es.jnsoft.domain.repository.FakeCurrentRepository
-import es.jnsoft.domain.usecase.GetCurrentByIdUseCase
+import es.jnsoft.usecase.repository.FakeCurrentRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
