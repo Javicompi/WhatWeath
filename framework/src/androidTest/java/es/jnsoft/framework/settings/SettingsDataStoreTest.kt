@@ -3,7 +3,7 @@ package es.jnsoft.framework.settings
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import es.jnsoft.framework.settings.datastore.SettingsDataStore
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking

@@ -1,7 +1,7 @@
 package es.jnsoft.framework.remote.service
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import es.jnsoft.framework.remote.model.CurrentResponse
 import es.jnsoft.framework.remote.model.ErrorResponse
 import retrofit2.http.GET

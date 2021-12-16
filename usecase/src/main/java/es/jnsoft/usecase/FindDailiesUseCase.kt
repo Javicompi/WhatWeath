@@ -4,7 +4,6 @@ import es.jnsoft.domain.model.Daily
 import es.jnsoft.domain.model.Location
 import es.jnsoft.domain.model.Result
 import es.jnsoft.domain.repository.DailyRepository
-import es.jnsoft.domain.usecase.BaseUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

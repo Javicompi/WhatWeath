@@ -1,8 +1,7 @@
 package es.jnsoft.usecase
 
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import es.jnsoft.domain.repository.SettingsRepository
-import es.jnsoft.domain.usecase.BaseUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package es.jnsoft.framework.settings
 
 import es.jnsoft.data.settings.SettingsDataSource
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import es.jnsoft.framework.settings.datastore.SettingsDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

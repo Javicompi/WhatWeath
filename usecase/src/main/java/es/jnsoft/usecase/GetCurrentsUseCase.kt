@@ -2,7 +2,6 @@ package es.jnsoft.usecase
 
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.repository.CurrentRepository
-import es.jnsoft.domain.usecase.BaseFlowUseCase
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package es.jnsoft.domain.enums
+package es.jnsoft.domain.model
 
 enum class Units(val value: String) {
 

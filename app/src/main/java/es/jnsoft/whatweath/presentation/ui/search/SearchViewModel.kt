@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.model.Current
 import es.jnsoft.domain.model.Result
-import es.jnsoft.domain.repository.SettingsRepository
-import es.jnsoft.domain.usecase.FindCurrentByNameUseCase
-import es.jnsoft.domain.usecase.FindHourliesUseCase
-import es.jnsoft.domain.usecase.SaveEntryUseCase
+import es.jnsoft.usecase.FindCurrentByNameUseCase
+import es.jnsoft.usecase.FindHourliesUseCase
+import es.jnsoft.usecase.GetUnitsUseCase
+import es.jnsoft.usecase.SaveEntryUseCase
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
@@ -27,10 +27,10 @@ class SearchViewModel @Inject constructor(
     private val findCurrentByNameUseCase: FindCurrentByNameUseCase,
     private val findHourliesUseCase: FindHourliesUseCase,
     private val saveEntryUseCase: SaveEntryUseCase,
-    settingsRepository: SettingsRepository
+    getUnitsUseCase: GetUnitsUseCase
 ) : ViewModel() {
 
-    private val units = settingsRepository.getUnits()
+    private val units = getUnitsUseCase.invoke(Unit)
 
     private val currentDomain = MutableStateFlow<Result<Current>>(Result.Failure(""))
 

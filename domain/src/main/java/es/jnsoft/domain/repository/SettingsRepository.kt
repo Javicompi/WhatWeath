@@ -1,6 +1,6 @@
 package es.jnsoft.domain.repository
 
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import kotlinx.coroutines.flow.Flow
 
 interface SettingsRepository {

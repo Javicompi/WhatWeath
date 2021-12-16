@@ -1,7 +1,7 @@
 package es.jnsoft.whatweath.presentation.mapper
 
-import es.jnsoft.domain.enums.Units
 import es.jnsoft.domain.model.Current
+import es.jnsoft.domain.model.Units
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import es.jnsoft.whatweath.utils.convertLongToTime
 import es.jnsoft.whatweath.utils.daytimeDuration

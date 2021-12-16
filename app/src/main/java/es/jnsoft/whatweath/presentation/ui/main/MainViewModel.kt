@@ -3,7 +3,7 @@ package es.jnsoft.whatweath.presentation.ui.main
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import es.jnsoft.usecase.*
 import es.jnsoft.whatweath.presentation.mapper.toPresentation
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation

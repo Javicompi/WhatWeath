@@ -1,7 +1,7 @@
 package es.jnsoft.whatweath.presentation.ui.main
 
 import androidx.annotation.StringRes
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import es.jnsoft.whatweath.R
 
 sealed class MenuAction(@StringRes val label: Int, val units: Units) {

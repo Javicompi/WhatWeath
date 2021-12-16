@@ -30,7 +30,7 @@ import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.insets.ui.BottomNavigation
 import com.google.accompanist.insets.ui.Scaffold
 import com.google.accompanist.insets.ui.TopAppBar
-import es.jnsoft.domain.enums.Units
+import es.jnsoft.domain.model.Units
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.model.CurrentPresentation
 import kotlinx.coroutines.CoroutineScope
