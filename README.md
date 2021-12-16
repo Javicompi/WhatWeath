@@ -37,3 +37,5 @@ API_KEY="your_api_key"
 * [Retrofit](https://square.github.io/retrofit/) for consuming REST API.
 * [Moshi](https://github.com/square/moshi) for JSON parsing.
 * [NetworkResponseAdapter](https://github.com/haroldadmin/NetworkResponseAdapter) for handling API responses.
+
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/_dIK17cQ3So/0.jpg)](http://www.youtube.com/watch?v=_dIK17cQ3So)
