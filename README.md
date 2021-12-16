@@ -18,6 +18,9 @@ API_KEY="your_api_key"
 
 ### Tech stack & libraries
 * Kotlin based, [Flows](https://kotlinlang.org/docs/flow.html) and [Coroutines](https://kotlinlang.org/docs/coroutines-overview.html) for asynchronous work.
+
+<img align="right" width="180" height="360" src="https://github.com/Javicompi/WhatWeath/blob/master/previews/video_preview.gif">
+
 * Android Jetpack:
   
   -[Compose](https://developer.android.com/jetpack/compose) for building the UI.
