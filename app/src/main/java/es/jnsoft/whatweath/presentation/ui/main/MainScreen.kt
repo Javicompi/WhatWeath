@@ -88,13 +88,6 @@ fun MainScreen(
                 onItemClick = {
                     scope.launch { scaffoldState.drawerState.close() }
                     mainViewModel.setSelectedId(it)
-                    navController.navigate(BottomNavScreen.Current.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
                 },
                 modifier = Modifier.statusBarsPadding()
             )
@@ -104,6 +97,17 @@ fun MainScreen(
             navController = navController,
             modifier = Modifier.padding(innerPadding)
         )
+    }
+    LaunchedEffect(selectedId.value) {
+        if (navController.currentDestination?.route != BottomNavScreen.Current.route) {
+            navController.navigate(BottomNavScreen.Current.route) {
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
+        }
     }
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
