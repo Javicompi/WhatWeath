@@ -115,7 +115,6 @@ class SearchViewModel @Inject constructor(
                 }
                 val dailies = listOf(createDaily(lat, lon))
                 saveEntryUseCase.invoke(current.value, hourlies, dailies)
-                sendEvent(Event.NavigateToCurrent)
             }
         }
     }
@@ -129,7 +128,6 @@ class SearchViewModel @Inject constructor(
     sealed class Event {
         data class ShowSnackbarResource(val resource: Int) : Event()
         data class ShowSnackbarString(val message: String) : Event()
-        object NavigateToCurrent : Event()
         object Clean : Event()
     }
 }

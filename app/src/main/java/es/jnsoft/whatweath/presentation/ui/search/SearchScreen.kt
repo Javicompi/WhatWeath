@@ -7,13 +7,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import es.jnsoft.domain.model.Result
 import es.jnsoft.whatweath.R
 import es.jnsoft.whatweath.presentation.ui.common.AnimatedFloatingActionButton
 import es.jnsoft.whatweath.presentation.ui.common.CurrentContent
-import es.jnsoft.whatweath.presentation.ui.main.BottomNavScreen
 import es.jnsoft.whatweath.presentation.ui.search.SearchViewModel.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -23,8 +20,7 @@ import kotlinx.coroutines.launch
 @ExperimentalAnimationApi
 @Composable
 fun SearchScreen(
-    viewModel: SearchViewModel,
-    navController: NavHostController
+    viewModel: SearchViewModel
 ) {
     val events = viewModel.eventsFlow.collectAsState(initial = null)
     val searchCurrentResult by viewModel.currentPresentation.collectAsState(
@@ -65,15 +61,6 @@ fun SearchScreen(
         val event = events.value
         LaunchedEffect(event) {
             when (event) {
-                is Event.NavigateToCurrent -> {
-                    navController.navigate(BottomNavScreen.Current.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                }
                 is Event.ShowSnackbarResource -> {
                     val message = event.resource
                     coroutineScope.launch {
@@ -89,7 +76,7 @@ fun SearchScreen(
                         )
                     }
                 }
-                else -> return@LaunchedEffect
+                is Event.Clean -> return@LaunchedEffect
             }
             viewModel.sendEvent(Event.Clean)
         }

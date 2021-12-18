@@ -40,8 +40,7 @@ fun WhatWeathNavGraph(
         composable(BottomNavScreen.Search.route) {
             val searchViewModel: SearchViewModel = hiltViewModel()
             SearchScreen(
-                searchViewModel,
-                navController
+                searchViewModel
             )
         }
     }
