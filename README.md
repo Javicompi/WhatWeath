@@ -40,3 +40,7 @@ API_KEY="your_api_key"
 * [Retrofit](https://square.github.io/retrofit/) for consuming REST API.
 * [Moshi](https://github.com/square/moshi) for JSON parsing.
 * [NetworkResponseAdapter](https://github.com/haroldadmin/NetworkResponseAdapter) for handling API responses.
+
+### Architecture
+
+![alt text](https://github.com/Javicompi/WhatWeath/blob/master/previews/Architecture.png "Architecture")
