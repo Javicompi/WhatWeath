@@ -14,9 +14,9 @@ abstract class BaseViewModel(
     private val getCurrentByIdUseCase: GetCurrentByIdUseCase
 ) : ViewModel() {
 
-    protected val units = getUnitsUseCase.invoke(Unit)
+    protected val units = getUnitsUseCase(Unit)
 
-    val currentDomain = getSelectedIdUseCase.invoke(Unit).flatMapLatest { id ->
-        getCurrentByIdUseCase.invoke(id)
+    val currentDomain = getSelectedIdUseCase(Unit).flatMapLatest { id ->
+        getCurrentByIdUseCase(id)
     }
 }

@@ -16,7 +16,7 @@ class DeleteEntryUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend fun invoke(current: Current) = withContext(Dispatchers.IO) {
+    suspend operator fun invoke(current: Current) = withContext(Dispatchers.IO) {
         val lat = current.location.lat
         val lon = current.location.lon
         dailyRepository.deleteDailies(lat, lon)

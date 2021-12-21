@@ -25,7 +25,7 @@ class DaysViewModel @Inject constructor(
 
     private val dailiesDomain = currentDomain.flatMapLatest { current ->
         flow {
-            current?.let { emitAll(getDailiesUseCase.invoke(it.location)) } ?: listOf<Daily>()
+            current?.let { emitAll(getDailiesUseCase(it.location)) } ?: listOf<Daily>()
         }
     }
 
@@ -54,7 +54,7 @@ class DaysViewModel @Inject constructor(
         viewModelScope.launch {
             val current = currentDomain.first()
             current?.let { entry ->
-                deleteEntryUseCase.invoke(entry)
+                deleteEntryUseCase(entry)
             }
         }
     }

@@ -27,7 +27,7 @@ class CurrentViewModel @Inject constructor(
 
     private val hourlyDomain = currentDomain.flatMapLatest { current ->
         flow {
-            current?.let { emitAll(getHourliesUseCase.invoke(it.location)) } ?: listOf<Hourly>()
+            current?.let { emitAll(getHourliesUseCase(it.location)) } ?: listOf<Hourly>()
         }
     }
 
@@ -71,7 +71,7 @@ class CurrentViewModel @Inject constructor(
         viewModelScope.launch {
             val current = currentDomain.first()
             current?.let { entry ->
-                deleteEntryUseCase.invoke(entry)
+                deleteEntryUseCase(entry)
             }
         }
     }

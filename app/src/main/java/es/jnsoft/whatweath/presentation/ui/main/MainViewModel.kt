@@ -1,6 +1,5 @@
 package es.jnsoft.whatweath.presentation.ui.main
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import es.jnsoft.domain.model.Units
@@ -43,15 +42,13 @@ class MainViewModel @Inject constructor(
 
     fun setSelectedId(id: Long) {
         viewModelScope.launch {
-            Log.d("MainViewModel", "Selected Id: $id")
-            setSelectedIdUseCase.invoke(id)
+            setSelectedIdUseCase(id)
         }
     }
 
     fun setUnits(units: Units) {
         viewModelScope.launch {
-            Log.d("MainViewModel", "Units changed to: $units")
-            setUnitsUseCase.invoke(units)
+            setUnitsUseCase(units)
         }
     }
 

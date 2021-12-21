@@ -38,7 +38,7 @@ class SearchViewModel @Inject constructor(
         flow {
             if (current is Result.Success) {
                 emit(Result.Loading)
-                emit(findHourliesUseCase.invoke(current.value.location))
+                emit(findHourliesUseCase(current.value.location))
             }
         }
     }.stateIn(
@@ -96,7 +96,7 @@ class SearchViewModel @Inject constructor(
                 sendEvent(Event.ShowSnackbarResource(R.string.search_min_characters))
             } else {
                 currentDomain.value = Result.Loading
-                currentDomain.value = findCurrentByNameUseCase.invoke(name)
+                currentDomain.value = findCurrentByNameUseCase(name)
             }
         }
     }
@@ -114,7 +114,7 @@ class SearchViewModel @Inject constructor(
                     listOf(createHourly(lat, lon))
                 }
                 val dailies = listOf(createDaily(lat, lon))
-                saveEntryUseCase.invoke(current.value, hourlies, dailies)
+                saveEntryUseCase(current.value, hourlies, dailies)
             }
         }
     }

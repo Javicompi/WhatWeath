@@ -18,7 +18,7 @@ class SaveEntryUseCase @Inject constructor(
     private val settingsRepository: SettingsRepository
 ) {
 
-    suspend fun invoke(
+    suspend operator fun invoke(
         current: Current,
         hourlies: List<Hourly>,
         dailies: List<Daily>
