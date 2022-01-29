@@ -65,7 +65,7 @@ fun createHourly(lat: Double = 53.3244, lon: Double = -6.3858): HourlyData {
         icon = "02n",
         lat = lat,
         lon = lon,
-        pop = 0.5,
+        pop = 50,
         pressure = 1017,
         rain = 0.2,
         snow = 0.0,
