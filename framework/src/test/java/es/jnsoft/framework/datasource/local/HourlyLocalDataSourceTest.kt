@@ -39,7 +39,9 @@ class HourlyLocalDataSourceTest {
         dataSource.saveHourlies(hourlies)
         val retrieved = dataSource.getHourlies(hourlies[0].lat, hourlies[0].lon).first()
         assert(retrieved.isNotEmpty() && retrieved.size == 3)
-        dataSource.deleteHourlies(retrieved)
+        val lat = retrieved[0].lat
+        val lon = retrieved[0].lon
+        dataSource.deleteHourlies(lat, lon)
         val emptyData = dataSource.getHourlies(hourlies[0].lat, hourlies[0].lon).first()
         assert(emptyData.isEmpty())
     }
